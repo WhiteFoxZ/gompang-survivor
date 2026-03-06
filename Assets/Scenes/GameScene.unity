@@ -2316,7 +2316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   isLive: 0
   gameTime: 0
-  maxGameTime: 300
+  maxGameTime: 60
   curr_stage: 1
   next_stage: 1
   maxStage: 100

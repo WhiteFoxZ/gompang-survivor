@@ -79,7 +79,7 @@ public class Spawner : MonoBehaviour
         //Random.Range(0, 2) = 0, 1 섞임 (레벨 0에서는 0, 1 섞임 / 레벨 1에서는 0, 1, 2 섞임 / 레벨 2에서는 0, 1, 2, 3 섞임)
         int spawnDataIdx = Random.Range(0, level + 1); //레벨+1까지 적 유형 증가 (레벨 1에서도 0, 1 섞임)
 
-        this.Log("spawnDataIdx " + spawnDataIdx, " level " + level);
+        // this.Log("spawnDataIdx " + spawnDataIdx, " level " + level);
 
 
         //적 초기화 (스테이지별 체력 증가: stage * 50)

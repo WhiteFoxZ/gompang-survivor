@@ -26,8 +26,7 @@ public class CurrentStage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 현재 스테이지를 실시간으로 표시
-        UpdateStageDisplay();
+        // 제거: 매 프레임마다 호출하던 코드
     }
 
     void UpdateStageDisplay()
