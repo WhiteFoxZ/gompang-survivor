@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-7183887390889007355
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: game003_{-7183887390889007355}
+  m_AudioClip: {fileID: 8300000, guid: e55788629dead8342afbb6a52aa15f56, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-2223883832660640861
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: game001_{-2223883832660640861}
+  m_AudioClip: {fileID: 8300000, guid: 06c2d4825d84b6240b59d546142c449d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &86340617457395006
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: battleThemeA_{86340617457395006}
+  m_AudioClip: {fileID: 8300000, guid: 155efe738a06caa4285ecfa634fb50d8, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5338981594978204167
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: game002_{5338981594978204167}
+  m_AudioClip: {fileID: 8300000, guid: 89b93ee5eb5832141ac609e83c56d1fe, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: gameBgmContain
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: -2223883832660640861}
+  - {fileID: 5338981594978204167}
+  - {fileID: -7183887390889007355}
+  - {fileID: 86340617457395006}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 0
+  m_TriggerMode: 1
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 0
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0

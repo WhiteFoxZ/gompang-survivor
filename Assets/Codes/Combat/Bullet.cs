@@ -1,0 +1,83 @@
+using UnityEngine;
+
+/// <summary>
+/// 총알 클래스 - 투사체 무기의子弹을 관리합니다.
+/// </summary>
+public class Bullet : MonoBehaviour
+{
+
+    public float damage; //총알 데미지
+    public float per; //총알 관통력
+    Rigidbody2D rig2d; //물리엔진 컴포넌트
+
+    /// <summary>
+    /// 초기화 메서드 - 총알의 속성을 설정합니다.
+    /// </summary>
+    void Awake()
+    {
+        //Rigidbody2D 컴포넌트 가져오기
+        rig2d = GetComponent<Rigidbody2D>();
+    }
+
+
+
+    /// <summary>
+    /// 총알 초기화 - 데미지, 관통력, 방향을 설정합니다.
+    /// </summary>
+    /// <param name="damage">총알 데미지</param>
+    /// <param name="per">관통력 수치</param>
+    /// <param name="dir">이동 방향</param>
+    public void Init(float damage, float per, Vector3 dir)
+    {
+        this.damage = damage;
+        this.per = per;
+
+        if (per >= 0)   //원거리무기인경우
+        {
+            //관통력이 있을때 속도 증가
+            rig2d.linearVelocity = dir * 15f;
+        }
+
+    }
+
+    /// <summary>
+    /// 트리거 충돌 처리 - 적과 충돌했을 때의 로직
+    /// </summary>
+    /// <param name="collision">충돌한 콜라이더</param>
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        // this.Log("Bullet OnTriggerEnter2D : " + collision.tag);
+
+        //적이 아니거나 관통력이 없는 경우 종료
+        if (!collision.CompareTag("Enemy") || per == -100)
+            return;
+
+        //관통력 1 감소
+        per--;
+
+        //관통력이 0미만이면 총알 비활성화
+        if (per < 0)
+        {
+            rig2d.linearVelocity = Vector2.zero;
+            //관통력이 0이되면 총알 비활성화
+            gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 투사체 삭제 - 화면 밖으로 나갔을 때 총알을 비활성화합니다.
+    /// </summary>
+    /// <param name="collision">충돌한 콜라이더</param>
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        //영역 밖이 아니거나 관통력이 없는 경우 종료
+        if (!collision.CompareTag("Area") || per == -100)
+            return;
+
+        //총알 비활성화
+        gameObject.SetActive(false);
+
+    }
+
+
+}

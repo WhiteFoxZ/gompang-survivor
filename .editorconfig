@@ -1,0 +1,37 @@
+# 상단에 있는 EditorConfig 파일
+
+root = true
+
+# 모든 파일을 끝내는 새 줄의 Unix 스타일 새 줄
+
+[*]
+
+end_of_line = lf
+
+insert_final_newline = true
+
+# 4 공간 들여쓰기
+
+[*.cs]
+
+indent_style = space
+
+indent_size = 4
+
+charset = utf-8
+
+trim_trailing_whitespace = true
+
+# Makefiles용 탭 들여쓰기
+
+[Makefile]
+
+indent_style = tab
+
+# JSON 파일에 대한 구체적인 설정
+
+[*.json]
+
+indent_style = space
+
+indent_size = 2

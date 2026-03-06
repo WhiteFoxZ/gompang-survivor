@@ -1,0 +1,52 @@
+[
+  {
+    "itemType": 0,
+    "itemID": 0,
+    "itemName": "낚시",
+    "itemDesc": "기본무기1",
+    "baseDamage": 4,
+    "baseCount": 3,
+    "damages": [0.5, 0.01, 0.02, 0.01, 0.01],
+    "counts": [1, 1, 1, 1, 0]
+  },
+  {
+    "itemType": 1,
+    "itemID": 1,
+    "itemName": "부채",
+    "itemDesc": "기본무기2",
+    "baseDamage": 3,
+    "baseCount": 0,
+    "damages": [0.25, 0.25, 0.05, 0.03, 0.02],
+    "counts": [1, 1, 0, 0, 0]
+  },
+  {
+    "itemType": 2,
+    "itemID": 2,
+    "itemName": "장갑",
+    "itemDesc": "브레스피드증가",
+    "baseDamage": 0,
+    "baseCount": 0,
+    "damages": [0.1, 0.2, 0.3, 0.5, 0.75],
+    "counts": [0, 0, 0, 0, 0]
+  },
+  {
+    "itemType": 3,
+    "itemID": 3,
+    "itemName": "무신",
+    "itemDesc": "무브스피드증가",
+    "baseDamage": 0,
+    "baseCount": 0,
+    "damages": [0.1, 0.2, 0.3, 0.4, 0.5],
+    "counts": [0, 0, 0, 0, 0]
+  },
+  {
+    "itemType": 4,
+    "itemID": 4,
+    "itemName": "음료수",
+    "itemDesc": "체력회복",
+    "baseDamage": 0,
+    "baseCount": 0,
+    "damages": [0, 0, 0, 0, 0],
+    "counts": [0, 0, 0, 0, 0]
+  }
+]

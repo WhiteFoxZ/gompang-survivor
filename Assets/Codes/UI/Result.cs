@@ -1,0 +1,31 @@
+using UnityEngine;
+
+/// <summary>
+/// 결과 클래스 - 게임 결과(승리/패배) 화면을 관리합니다.
+/// </summary>
+public class Result : MonoBehaviour
+{
+
+    public GameObject[] titles; //결과 제목 배열 (0: 패배, 1: 승리)
+
+
+    /// <summary>
+    /// 패배 화면 표시
+    /// </summary>
+    public void Lose()
+    {
+        //패배 제목 활성화
+        titles[0].SetActive(true);
+    }
+
+    /// <summary>
+    /// 승리 화면 표시
+    /// </summary>
+    public void Win()
+    {
+        //승리 제목 활성화
+        titles[1].SetActive(true);
+    }
+
+
+}
