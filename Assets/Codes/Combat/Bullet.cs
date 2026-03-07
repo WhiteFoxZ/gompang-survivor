@@ -56,10 +56,6 @@ public class Bullet : MonoBehaviour
         if (!collision.CompareTag("Enemy"))
             return;
 
-        //적에게 데미지와 넉백 적용 (관통 여부와 무관하게)
-        float appliedKnockback = (Random.value < knockbackRate) ? knockback : 0f;
-        collision.GetComponent<Enemy>().TakeDamage(damage, appliedKnockback);
-
         // 관통력이 있는 경우(per >= 0)만 관통 처리
         if (per >= 0)
         {

@@ -2321,8 +2321,8 @@ MonoBehaviour:
   next_stage: 1
   maxStage: 100
   playerId: 0
-  health: 1000
-  maxHealth: 1000
+  health: 9999999
+  maxHealth: 9999999
   level: 0
   kill: 0
   exp: 0
