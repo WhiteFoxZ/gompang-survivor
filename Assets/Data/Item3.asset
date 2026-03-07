@@ -15,10 +15,12 @@ MonoBehaviour:
   itemType: 3
   itemID: 3
   itemName: "\uC804\uD22C\uC7A5\uD654"
-  itemDesc: "\uBB34\uBE59\uC2A4\uD53C\uB4DC\uC99D\uAC00"
+  itemDesc: 
   itemIcon: {fileID: -966295699, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   baseDamage: 0
   baseCount: 0
+  knockBack: 0
+  knockBackRate: 0
   damages:
   - 0.1
   - 0.2

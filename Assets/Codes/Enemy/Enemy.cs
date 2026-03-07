@@ -124,10 +124,16 @@ public class Enemy : MonoBehaviour
         //총알과 충돌 시
         if (collision.CompareTag("Bullet"))
         {
-            float damage = collision.GetComponent<Bullet>().damage;
+            Bullet bullet = collision.GetComponent<Bullet>();
+            float damage = bullet.damage;
+            float knockback = bullet.knockback;
+            float knockbackRate = bullet.knockbackRate;
 
-            //데미지 적용
-            TakeDamage(damage);
+            //확률에 따라 넉백 적용
+            float appliedKnockback = (Random.value < knockbackRate) ? knockback : 0f;
+
+            //데미지 적용 (넉백 값 포함)
+            TakeDamage(damage, appliedKnockback);
         }
     }
 
@@ -135,12 +141,13 @@ public class Enemy : MonoBehaviour
     /// 데미지 적용 - 적 체력 감소 및死亡 처리
     /// </summary>
     /// <param name="damage">입는 데미지</param>
-    public void TakeDamage(float damage)
+    /// <param name="knockback">넉백 세기</param>
+    public void TakeDamage(float damage, float knockback = 3f)
     {
         health -= damage;
 
-        //넉백 코루틴 실행
-        StartCoroutine(KnockBack());
+        //넉백 코루틴 실행 (널값이면 기본값 3f 사용)
+        StartCoroutine(KnockBack(knockback > 0 ? knockback : 3f));
 
         //체력이 남으면
         if (health > 0)
@@ -172,7 +179,8 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 넉백 코루틴 - 적을 뒤로 밀어내는 효과
     /// </summary>
-    IEnumerator KnockBack()
+    /// <param name="knockback">넉백 세기</param>
+    IEnumerator KnockBack(float knockback)
     {
         //1프레임 대기
         yield return wait;
@@ -183,7 +191,7 @@ public class Enemy : MonoBehaviour
         Vector3 knockDir = (enemyPos - playerPos).normalized; //넉백 방향
 
         //넉백 힘 가하기
-        rigid.AddForce(knockDir * 3f, ForceMode2D.Impulse);
+        rigid.AddForce(knockDir * knockback, ForceMode2D.Impulse);
     }
 
 

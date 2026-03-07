@@ -11,6 +11,8 @@ public class Weapon : MonoBehaviour
     public float damage; //무기 데미지
     public int count; //투사체 개수
     public float speed; //공격 속도/회전 속도
+    public float knockback; //넉백 세기
+    public float knockbackRate; //넉백 확률
 
     private float timer; //타이머 (원거리 무기용)
 
@@ -70,6 +72,8 @@ public class Weapon : MonoBehaviour
         id = data.itemID;
         damage = data.baseDamage * Character.Damage;
         count = data.baseCount + Character.Count;
+        knockback = data.knockBack;
+        knockbackRate = data.knockBackRate;
 
 
         //프리팹 ID 찾기
@@ -139,8 +143,8 @@ public class Weapon : MonoBehaviour
             bullet.Rotate(rotVec);
             bullet.Translate(bullet.up * 1.3f, Space.World); //무기에서 약간 떨어진 위치에 배치
 
-            //무기 프로퍼티 초기화 - 관통력 -100 (관통 없음)
-            bullet.GetComponent<Bullet>().Init(damage, -100, Vector3.zero);
+            //무기 프로퍼티 초기화 - 관통력 -100 (관통 없음), 넉백 적용
+            bullet.GetComponent<Bullet>().Init(damage, -100, Vector3.zero, knockback, knockbackRate);
 
         }
 
@@ -192,8 +196,8 @@ public class Weapon : MonoBehaviour
 
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, fireDir); //총알 회전
 
-        //총알 초기화 - 관통 count 만큼 설정
-        bullet.GetComponent<Bullet>().Init(damage, count, fireDir);
+        //총알 초기화 - 관통 count 만큼 설정, 넉백 적용
+        bullet.GetComponent<Bullet>().Init(damage, count, fireDir, knockback, knockbackRate);
 
         //발사 효과음 재생
         AudioManager.instance.PlaySfx(AudioManager.SFX.Range);

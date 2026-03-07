@@ -2316,13 +2316,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   isLive: 0
   gameTime: 0
-  maxGameTime: 60
+  maxGameTime: 600
   curr_stage: 1
   next_stage: 1
   maxStage: 100
   playerId: 0
-  health: 100
-  maxHealth: 100
+  health: 1000
+  maxHealth: 1000
   level: 0
   kill: 0
   exp: 0
@@ -2381,6 +2381,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   damage: 10000
   per: 0
+  knockback: 0
+  knockbackRate: 0
 --- !u!61 &565628392
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3023,6 +3025,8 @@ MonoBehaviour:
   damage: 0
   count: 0
   speed: 0
+  knockback: 0
+  knockbackRate: 0
 --- !u!1 &651358431
 GameObject:
   m_ObjectHideFlags: 0
@@ -8722,6 +8726,8 @@ MonoBehaviour:
   damage: 0
   count: 0
   speed: 0
+  knockback: 0
+  knockbackRate: 0
 --- !u!1 &754502203
 GameObject:
   m_ObjectHideFlags: 0

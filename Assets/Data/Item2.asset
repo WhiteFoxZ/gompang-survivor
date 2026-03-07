@@ -15,10 +15,12 @@ MonoBehaviour:
   itemType: 2
   itemID: 2
   itemName: "\uC7A5\uAC11"
-  itemDesc: "\uBC1C\uC0AC\uC2A4\uD53C\uB4DC\uC99D\uAC00"
+  itemDesc: 
   itemIcon: {fileID: -201829820, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   baseDamage: 0
   baseCount: 0
+  knockBack: 0
+  knockBackRate: 0
   damages:
   - 0.1
   - 0.2

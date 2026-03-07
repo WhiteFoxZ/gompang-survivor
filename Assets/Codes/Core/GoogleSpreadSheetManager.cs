@@ -20,7 +20,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     public ItemData[] itemDatas; //아이템 데이터 참조 (추후 아이템 시스템 구현 시 사용)
 
 
-    const string URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:H";
+    const string URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
 
     public IEnumerator DownloadItemData()
     {
@@ -47,7 +47,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     void SetItemSO(string tsv)
     {
-        //item type	item id	이름(name)	item Desc	공격력(base Damage)	Base Count	LevelUp Damage	LevelUp Counts,관통력
+        //item type	item id	이름(name)	item Desc	공격력(base Damage)	Base Count	LevelUp Damage	LevelUp Counts	knockBack	knockBackRate
 
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
@@ -73,13 +73,16 @@ public class GoogleSpreadSheetManager : MonoBehaviour
             itemDatas[i].baseCount = int.Parse(column[5]);
             itemDatas[i].damages = Array.ConvertAll(column[6].Split(','), float.Parse);
             itemDatas[i].counts = Array.ConvertAll(column[7].Split(','), int.Parse);
+            itemDatas[i].knockBack = float.Parse(column[8]);
+            itemDatas[i].knockBackRate = float.Parse(column[9]);
+
         }
 
 
         //itemDatas 에 정보를 로그로 출력 (테스트용)
         foreach (var item in itemDatas)
         {
-            Debug.Log($" 유형: {item.itemType},아이템: {item.itemName}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}");
+            Debug.Log($" 유형: {item.itemType},아이템: {item.itemName}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
         }
 
     }

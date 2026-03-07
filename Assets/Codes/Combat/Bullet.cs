@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
 
     public float damage; //총알 데미지
     public float per; //총알 관통력
+    public float knockback; //넉백 세기
+    public float knockbackRate; //넉백 확률
     Rigidbody2D rig2d; //물리엔진 컴포넌트
 
     /// <summary>
@@ -22,15 +24,19 @@ public class Bullet : MonoBehaviour
 
 
     /// <summary>
-    /// 총알 초기화 - 데미지, 관통력, 방향을 설정합니다.
+    /// 총알 초기화 - 데미지, 관통력, 방향, 넉백을 설정합니다.
     /// </summary>
     /// <param name="damage">총알 데미지</param>
     /// <param name="per">관통력 수치</param>
     /// <param name="dir">이동 방향</param>
-    public void Init(float damage, float per, Vector3 dir)
+    /// <param name="knockback">넉백 세기</param>
+    /// <param name="knockbackRate">넉백 확률</param>
+    public void Init(float damage, float per, Vector3 dir, float knockback = 3f, float knockbackRate = 1f)
     {
         this.damage = damage;
         this.per = per;
+        this.knockback = knockback;
+        this.knockbackRate = knockbackRate;
 
         if (per >= 0)   //원거리무기인경우
         {
@@ -46,21 +52,27 @@ public class Bullet : MonoBehaviour
     /// <param name="collision">충돌한 콜라이더</param>
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // this.Log("Bullet OnTriggerEnter2D : " + collision.tag);
-
-        //적이 아니거나 관통력이 없는 경우 종료
-        if (!collision.CompareTag("Enemy") || per == -100)
+        // 적이 아니면 종료
+        if (!collision.CompareTag("Enemy"))
             return;
 
-        //관통력 1 감소
-        per--;
+        //적에게 데미지와 넉백 적용 (관통 여부와 무관하게)
+        float appliedKnockback = (Random.value < knockbackRate) ? knockback : 0f;
+        collision.GetComponent<Enemy>().TakeDamage(damage, appliedKnockback);
 
-        //관통력이 0미만이면 총알 비활성화
-        if (per < 0)
+        // 관통력이 있는 경우(per >= 0)만 관통 처리
+        if (per >= 0)
         {
-            rig2d.linearVelocity = Vector2.zero;
-            //관통력이 0이되면 총알 비활성화
-            gameObject.SetActive(false);
+            //관통력 1 감소
+            per--;
+
+            //관통력이 0미만이면 총알 비활성화
+            if (per < 0)
+            {
+                rig2d.linearVelocity = Vector2.zero;
+                //관통력이 0이되면 총알 비활성화
+                gameObject.SetActive(false);
+            }
         }
     }
 
