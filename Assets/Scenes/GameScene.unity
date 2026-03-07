@@ -2333,6 +2333,12 @@ MonoBehaviour:
   uiResult: {fileID: 28438387}
   _uiJoy: {fileID: 1486296962}
   enemyCleaner: {fileID: 565628390}
+  itemDatas:
+  - {fileID: 11400000, guid: c87e08101a8e93a4c869f19d815f7a28, type: 2}
+  - {fileID: 11400000, guid: beb19452ed188444b8f140dbb56e5e8e, type: 2}
+  - {fileID: 11400000, guid: 23b2e1f6b08a87647bd5a27704d9ad69, type: 2}
+  - {fileID: 11400000, guid: 3fb30c4503be1c244a36efd3a0773499, type: 2}
+  - {fileID: 11400000, guid: 7661440dd1f72474ba9566bb3c883b1e, type: 2}
 --- !u!4 &559569579
 Transform:
   m_ObjectHideFlags: 0
