@@ -23,11 +23,20 @@ public class ItemData : ScriptableObject
 
     [Header("# Base Data")]
     public float baseDamage; //기본 데미지
-    public int baseCount; //기본 개수
+    public int baseCount; //기본 
+
+    [Header("# knockBack Data")]
+    public float knockBack; //넉백 세기
+
+    [Header("# knockBackRate Data")]
+    public float knockBackRate; //넉백 확율
+
 
     [Header("# Level Data")]
     public float[] damages; //레벨별 데미지
     public int[] counts; //레벨별 개수
+
+
 
     [Header("# Weapon")]
     public GameObject itemPrefab; //무기 프리팹
