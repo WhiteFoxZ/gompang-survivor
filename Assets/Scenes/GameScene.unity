@@ -2316,13 +2316,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   isLive: 0
   gameTime: 0
-  maxGameTime: 600
+  maxGameTime: 300
   curr_stage: 1
   next_stage: 1
   maxStage: 100
   playerId: 0
-  health: 9999999
-  maxHealth: 9999999
+  health: 100
+  maxHealth: 100
   level: 0
   kill: 0
   exp: 0
