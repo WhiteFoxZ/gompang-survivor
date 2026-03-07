@@ -40,7 +40,7 @@ public class Item : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        this.Log("OnEnable");
+        // this.Log("OnEnable");
 
         //레벨 텍스트 업데이트
         itemLevel.text = "Lv." + (level).ToString();
