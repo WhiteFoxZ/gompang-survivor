@@ -65,22 +65,26 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-
-
-        //테스트용: 구글 스프레드시트에서 아이템 데이터 다운로드
-        StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData());
-
-
     }
 
     /// <summary>
-    /// 게임 시작 시 호출
+    /// 게임 시작 시 호출 - 데이터 로드 후 게임 시작
     /// </summary>
     void Start()
     {
-        // Lobby에서 선택한 스테이지로 게임 시작
-        GameStart(0);
+        StartCoroutine(LoadDataAndStartGame());
+    }
 
+    /// <summary>
+    /// 데이터 로드 후 게임 시작 코루틴
+    /// </summary>
+    IEnumerator LoadDataAndStartGame()
+    {
+        // 아이템 데이터 다운로드 먼저 실행
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData());
+
+        // 다운로드 완료 후 게임 시작
+        GameStart(0);
     }
 
     /// <summary>

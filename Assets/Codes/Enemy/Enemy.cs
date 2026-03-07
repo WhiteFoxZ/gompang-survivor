@@ -133,6 +133,9 @@ public class Enemy : MonoBehaviour
             float knockbackRate = bullet.knockbackRate;
             float appliedKnockback = (Random.value <= knockbackRate) ? knockback : 0f;
 
+            this.Log($"Damage: {damage}, Knockback: {appliedKnockback}");
+
+
             //데미지 적용 (넉백 값 포함)
             TakeDamage(damage, appliedKnockback);
         }
@@ -147,16 +150,18 @@ public class Enemy : MonoBehaviour
     {
         health -= damage;
 
-        //넉백 코루틴 실행 (널값이면 기본값 0f 사용)
-        StartCoroutine(KnockBack(knockback));
-
-
         //체력이 남으면
         if (health > 0)
         {
+            //넉백 코루틴 실행 (널값이면 기본값 0f 사용)
+            StartCoroutine(KnockBack(knockback));
+
             //히트 애니메이션 재생
             animator.SetTrigger("Hit");
             AudioManager.instance.PlaySfx(AudioManager.SFX.Hit);
+
+
+
 
         }
         else //사망
@@ -179,7 +184,7 @@ public class Enemy : MonoBehaviour
 
 
     /// <summary>
-    /// 넉백 코루틴 - 적을 뒤로 밀어내는 효과
+    /// 넉백 코루틴 - 적을 뒤로 밀어내는 효과 + 근처 적들에게도 넉백 적용
     /// </summary>
     /// <param name="knockback">넉백 세기</param>
     IEnumerator KnockBack(float knockbackDamage)
@@ -194,6 +199,47 @@ public class Enemy : MonoBehaviour
 
         //넉백 힘 가하기
         rigid.AddForce(knockDir * knockbackDamage, ForceMode2D.Impulse);
+
+        //근처 적들에게도 넉백 적용 (Enemy-to-Enemy Knockback)
+        ApplyKnockbackToNearbyEnemies(knockDir, knockbackDamage);
+    }
+
+    /// <summary>
+    /// 근처 적들에게 넉백 적용 - 적과 적이 붙어있을 때 넉백이 전파되도록
+    /// </summary>
+    /// <param name="knockDir">넉백 방향</param>
+    /// <param name="knockbackDamage">넉백 세기</param>
+    void ApplyKnockbackToNearbyEnemies(Vector3 knockDir, float knockbackDamage)
+    {
+        //근처 적 탐지 범위
+        float knockbackRange = 2.0f; //2유닛 이내의 적들에게 넉백 적용
+        //근처 적에게 전달되는 넉백 세기 (원래 넉백의 50%)
+        float knockbackTransferRate = 0.5f;
+
+        //레이어 마스크: Enemy 레이어만 탐지
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+
+        //근처의 모든 Collider2D 탐지
+        Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, knockbackRange);
+
+        foreach (Collider2D collider in nearbyColliders)
+        {
+            //자기 자신이 아니고 Enemy 태그를 가진 경우
+            if (collider.gameObject != gameObject && collider.CompareTag("Enemy"))
+            {
+                //적 컴포넌트 가져오기
+                Enemy nearbyEnemy = collider.GetComponent<Enemy>();
+                if (nearbyEnemy != null && nearbyEnemy.isLive)
+                {
+                    //같은 방향으로 넉백 적용 (덜 강한 세기로)
+                    Rigidbody2D nearbyRigid = collider.GetComponent<Rigidbody2D>();
+                    if (nearbyRigid != null)
+                    {
+                        nearbyRigid.AddForce(knockDir * knockbackDamage * knockbackTransferRate, ForceMode2D.Impulse);
+                    }
+                }
+            }
+        }
     }
 
 
