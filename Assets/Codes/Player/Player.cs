@@ -7,7 +7,11 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class Player : MonoBehaviour
 {
+
     public Vector2 inputVector;  //입력벡터
+
+    [Header("캐릭터 스탯")]
+    public float defaultSpeed; //기본 이동 속도;
     public float speed; //이동 속도
     public bool isFloat = true; //부드러운 움직임 여부
 
@@ -48,7 +52,7 @@ public class Player : MonoBehaviour
     void OnEnable()
     {
         //기본 속도 설정 (캐릭터별 보정)
-        speed = 3f * Character.Speed;
+        speed = defaultSpeed * Character.Speed;
         //애니메이션 컨트롤러 설정
         animator.runtimeAnimatorController = animCon[GameManager.instance.playerId];
     }

@@ -8227,7 +8227,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   inputVector: {x: 0, y: 0}
-  speed: 5
+  defaultSpeed: 2
+  speed: 0
   isFloat: 1
   scanner: {fileID: 0}
   hands: []
@@ -16799,11 +16800,11 @@ MonoBehaviour:
   - spawnTime: 0.42
     spriteType: 0
     health: 50
-    speed: 1.89
+    speed: 1.5
   - spawnTime: 0.29
     spriteType: 1
-    health: 400
-    speed: 2.7
+    health: 200
+    speed: 2
   levelTime: 0
   level: 0
 --- !u!61 &1597902382

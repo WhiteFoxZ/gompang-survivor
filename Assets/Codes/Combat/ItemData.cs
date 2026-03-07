@@ -9,7 +9,7 @@ using System.IO;
 public class ItemData : ScriptableObject
 {
     //아이템 유형 열거형
-    public enum ItemType { Melee, Range, Glove, Shoe, Heal }
+    public enum ItemType { Melee, Range, Glove, Shoe, Heal ,StamPack}
 
     [Header("# Main Info")]
     public ItemType itemType; //아이템 유형
