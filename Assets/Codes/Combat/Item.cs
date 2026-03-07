@@ -60,6 +60,11 @@ public class Item : MonoBehaviour
                 itemDesc.text = string.Format(data.itemDesc, data.damages[level] * 100);
                 break;
 
+            case ItemData.ItemType.StamPack:
+                //장비: 효과 수치만 표시
+                itemDesc.text = string.Format(data.itemDesc, data.damages[level]);
+                break;
+
             default:
                 //기타: 설명만 표시
                 itemDesc.text = string.Format(data.itemDesc);
@@ -134,6 +139,13 @@ public class Item : MonoBehaviour
                 //체력 회복: 최대 체력으로 복원
                 GameManager.instance.health = GameManager.instance.maxHealth;
 
+                break;
+
+            case ItemData.ItemType.StamPack:
+                //StampPack 효과: 이동속도 100% 증가, 총알 간격 100% 증가
+                //지속 시간은 아이템의 damage 값으로 설정
+                GameManager.instance.player.StartCoroutine(
+                    GameManager.instance.player.ApplyStampEffect(data.baseDamage));
                 break;
 
         }

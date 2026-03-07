@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using UnityEngine.InputSystem;
+using System.Collections;
 
 /// <summary>
 /// 플레이어 클래스 - 플레이어 캐릭터의 동작을 관리합니다.
@@ -168,6 +169,36 @@ public class Player : MonoBehaviour
         }
 
 
+    }
+
+    /// <summary>
+    /// StampPack 효과 - 30초간 이동속도 100% 증가, 총알 간격 100% 증가
+    /// </summary>
+    /// <param name="duration">지속 시간</param>
+    /// <returns></returns>
+    public IEnumerator ApplyStampEffect(float duration)
+    {
+        //이동속도 100% 증가 (2배)
+        float originalSpeed = speed;
+        speed = originalSpeed * 2f;
+
+        //모든 무기의 간격 100% 증가 (간격은 50%로 감소)
+        Weapon[] weapons = GetComponentsInChildren<Weapon>();
+        float[] originalWeaponSpeeds = new float[weapons.Length];
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            originalWeaponSpeeds[i] = weapons[i].speed;
+            weapons[i].speed = weapons[i].speed * 0.5f; //100% 증가 = 간격 50% 감소
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        //원래 상태 복원
+        speed = originalSpeed;
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].speed = originalWeaponSpeeds[i];
+        }
     }
 
 

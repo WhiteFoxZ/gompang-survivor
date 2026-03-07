@@ -15,18 +15,18 @@ MonoBehaviour:
   itemType: 2
   itemID: 2
   itemName: "\uC7A5\uAC11"
-  itemDesc: "\uCD1D \uC7A5\uC804\uC18D\uB3C4 \uC99D\uAC00"
+  itemDesc: "\uBB34\uAE30\uC18D\uB3C4 {0}% \uC99D\uAC00"
   itemIcon: {fileID: -201829820, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   baseDamage: 0
   baseCount: 0
   knockBack: 0
   knockBackRate: 0
   damages:
-  - 0.9
-  - 2
-  - 2
-  - 2
-  - 2
+  - 0.3
+  - 0.3
+  - 0.2
+  - 0.2
+  - 0.1
   counts: 0000000000000000000000000000000000000000
   itemPrefab: {fileID: 0}
   hand: {fileID: 0}
