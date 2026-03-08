@@ -71,18 +71,39 @@ public class Reposition : MonoBehaviour
         {
             if (col.enabled)
             {
+                SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.enabled = false;
+                }
+
                 //플레이어 방향으로의 거리
                 Vector3 dist = playerPos - areaPos;
 
                 //적 리스폰 지역을 플레이어 방향으로 약간 이동 + 랜덤 오프셋 추가
                 Vector3 ran = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0);
 
-                transform.Translate(ran + dist * 2);
+                transform.Translate(ran + dist * 2.5f); //플레이어에서 멀어지는 방향으로 이동
+
+                //0.2초 뒤에 다시 보이게
+                StartCoroutine(ShowAfterDelay(spriteRenderer));
             }
 
         }
 
 
 
+    }
+
+    /// <summary>
+    /// 리포지션 후 적을 다시 보이게 하는 코루틴
+    /// </summary>
+    System.Collections.IEnumerator ShowAfterDelay(SpriteRenderer spriteRenderer)
+    {
+        yield return new WaitForSeconds(0.2f);
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = true;
+        }
     }
 }
