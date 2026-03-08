@@ -107,12 +107,12 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         for (int i = 0; i < rowSize; i++)
         {
             string[] column = row[i].Split('\t');
-
-
             itemDatas[i].itemType = (ItemData.ItemType)System.Enum.Parse(typeof(ItemData.ItemType), column[0]);
             itemDatas[i].itemID = int.Parse(column[1]);
             itemDatas[i].itemName = column[2];
-            itemDatas[i].itemDesc = column[3];
+            itemDatas[i].itemDesc = column[3].Replace("\\n", "\n");
+
+
             itemDatas[i].baseDamage = float.Parse(column[4]);
             itemDatas[i].baseCount = int.Parse(column[5]);
             itemDatas[i].damages = Array.ConvertAll(column[6].Split(','), float.Parse);
@@ -126,7 +126,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //itemDatas 에 정보를 로그로 출력 (테스트용)
         foreach (var item in itemDatas)
         {
-            Debug.Log($" 유형: {item.itemType},아이템: {item.itemName}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
+            Debug.Log($" 유형: {item.itemType},아이템: {item.itemName},설명: {item.itemDesc}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
         }
 
     }
