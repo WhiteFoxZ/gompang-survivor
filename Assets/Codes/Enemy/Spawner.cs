@@ -7,7 +7,10 @@ public class Spawner : MonoBehaviour
 {
 
     public Transform[] spawnPoint; //스폰 위치 배열
-    public SpawnData[] spawnDatas; //스폰 데이터 배열
+
+
+    [Header("스폰 데이터 입력값")]
+    public SpawnData[] _spawnDatas; //스폰 데이터 배열
 
 
     [Header("디버그용 변수")]
@@ -29,7 +32,7 @@ public class Spawner : MonoBehaviour
         spawnPoint = GetComponentsInChildren<Transform>();
 
         //레벨당 시간 계산
-        levelTime = GameManager.instance.maxGameTime / spawnDatas.Length;
+        levelTime = GameManager.instance.maxGameTime / _spawnDatas.Length;
 
     }
 
@@ -49,14 +52,14 @@ public class Spawner : MonoBehaviour
         // this.Log("level " + level + "  timer " + timer + " levelTime " + levelTime);
 
         //레벨이 최대치를 넘지 않도록 제한
-        level = Mathf.Min(level, spawnDatas.Length - 1);
+        level = Mathf.Min(level, _spawnDatas.Length - 1);
 
         // this.Log("level2 " + level);
 
 
 
         //스폰 시간 도달 시 적 생성
-        if (timer > (spawnDatas[level].spawnTime))
+        if (timer > (_spawnDatas[level].spawnTime))
         {
             timer = 0f;
             SpawnEnemy();
@@ -85,12 +88,12 @@ public class Spawner : MonoBehaviour
         //스폰 데이터 설정 - 
         SpawnData spawnData = new SpawnData
         {
-            spawnTime = spawnDatas[spawnDataIdx].spawnTime,
-            spriteType = spawnDatas[spawnDataIdx].spriteType,
+            spawnTime = _spawnDatas[spawnDataIdx].spawnTime,
+            spriteType = _spawnDatas[spawnDataIdx].spriteType,
 
             //스테이지별 체력,스피드 2%증가 + (레벨업에 따른 체력,스피드 10% 증가)
-            health = Mathf.RoundToInt(spawnDatas[spawnDataIdx].health * (1 + (level * 0.02f) + (level * 0.1f))), //레벨업에 따른 체력 증가
-            speed = spawnDatas[spawnDataIdx].speed * (1 + (level * 0.02f) + (level * 0.1f)) //레벨업에 따른 스피드 증가            
+            health = Mathf.RoundToInt(_spawnDatas[spawnDataIdx].health * (1 + (level * 0.02f) + (level * 0.1f))), //레벨업에 따른 체력 증가
+            speed = _spawnDatas[spawnDataIdx].speed * (1 + (level * 0.02f) + (level * 0.1f)) //레벨업에 따른 스피드 증가            
         };
 
         enemy.GetComponent<Enemy>().Init(spawnData);
