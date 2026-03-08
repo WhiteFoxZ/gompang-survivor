@@ -8383,7 +8383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   inputVector: {x: 0, y: 0}
-  defaultSpeed: 2
+  defaultSpeed: 2.5
   speed: 0
   isFloat: 1
   scanner: {fileID: 0}
@@ -17096,11 +17096,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   spawnPoint: []
   _spawnDatas:
-  - spawnTime: 5
+  - spawnTime: 0.5
     spriteType: 0
     health: 50
     speed: 1.8
-  - spawnTime: 3
+  - spawnTime: 1
     spriteType: 1
     health: 150
     speed: 2
@@ -18361,7 +18361,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 9, y: 16.5}
+  m_Size: {x: 7.5, y: 15.4}
   m_EdgeRadius: 0
 --- !u!1 &1838866802
 GameObject:
