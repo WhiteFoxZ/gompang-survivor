@@ -82,14 +82,17 @@ public class Spawner : MonoBehaviour
         // this.Log("spawnDataIdx " + spawnDataIdx, " level " + level);
 
 
-        //적 초기화 (스테이지별 체력 증가: stage * 50)
+        //스폰 데이터 설정 - 
         SpawnData spawnData = new SpawnData
         {
             spawnTime = spawnDatas[spawnDataIdx].spawnTime,
             spriteType = spawnDatas[spawnDataIdx].spriteType,
-            health = spawnDatas[spawnDataIdx].health + (level * 50),
-            speed = spawnDatas[spawnDataIdx].speed
+
+            //스테이지별 체력,스피드 2%증가 + (레벨업에 따른 체력,스피드 10% 증가)
+            health = Mathf.RoundToInt(spawnDatas[spawnDataIdx].health * (1 + (level * 0.02f) + (level * 0.1f))), //레벨업에 따른 체력 증가
+            speed = spawnDatas[spawnDataIdx].speed * (1 + (level * 0.02f) + (level * 0.1f)) //레벨업에 따른 스피드 증가            
         };
+
         enemy.GetComponent<Enemy>().Init(spawnData);
 
         //0은 부모 오브젝트이므로 제외하고 랜덤 선택

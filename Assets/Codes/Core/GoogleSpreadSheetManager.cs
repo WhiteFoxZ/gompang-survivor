@@ -9,6 +9,16 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public static GoogleSpreadSheetManager instance;  //싱글톤 인스턴스
 
+    //아이템 유형 열거형
+    public enum DownType { Item, Exp, Map }
+
+    const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
+    const string EXP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:J";
+
+    [Header("게임 Item Data")]
+    public ItemData[] itemDatas; //아이템 데이터 참조 (추후 아이템 시스템 구현 시 사용)
+
+
     void Awake()
     {
         //싱글톤 인스턴스 설정
@@ -16,14 +26,33 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    [Header("게임 Item Data")]
-    public ItemData[] itemDatas; //아이템 데이터 참조 (추후 아이템 시스템 구현 시 사용)
 
 
-    const string URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
 
-    public IEnumerator DownloadItemData()
+    public IEnumerator DownloadItemData(DownType type)
     {
+        String URL;
+        if (type == DownType.Item)
+        {
+            URL = ITEM_URL;
+        }
+        else if (type == DownType.Exp)
+        {
+            URL = EXP_URL;
+        }
+        else if (type == DownType.Map)
+        {
+            //맵 데이터 URL 설정 필요
+            URL = ""; //맵 데이터 URL로 변경 필요
+        }
+        else
+        {
+            Debug.LogError("알 수 없는 아이템 유형입니다.");
+            yield break;
+        }
+
+
+
         //구글 스프레드시트에서 아이템 데이터 다운로드 (테스트용)
         using (UnityWebRequest www = UnityWebRequest.Get(URL))
         {
@@ -35,7 +64,22 @@ public class GoogleSpreadSheetManager : MonoBehaviour
                 //다운로드한 데이터를 파싱하여 itemDatas 배열에 저장하는 로직 추가 필요
                 string data = www.downloadHandler.text;
                 // Debug.Log("다운로드한 데이터: " + data);
-                SetItemSO(data); //데이터 파싱 및 아이템 데이터 설정
+
+                if (type == DownType.Item)
+                {
+                    SetItemSO(data); //데이터 파싱 및 아이템 데이터 설정
+                }
+                else if (type == DownType.Exp)
+                {
+                    //EXP 데이터 파싱 및 설정 로직 추가 필요
+                    SetExp(data); //데이터 파싱 및 아이템 데이터 설정
+                }
+                else if (type == DownType.Map)
+                {
+                    //맵 데이터 파싱 및 설정 로직 추가 필요
+                    SetMap(data); //데이터 파싱 및 아이템 데이터 설정
+                }
+
 
             }
             else
@@ -88,5 +132,38 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     }
 
 
+    void SetExp(string tsv)
+    {
+        //item type	item id	이름(name)	item Desc	공격력(base Damage)	Base Count	LevelUp Damage	LevelUp Counts	knockBack	knockBackRate
 
+        string[] row = tsv.Split('\n');
+        int rowSize = row.Length;
+        int columnSize = row[0].Split('\t').Length;
+
+        int maxGameTime = 0, maxGameStage = 0;
+        int[] extExp = new int[rowSize];
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] column = row[i].Split('\t');
+
+            maxGameTime = int.Parse(column[0]);
+            maxGameStage = int.Parse(column[1]);
+            extExp = Array.ConvertAll(column[2].Split(','), int.Parse);
+
+            Debug.Log($"maxGameTime: {maxGameTime}, maxGameStage: {maxGameStage}, extExp: {string.Join(",", extExp)}");
+        }
+
+        GameManager.instance.SetMaxGameTime(maxGameTime);
+        GameManager.instance.SetMaxGameStage(maxGameStage);
+        GameManager.instance.SetExtExp(extExp);
+
+
+    }
+
+
+    void SetMap(string tsv)
+    {
+        //맵 데이터 파싱 및 설정 로직 추가 필요
+    }
 }

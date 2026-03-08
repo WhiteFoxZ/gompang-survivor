@@ -4,6 +4,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using static GoogleSpreadSheetManager;
 
 /// <summary>
 /// 게임 관리자 클래스 - 게임의 주요 로직을 관리합니다.
@@ -81,8 +82,9 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadDataAndStartGame()
     {
         // 아이템 데이터 다운로드 먼저 실행
-        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData());
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Item));
 
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Exp));
         // 다운로드 완료 후 게임 시작
         GameStart(0);
     }
@@ -305,5 +307,21 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("LobbyScene");
     }
+
+    public void SetMaxGameTime(int time)
+    {
+        maxGameTime = time;
+    }
+
+    public void SetMaxGameStage(int stage)
+    {
+        maxStage = stage;
+    }
+
+    public void SetExtExp(int[] extExp)
+    {
+        nextExp = extExp;
+    }
+
 
 }
