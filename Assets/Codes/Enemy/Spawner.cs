@@ -59,7 +59,13 @@ public class Spawner : MonoBehaviour
 
 
         //스폰 시간 도달 시 적 생성
-        if (timer > (_spawnDatas[level].spawnTime))
+        //스테이지가 증가할수록 스폰 시간 5% 감소
+        float spawnTime = _spawnDatas[level].spawnTime * Mathf.Pow(0.95f, level);
+        
+        spawnTime = spawnTime * Mathf.Pow(0.95f, GameManager.instance.next_stage); //게임 레벨에 따른 추가 스폰 시간 감소
+
+
+        if (timer > spawnTime)
         {
             timer = 0f;
             SpawnEnemy();

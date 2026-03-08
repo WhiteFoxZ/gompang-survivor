@@ -17096,7 +17096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   spawnPoint: []
   _spawnDatas:
-  - spawnTime: 0.5
+  - spawnTime: 2
     spriteType: 0
     health: 50
     speed: 1.8
