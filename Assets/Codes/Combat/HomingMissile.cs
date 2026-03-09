@@ -26,7 +26,7 @@ public class HomingMissile : MonoBehaviour {
 
 		rb.angularVelocity = -rotateAmount * rotateSpeed;
 
-		rb.velocity = transform.up * speed;
+		rb.linearVelocity = transform.up * speed;
 	}
 
 	void OnTriggerEnter2D ()
