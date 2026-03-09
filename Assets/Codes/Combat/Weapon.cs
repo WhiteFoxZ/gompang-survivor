@@ -210,12 +210,12 @@ public class Weapon : MonoBehaviour
         //총알 발사 로직
 
         //타겟이 없으면 발사 안함
-        if (!player.scanner.nearestTarget)
+        if (player.scanner.nearestTarget == null || player.scanner.nearestTarget.Length == 0)
             return;
 
 
 
-        Vector3 targetPos = player.scanner.nearestTarget.position;  //가장 가까운 타겟 위치
+        Vector3 targetPos = player.scanner.nearestTarget[0].position;  //가장 가까운 타겟 위치
         Vector3 fireDir = (targetPos - transform.position).normalized; //발사방향
 
         //투사체 가져오기
@@ -237,7 +237,7 @@ public class Weapon : MonoBehaviour
         //미사일 발사 로직
 
         //타겟이 없으면 발사 안함
-        if (!player.scanner.nearestTarget)
+        if (!player.scanner.missleTarget)
             return;
 
         //투사체 가져오기
@@ -249,7 +249,7 @@ public class Weapon : MonoBehaviour
 
 
         //총알 초기화 - 관통 count 만큼 설정, 넉백 적용
-        bullet.GetComponent<BulletMissle>().Init(damage, player.scanner.nearestTarget, impackDamage, impackRate);
+        bullet.GetComponent<BulletMissle>().Init(damage, player.scanner.nearestTarget[0], impackDamage, impackRate);
 
 
 

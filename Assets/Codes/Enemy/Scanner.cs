@@ -1,4 +1,7 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+
 
 /// <summary>
 /// 스캐너 클래스 - 주변의 적을 감지합니다.
@@ -8,7 +11,13 @@ public class Scanner : MonoBehaviour
     public float scanRange; // 스캔 범위
     public LayerMask targetLayer; // 스캔할 레이어 마스크
     public RaycastHit2D[] targets; // 스캔된 대상들
-    public Transform nearestTarget; // 가장 가까운 대상
+
+    [Header("가장 가까운 타겟")]
+    public Transform[] nearestTarget; // 가장 가까운 대상
+
+    [Header("미사일 타겟")]
+    public Transform missleTarget; // 미사일용 타겟
+
 
 
     /// <summary>
@@ -24,38 +33,47 @@ public class Scanner : MonoBehaviour
 
         targets = Physics2D.CircleCastAll(transform.position, scanRange, Vector2.zero, 0f, targetLayer);
 
-        //가장 가까운 타겟 찾기
-        nearestTarget = FindNearestTarget();
+        //가장 가까운 타겟 순서대로 배열에 저장
+        nearestTarget = FindNearestTarget(5);
+
+        //2번째로 가까운 타겟 (미사일용)
+        if (nearestTarget != null && nearestTarget.Length > 1)
+            missleTarget = nearestTarget[1];
+        else
+            missleTarget = null;
+
 
     }
 
 
     /// <summary>
-    /// 가장 가까운 타겟 찾기
+    /// n번째로 가까운 타겟 찾기
     /// </summary>
-    /// <returns>가장 가까운 타겟 변환</returns>
-    Transform FindNearestTarget()
+    /// <param name="count">반환할 타겟 수</param>
+    /// <returns>가장 가까운 타겟 배열 (거리순 정렬)</returns>
+    Transform[] FindNearestTarget(int count)
     {
-        Transform nearest = null;
-        float diff = 100;   //최소한의거리
+        if (targets == null || targets.Length == 0)
+            return null;
 
-        //모든 감지된 타겟 순회
-        foreach (RaycastHit2D hit in targets)
+        // 타겟을 거리순으로 정렬
+        var sortedTargets = new List<RaycastHit2D>(targets);
+        sortedTargets.Sort((a, b) =>
         {
+            float distA = Vector2.Distance(transform.position, a.transform.position);
+            float distB = Vector2.Distance(transform.position, b.transform.position);
+            return distA.CompareTo(distB);
+        });
 
-            Vector3 myPos = transform.position;
-            Vector3 targetPos = hit.transform.position;
-            float distance = Vector2.Distance(myPos, targetPos);
-
-            //더 가까운 타겟 발견
-            if (distance < diff)
-            {
-                diff = distance;
-                nearest = hit.transform;
-            }
+        // 요청한 수만큼 타겟 반환
+        int returnCount = Mathf.Min(count, sortedTargets.Count);
+        Transform[] result = new Transform[returnCount];
+        for (int i = 0; i < returnCount; i++)
+        {
+            result[i] = sortedTargets[i].transform;
         }
 
-        return nearest;
+        return result;
     }
 
 }
