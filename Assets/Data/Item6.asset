@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda70e7d9a399ed4f98c8ee261efd56f, type: 3}
   m_Name: Item6
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemType: 0
+  itemType: 6
   itemID: 6
   itemName: "\uBBF8\uC0AC\uC77C"
   itemDesc: "{0}\uCD08\uB3D9\uC548 \uC7A5\uC804\uC18D\uB3C4\n\uC774\uB3D9\uC18D\uB3C4
     100% \uC99D\uAC00"
-  itemIcon: {fileID: 21300000, guid: 6c8ddbc720e5a4c4f98a0b1d926c8871, type: 3}
+  itemIcon: {fileID: 4358288135409901962, guid: 52b88fe18c47b124890149e2b5cf197a, type: 3}
   baseDamage: 100
   baseCount: 0
   knockBack: 100

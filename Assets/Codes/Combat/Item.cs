@@ -83,6 +83,8 @@ public class Item : MonoBehaviour
         {
             case ItemData.ItemType.Melee:
             case ItemData.ItemType.Range:
+            case ItemData.ItemType.Missile:
+
                 //무기 아이템 처리
                 if (level == 0)
                 {

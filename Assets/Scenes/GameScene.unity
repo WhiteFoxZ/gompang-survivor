@@ -23238,7 +23238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1884032914
 Transform:
   m_ObjectHideFlags: 0
@@ -23249,7 +23249,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.46, y: 0.118, z: -0.068}
-  m_LocalScale: {x: 0.43, y: 0.48837075, z: 0.44325328}
+  m_LocalScale: {x: 1, y: 1.1357459, z: 1.0308216}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 703018131}
@@ -23266,7 +23266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b34fbe666614a428f7aaf08724f2be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hand
-  isLeft: 0
+  isLeft: 1
   spriter: {fileID: 1884032916}
 --- !u!212 &1884032916
 SpriteRenderer:
@@ -23322,7 +23322,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.5}
+  m_Size: {x: 0.33, y: 0.87}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
