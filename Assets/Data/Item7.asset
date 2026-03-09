@@ -22,10 +22,10 @@ MonoBehaviour:
   knockBack: 0
   knockBackRate: 0
   damages:
-  - 0.3
-  - 0.3
-  - 0.2
-  - 0.2
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
   - 0.1
   counts: 0000000000000000000000000000000000000000
   itemPrefab: {fileID: 0}
