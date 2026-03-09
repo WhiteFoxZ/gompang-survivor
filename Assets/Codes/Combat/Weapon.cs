@@ -76,26 +76,26 @@ public class Weapon : MonoBehaviour
     /// <summary>
     /// 무기 초기화 - 아이템 데이터에서 무기 설정
     /// </summary>
-    /// <param name="data">아이템 데이터</param>
-    public void Init(ItemData data)
+    /// <param name="itemData">아이템 데이터</param>
+    public void Init(ItemData itemData)
     {
         //이름 설정
-        name = "Weapon_" + data.itemID.ToString();
+        name = "Weapon_" + itemData.itemID.ToString();
         transform.parent = player.transform;    //플레이어 자식으로 설정
         transform.localPosition = Vector3.zero; //플레이어 위치로 이동
 
         //속성 초기화
-        id = data.itemID;
-        damage = data.baseDamage * Character.Damage;
-        count = data.baseCount + Character.Count;
-        knockback = data.knockBack;
-        knockbackRate = data.knockBackRate;
+        id = itemData.itemID;
+        damage = itemData.baseDamage * Character.Damage;
+        count = itemData.baseCount + Character.Count;
+        knockback = itemData.knockBack;
+        knockbackRate = itemData.knockBackRate;
 
 
         //프리팹 ID 찾기
         for (int index = 0; index < GameManager.instance.poolManager.prefabs.Length; index++)
         {
-            if (GameManager.instance.poolManager.prefabs[index] == data.itemPrefab)
+            if (GameManager.instance.poolManager.prefabs[index] == itemData.itemPrefab)
             {
                 prefabId = index;
                 break;
@@ -103,19 +103,26 @@ public class Weapon : MonoBehaviour
         }
 
 
+        Hand hand = null; //손 참조
+
+
         //무기 유형에 따른 초기화
-        switch (data.itemID)
+        switch (itemData.itemID)
         {
             case 0: //삽 (근접 무기)
                 speed = 150 * Character.WeaponSpeed;
                 Plcae(); //무기 배치
+
+                hand = player.hands[0]; //삽은 왼손
                 break;
             case 1: //원거리 무기
                 speed = 0.3f * Character.WeaponRate;    //1초에 3번발사
+                hand = player.hands[1]; //원거리 무기는 오른손
                 break;
 
             case 6: //missle 무기
                 speed = 3.0f * Character.WeaponRate; // 미사일 발사 간격 (3초당 1회)
+                hand = player.hands[2]; //미사일은 왼손
                 break;
 
             default:
@@ -123,10 +130,9 @@ public class Weapon : MonoBehaviour
         }
 
         //손 적용 - 손에 무기 이미지 표시
-        Hand hand = player.hands[(int)data.itemType];
-        hand.spriter.sprite = data.hand;
-        hand.gameObject.SetActive(true);
 
+        hand.spriter.sprite = itemData.hand;
+        hand.gameObject.SetActive(true);
 
 
         //장비 효과 갱신
