@@ -8696,7 +8696,8 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  nearestTarget: {fileID: 0}
+  nearestTarget: []
+  missleTarget: {fileID: 0}
 --- !u!1 &704736300
 GameObject:
   m_ObjectHideFlags: 0
@@ -17411,11 +17412,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   spawnPoint: []
   _spawnDatas:
-  - spawnTime: 2
+  - spawnTime: 0.9
     spriteType: 0
     health: 50
     speed: 1.8
-  - spawnTime: 1
+  - spawnTime: 0.7
     spriteType: 1
     health: 150
     speed: 2
