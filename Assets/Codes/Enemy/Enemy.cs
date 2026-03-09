@@ -125,19 +125,40 @@ public class Enemy : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
-            float damage = bullet.damage;
 
-            //한 번만 확률 계산 (Bullet.cs에서 이미 계산된 값을 사용하지 않고 여기서 계산)
-            //이렇게 하면 Bullet.cs와 Enemy.cs 중복 방지
-            float knockback = bullet.knockback;
-            float knockbackRate = bullet.knockbackRate;
-            float appliedKnockback = (Random.value <= knockbackRate) ? knockback : 0f;
+            // Bullet 컴포넌트가 있으면 일반 총알 처리
+            if (bullet != null)
+            {
+                float damage = bullet.damage;
 
-            this.Log($"Damage: {damage}, Knockback: {appliedKnockback}");
+                //한 번만 확률 계산 (Bullet.cs에서 이미 계산된 값을 사용하지 않고 여기서 계산)
+                //이렇게 하면 Bullet.cs와 Enemy.cs 중복 방지
+                float knockback = bullet.knockback;
+                float knockbackRate = bullet.knockbackRate;
+                float appliedKnockback = (Random.value <= knockbackRate) ? knockback : 0f;
 
+                this.Log($"Damage: {damage}, Knockback: {appliedKnockback}");
 
-            //데미지 적용 (넉백 값 포함)
-            TakeDamage(damage, appliedKnockback);
+                //데미지 적용 (넉백 값 포함)
+                TakeDamage(damage, appliedKnockback);
+            }
+            else
+            {
+                // BulletMissle(미사일) 처리 - Bullet 컴포넌트가 없으면 미사일로 간주
+                BulletMissle missile = collision.GetComponent<BulletMissle>();
+                if (missile != null)
+                {
+                    float damage = missile.damage;
+                    float impackDamage = missile.impackDamage;
+                    float impackRate = missile.impackRate;
+                    float appliedKnockback = (Random.value <= impackRate) ? impackDamage : 0f;
+
+                    this.Log($"Missile Damage: {damage}, Knockback: {appliedKnockback}");
+
+                    //미사일 데미지 적용
+                    TakeDamage(damage, appliedKnockback);
+                }
+            }
         }
     }
 

@@ -23233,12 +23233,12 @@ GameObject:
   - component: {fileID: 1884032916}
   - component: {fileID: 1884032915}
   m_Layer: 0
-  m_Name: bag
+  m_Name: MisslePack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1884032914
 Transform:
   m_ObjectHideFlags: 0
@@ -23247,13 +23247,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884032913}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.045218643, y: -0.045218643, z: 0.70565945, w: 0.70565945}
-  m_LocalPosition: {x: -0.537, y: 0.118, z: -0.068}
-  m_LocalScale: {x: 0.9701, y: 1.1017871, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.46, y: 0.118, z: -0.068}
+  m_LocalScale: {x: 0.43, y: 0.48837075, z: 0.44325328}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 703018131}
-  m_LocalEulerAnglesHint: {x: 7.333, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1884032915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23317,7 +23317,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -353751291, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+  m_Sprite: {fileID: 4358288135409901962, guid: 52b88fe18c47b124890149e2b5cf197a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -18,16 +18,16 @@ MonoBehaviour:
   itemDesc: "{0}\uCD08\uB3D9\uC548 \uC7A5\uC804\uC18D\uB3C4\n\uC774\uB3D9\uC18D\uB3C4
     100% \uC99D\uAC00"
   itemIcon: {fileID: 21300000, guid: 6c8ddbc720e5a4c4f98a0b1d926c8871, type: 3}
-  baseDamage: 0
+  baseDamage: 100
   baseCount: 0
-  knockBack: 0
-  knockBackRate: 0
+  knockBack: 100
+  knockBackRate: 1
   damages:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - 10
+  - 10
+  - 10
+  - 10
+  - 10
   counts: 0000000000000000000000000000000000000000
   itemPrefab: {fileID: 8158607018251251201, guid: 59c218662adf46c4c8697d87b2545d34, type: 3}
   hand: {fileID: 4358288135409901962, guid: 52b88fe18c47b124890149e2b5cf197a, type: 3}

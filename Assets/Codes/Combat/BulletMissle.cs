@@ -15,7 +15,7 @@ public class BulletMissle : MonoBehaviour
     public Transform target;
 
     public float speed = 5f;
-    public float rotateSpeed = 200f;
+    public float rotateSpeed = 150f;    //회전 속도 값이 클수록 꺽이는 각도가 커짐
 
 
     /// <summary>

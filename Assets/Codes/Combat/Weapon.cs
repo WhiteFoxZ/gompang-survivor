@@ -115,9 +115,8 @@ public class Weapon : MonoBehaviour
                 break;
 
             case 6: //missle 무기
-
+                speed = 3.0f * Character.WeaponRate; // 미사일 발사 간격 (3초당 1회)
                 break;
-
 
             default:
                 break;
