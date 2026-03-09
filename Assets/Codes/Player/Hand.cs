@@ -5,8 +5,11 @@ using UnityEngine;
 /// </summary>
 public class Hand : MonoBehaviour
 {
+    public enum HandType { LEFT, RIGHT, BACK, FRONT }
 
     public bool isLeft; //왼손 여부
+
+    public HandType handType; //손 유형
 
     public SpriteRenderer spriter; //스프라이트 렌더러
 
