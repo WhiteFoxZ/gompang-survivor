@@ -5,9 +5,7 @@ using UnityEngine;
 /// </summary>
 public class Hand : MonoBehaviour
 {
-    public enum HandType { LEFT, RIGHT, BACK, FRONT }
-
-    public bool isLeft; //왼손 여부
+    public enum HandType { LEFT, RIGHT, BACK }
 
     public HandType handType; //손 유형
 
@@ -24,6 +22,10 @@ public class Hand : MonoBehaviour
     Quaternion leftRot = Quaternion.Euler(0f, 0f, -35f);
     //왼손 회전 (좌우 반전 시)
     Quaternion leftRotReverse = Quaternion.Euler(0f, 0f, -135f);
+
+
+    //미사일 (좌우 반전 시)
+    Quaternion missleRotReverse = Quaternion.Euler(0f, 0f, -90f);
 
 
     /// <summary>
@@ -43,7 +45,7 @@ public class Hand : MonoBehaviour
         //플레이어 스프라이트 반전 여부
         bool isReverse = playerSprite.flipX;
 
-        if (isLeft) //왼손인 경우
+        if (handType == HandType.LEFT) //왼손
         {
             //회전 설정
             transform.localRotation = isReverse ? leftRotReverse : leftRot;
@@ -52,7 +54,7 @@ public class Hand : MonoBehaviour
             //정렬 순서 설정
             spriter.sortingOrder = isReverse ? playerSprite.sortingOrder - 1 : playerSprite.sortingOrder + 1;
         }
-        else //오른손인 경우
+        else if (handType == HandType.RIGHT)  //오른손/앞의 경우
         {
             //위치 설정
             transform.localPosition = isReverse ? rightPosReverse : rightPos;
@@ -61,6 +63,18 @@ public class Hand : MonoBehaviour
             //정렬 순서 설정
             spriter.sortingOrder = isReverse ? playerSprite.sortingOrder + 1 : playerSprite.sortingOrder - 1;
         }
+        else if (handType == HandType.BACK) //등 뒤의 경우
+        {
+
+            //위치 설정
+            transform.localRotation = isReverse ? leftRotReverse : leftRot;
+            //좌우 반전
+            spriter.flipY = isReverse;
+            //정렬 순서 설정
+            spriter.sortingOrder = isReverse ? playerSprite.sortingOrder - 1 : playerSprite.sortingOrder + 1;
+
+        }
+
     }
 
 }

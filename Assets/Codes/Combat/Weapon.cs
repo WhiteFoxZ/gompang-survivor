@@ -113,7 +113,7 @@ public class Weapon : MonoBehaviour
                 speed = 150 * Character.WeaponSpeed;
                 Plcae(); //무기 배치
 
-                hand = player.hands[0]; //삽은 왼손
+                hand = player.hands[0]; //근접 무기는 왼손
                 break;
             case 1: //원거리 무기
                 speed = 0.3f * Character.WeaponRate;    //1초에 3번발사
@@ -121,7 +121,7 @@ public class Weapon : MonoBehaviour
                 break;
 
             case 6: //missle 무기
-                speed = 3.0f ; // 미사일 발사 간격 (3초당 1회)
+                speed = 2.0f; // 미사일 발사 간격 (2초당 1회)
                 hand = player.hands[2]; //미사일은 왼손
                 break;
 
