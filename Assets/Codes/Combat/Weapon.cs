@@ -43,7 +43,9 @@ public class Weapon : MonoBehaviour
                 //지속적으로 회전
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
-            default:
+
+
+            case 1:
                 //원거리 무기: 타이머로 발사 주기 조절
                 timer += Time.deltaTime;
 
@@ -53,6 +55,20 @@ public class Weapon : MonoBehaviour
                     Fire();
                 }
                 break;
+
+            case 6: //missle 무기
+                timer += Time.deltaTime;
+
+                if (timer > speed)
+                {
+                    timer = 0;
+                    MissleFire();
+                }
+                break;
+
+            default:
+                break;
+
 
         }
     }
@@ -94,10 +110,17 @@ public class Weapon : MonoBehaviour
                 speed = 150 * Character.WeaponSpeed;
                 Plcae(); //무기 배치
                 break;
-            default: //원거리 무기
+            case 1: //원거리 무기
                 speed = 0.3f * Character.WeaponRate;    //1초에 3번발사
                 break;
 
+            case 6: //missle 무기
+
+                break;
+
+
+            default:
+                break;
         }
 
         //손 적용 - 손에 무기 이미지 표시
@@ -122,7 +145,7 @@ public class Weapon : MonoBehaviour
         {
             Transform bullet;
 
-            //기존 자식이 있으면 재사용
+            //기존 자식이 있으면 재사용 ,없으면 새로 생성
             if (i < transform.childCount)
             {
                 bullet = transform.GetChild(i);
@@ -201,6 +224,36 @@ public class Weapon : MonoBehaviour
 
         //발사 효과음 재생
         AudioManager.instance.PlaySfx(AudioManager.SFX.Range);
+
+    }
+
+    void MissleFire()
+    {
+        //미사일 발사 로직
+
+        //타겟이 없으면 발사 안함
+        if (!player.scanner.nearestTarget)
+            return;
+
+        //투사체 가져오기
+        Transform bullet = GameManager.instance.poolManager.GetObject(prefabId).transform;
+        bullet.position = transform.position;
+
+        float impackDamage = this.knockback; //넉백 세기
+        float impackRate = this.knockbackRate; //넉백 확률
+
+
+        //총알 초기화 - 관통 count 만큼 설정, 넉백 적용
+        bullet.GetComponent<BulletMissle>().Init(damage, player.scanner.nearestTarget, impackDamage, impackRate);
+
+
+
+        //발사 효과음 재생
+        AudioManager.instance.PlaySfx(AudioManager.SFX.Range);
+
+
+
+
 
     }
 
