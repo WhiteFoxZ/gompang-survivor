@@ -73,9 +73,16 @@ public class Gear : MonoBehaviour
                     weapon.speed = speed + (speed * rate);
 
                     break;
-                default: //원거리 무기
+                case 1: //원거리 무기
                     speed = 0.5f * Character.WeaponRate;
                     weapon.speed = speed * (1f - rate);
+                    break;
+                case 2: //미사일 무기
+                    speed = 3.0f; // 기본 발사 간격
+
+                    break;
+
+                default:
                     break;
 
             }
