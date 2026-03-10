@@ -6,6 +6,7 @@ using UnityEngine;
 public class Gear : MonoBehaviour
 {
 
+    private ItemData data;
     public ItemData.ItemType type; //장비 유형
     public float rate; //장비 효과 수치
 
@@ -45,6 +46,8 @@ public class Gear : MonoBehaviour
         switch (type)
         {
             case ItemData.ItemType.Glove:
+            case ItemData.ItemType.MissilePack:
+
                 //장갑 효과: 공격 속도 증가
                 RateUp();
                 break;
@@ -73,19 +76,28 @@ public class Gear : MonoBehaviour
                     weapon.speed = speed + (speed * rate);
 
                     break;
+
                 case 1: //원거리 무기
-                    speed = 0.5f * Character.WeaponRate;
-                    weapon.speed = speed * (1f - rate);
+
+                    if (type == ItemData.ItemType.Glove)
+                    {
+                        speed = 0.5f * Character.WeaponRate;
+                        weapon.speed = speed * (1f - rate);
+                    }
+
                     break;
-                case 7: //미사일 무기
-                    speed = 2.0f; // 기본 발사 간격
-                    weapon.speed = speed * (1f - rate);
+
+                case 6: //미사일 무기
+                    if (type == ItemData.ItemType.MissilePack)
+                    {
+                        speed = 2.0f; // 기본 발사 간격
+                        weapon.speed = speed * (1f - rate);
+                    }
 
                     break;
 
                 default:
                     break;
-
             }
         }
     }

@@ -56,6 +56,8 @@ public class Item : MonoBehaviour
 
             case ItemData.ItemType.Glove:
             case ItemData.ItemType.Shoe:
+            case ItemData.ItemType.MissilePack:
+
                 //장비: 효과 수치만 표시
                 itemDesc.text = string.Format(data.itemDesc, data.damages[level] * 100);
                 break;
@@ -114,6 +116,8 @@ public class Item : MonoBehaviour
 
             case ItemData.ItemType.Glove:
             case ItemData.ItemType.Shoe:
+            case ItemData.ItemType.MissilePack:
+
                 //장비 아이템 처리
                 if (level == 0)
                 {

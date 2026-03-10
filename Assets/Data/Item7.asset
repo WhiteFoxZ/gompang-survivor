@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda70e7d9a399ed4f98c8ee261efd56f, type: 3}
   m_Name: Item7
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemType: 2
+  itemType: 7
   itemID: 7
   itemName: "\uBC1C\uC0AC\uB300"
-  itemDesc: "\uBB34\uAE30\uC18D\uB3C4 {0}% \uC99D\uAC00"
+  itemDesc: "\uBBF8\uC0AC\uC77C\uC18D\uB3C4{0}% \uC99D\uAC00"
   itemIcon: {fileID: -201829820, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   baseDamage: 0
   baseCount: 0
   knockBack: 0
   knockBackRate: 0
   damages:
-  - 0.1
-  - 0.1
-  - 0.1
+  - 0.5
+  - 0.5
+  - 0.5
   - 0.1
   - 0.1
   counts: 0000000000000000000000000000000000000000

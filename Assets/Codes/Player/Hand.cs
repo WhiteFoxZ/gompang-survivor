@@ -24,8 +24,6 @@ public class Hand : MonoBehaviour
     Quaternion leftRotReverse = Quaternion.Euler(0f, 0f, -135f);
 
 
-    //미사일 (좌우 반전 시)
-    Quaternion missleRotReverse = Quaternion.Euler(0f, 0f, -90f);
 
 
     /// <summary>
@@ -66,14 +64,21 @@ public class Hand : MonoBehaviour
         else if (handType == HandType.BACK) //등 뒤의 경우
         {
 
-            //위치 설정
-            transform.localRotation = isReverse ? leftRotReverse : leftRot;
-            //좌우 반전
-            spriter.flipY = isReverse;
-            //정렬 순서 설정
-            spriter.sortingOrder = isReverse ? playerSprite.sortingOrder - 1 : playerSprite.sortingOrder + 1;
+            //등 뒤 위치 (기본)
+            Vector3 backPos = new Vector3(-0.49f, -0.05f, 0f);
+            //등 뒤 위치 (좌우 반전 시)
+            Vector3 backPosReverse = new Vector3(0.49f, -0.05f, 0f);
 
+
+            //미사일 위치 설정
+            transform.localPosition = isReverse ? backPosReverse : backPos;
+
+
+            //정렬 순서 설정
+            spriter.sortingOrder = isReverse ? playerSprite.sortingOrder + 1 : playerSprite.sortingOrder - 1;
         }
+
+
 
     }
 
