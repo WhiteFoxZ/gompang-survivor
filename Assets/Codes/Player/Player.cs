@@ -182,13 +182,25 @@ public class Player : MonoBehaviour
         float originalSpeed = speed;
         speed = originalSpeed * 2f;
 
-        //모든 무기의 간격 100% 증가 (간격은 50%로 감소)
+        //모든 발사무기 발사 (간격 50% 감소)
+        //Melee 무기: 회전 속도 100% 증가
         Weapon[] weapons = GetComponentsInChildren<Weapon>();
         float[] originalWeaponSpeeds = new float[weapons.Length];
         for (int i = 0; i < weapons.Length; i++)
         {
             originalWeaponSpeeds[i] = weapons[i].speed;
-            weapons[i].speed = weapons[i].speed * 0.5f; //100% 증가 = 간격 50% 감소
+
+            //무기 타입에 따라 다른 로직 적용
+            if (weapons[i].id == 0)
+            {
+                //Melee 무기: 회전 속도 100% 증가
+                weapons[i].speed = weapons[i].speed * 2f;
+            }
+            else
+            {
+                //Range/Missile 무기: 발사 간격 50% 감소 (100% 증가 = 간격 50% 감소)
+                weapons[i].speed = weapons[i].speed * 0.5f;
+            }
         }
 
         yield return new WaitForSeconds(duration);
