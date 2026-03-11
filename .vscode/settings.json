@@ -72,6 +72,6 @@
     // C# 자동 Import 설정
     "csharp.autoUsingInlineHints": true,
     "omnisharp.enableAutoImport": true,
-    "omnisharp.enableImportCompletion": true,
-    "csharp.inlayHints.enable": true
+    "csharp.inlayHints.enable": true,
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
 }
