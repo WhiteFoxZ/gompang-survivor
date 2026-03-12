@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// 레벨업 클래스 - 레벨업 시 선택지 UI를 표시합니다.
@@ -8,6 +9,7 @@ public class LevelUp : MonoBehaviour
 
     RectTransform rect; //RectTransform
     Item[] items; //아이템 배열
+    Player player; //플레이어 참조
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
@@ -16,6 +18,7 @@ public class LevelUp : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
         items = GetComponentsInChildren<Item>(true);
+        player = GameManager.instance.player;
     }
 
     /// <summary>
@@ -56,27 +59,53 @@ public class LevelUp : MonoBehaviour
     /// </summary>
     void Next()
     {
-
         //1. 모든 아이템 비활성화
         foreach (Item item in items)
         {
             item.gameObject.SetActive(false);
         }
 
-        //2. 그중에 랜덤 3개 아이템 활성화
-        int[] ran = new int[3];
-        while (true)
+        //2. 스탬팩이 활성화 중이면 스탬팩 아이템을 제외하고 랜덤 3개 아이템 선택
+        List<int> candidates = new List<int>();
+        for (int i = 0; i < items.Length; i++)
         {
-            ran[0] = Random.Range(0, items.Length);
-            ran[1] = Random.Range(0, items.Length);
-            ran[2] = Random.Range(0, items.Length);
-
-            //중복되지 않게
-            if (ran[0] != ran[1] && ran[0] != ran[2] && ran[1] != ran[2])
+            Item item = items[i];
+            // 스탬팩이 활성화 중이면 스탬팩 아이템 제외
+            if (item.data.itemType == ItemData.ItemType.StamPack && player != null && player.IsStampPackActive)
             {
-                break;
+                continue;
             }
+            candidates.Add(i);
+        }
 
+        int[] ran = new int[3];
+        int count = candidates.Count;
+        if (count >= 3)
+        {
+            // 3개 이상의 후보가 있을 때, 중복되지 않게 3개 선택
+            int a = Random.Range(0, count);
+            int b = Random.Range(0, count);
+            while (b == a) b = Random.Range(0, count);
+            int c = Random.Range(0, count);
+            while (c == a || c == b) c = Random.Range(0, count);
+            ran[0] = candidates[a];
+            ran[1] = candidates[b];
+            ran[2] = candidates[c];
+        }
+        else
+        {
+            // 후보가 3개 미만이면 가능한 만큼 선택 (부족한 경우 첫 번째 아이템으로 채움)
+            for (int i = 0; i < 3; i++)
+            {
+                if (i < count)
+                {
+                    ran[i] = candidates[i];
+                }
+                else
+                {
+                    ran[i] = 0; // fallback to first item if no candidates (should not happen in normal gameplay)
+                }
+            }
         }
 
         //3. 만렙 아이템의 경우는 소비아이템으로 대체
@@ -91,7 +120,6 @@ public class LevelUp : MonoBehaviour
             {
                 ranItem.gameObject.SetActive(true);
             }
-
         }
     }
 

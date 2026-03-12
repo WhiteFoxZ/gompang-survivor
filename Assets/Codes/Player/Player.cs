@@ -31,7 +31,11 @@ public class Player : MonoBehaviour
     //케릭터 선택시 플레이어 이미지 및 ani 컨틀로러 변경
     public RuntimeAnimatorController[] animCon;
 
+    // StamPack effect tracking
+    private bool isStampPackActive;
+    private Coroutine stampEffectCoroutine;
 
+    public bool IsStampPackActive => isStampPackActive;
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
@@ -178,6 +182,7 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public IEnumerator ApplyStampEffect(float duration)
     {
+        isStampPackActive = true;
         //이동속도 100% 증가 (2배)
         float originalSpeed = speed;
         speed = originalSpeed * 2f;
@@ -211,6 +216,7 @@ public class Player : MonoBehaviour
         {
             weapons[i].speed = originalWeaponSpeeds[i];
         }
+        isStampPackActive = false;
     }
 
 
