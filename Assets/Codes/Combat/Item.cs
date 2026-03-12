@@ -64,7 +64,7 @@ public class Item : MonoBehaviour
 
             case ItemData.ItemType.StamPack:
                 //장비: 효과 수치만 표시
-                itemDesc.text = string.Format(data.itemDesc, data.damages[level]);
+                itemDesc.text = string.Format(data.itemDesc, data.baseDamage);
                 break;
 
             default:
@@ -148,6 +148,9 @@ public class Item : MonoBehaviour
                 break;
 
             case ItemData.ItemType.StamPack:
+                //스팀팩 사용 시 체력 30% 감소
+                GameManager.instance.health -= GameManager.instance.health * 0.3f;
+
                 //StampPack 효과: 이동속도 100% 증가, 총알 간격 100% 증가
                 //지속 시간은 아이템의 damage 값으로 설정
                 GameManager.instance.player.StartCoroutine(

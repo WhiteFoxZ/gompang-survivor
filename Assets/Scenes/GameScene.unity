@@ -969,7 +969,7 @@ GameObject:
   - component: {fileID: 211052220}
   - component: {fileID: 211052219}
   m_Layer: 5
-  m_Name: Item7
+  m_Name: Item7-MissilePack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2572,7 +2572,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491236610}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -8381,7 +8381,7 @@ GameObject:
   - component: {fileID: 696084583}
   - component: {fileID: 696084582}
   m_Layer: 5
-  m_Name: Item0
+  m_Name: Item0-Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9093,7 +9093,7 @@ GameObject:
   - component: {fileID: 719305525}
   - component: {fileID: 719305524}
   m_Layer: 5
-  m_Name: Item2
+  m_Name: Item2-Glove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10326,7 +10326,7 @@ GameObject:
   - component: {fileID: 990337465}
   - component: {fileID: 990337464}
   m_Layer: 5
-  m_Name: Item3
+  m_Name: Item3-Shoe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11154,7 +11154,7 @@ GameObject:
   - component: {fileID: 1220342748}
   - component: {fileID: 1220342747}
   m_Layer: 5
-  m_Name: Item1
+  m_Name: Item1-Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17883,7 +17883,7 @@ GameObject:
   - component: {fileID: 1669764550}
   - component: {fileID: 1669764549}
   m_Layer: 5
-  m_Name: Item5
+  m_Name: Item5-StamPack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18758,7 +18758,7 @@ GameObject:
   - component: {fileID: 1788535422}
   - component: {fileID: 1788535421}
   m_Layer: 5
-  m_Name: Item4
+  m_Name: Item4-Heal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24002,7 +24002,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994375174}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
