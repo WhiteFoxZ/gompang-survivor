@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
 
     public bool IsStampPackActive => isStampPackActive;
 
+
+    public GameObject _fireVFXObject; //(스팀팩 효과 추적용)
+
+
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
     /// </summary>
@@ -48,7 +52,6 @@ public class Player : MonoBehaviour
         scanner = GetComponent<Scanner>();
         //비활성화된 자식을 가져올때는 GetComponentsInChildren<Hand>(true) 사용
         hands = GetComponentsInChildren<Hand>(true);
-
     }
 
     /// <summary>
@@ -183,6 +186,9 @@ public class Player : MonoBehaviour
     public IEnumerator ApplyStampEffect(float duration)
     {
         isStampPackActive = true;
+
+        _fireVFXObject.SetActive(true); //스팀팩 효과 오브젝트 활성화
+
         //이동속도 100% 증가 (2배)
         float originalSpeed = speed;
         speed = originalSpeed * 2f;
@@ -216,7 +222,10 @@ public class Player : MonoBehaviour
         {
             weapons[i].speed = originalWeaponSpeeds[i];
         }
+
         isStampPackActive = false;
+        _fireVFXObject.SetActive(false); //스팀팩 효과 오브젝트 비활성화
+
     }
 
 

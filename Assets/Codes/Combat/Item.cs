@@ -16,6 +16,8 @@ public class Item : MonoBehaviour
     Text itemName; //이름 텍스트
     Text itemDesc; //설명 텍스트
 
+    
+
 
     /// <summary>
     /// 시작 시 호출 - UI 컴포넌트 초기화
