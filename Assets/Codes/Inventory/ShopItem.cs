@@ -40,6 +40,7 @@ public enum PayType
 {
     AD, //광고
     COIN, //코인
+    DIAMOND,//다이아몬드
     PAY //코인
 }
 
