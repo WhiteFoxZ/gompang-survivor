@@ -13,6 +13,14 @@ public class InventoryManager : MonoBehaviour
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
 
 
+    public int coin = 0;
+    public int diamond = 0;
+    public int energy = 0;
+    public int maxEnergy = 0;
+
+
+
+
     /// <summary>
     /// 아이템 추가 - 인벤토리에 아이템을 추가합니다.
     /// </summary>
@@ -73,6 +81,12 @@ public class InventoryManager : MonoBehaviour
         inventoryItem.InitialiseItem(item);
     }
 
+
+    public void ShopItemClick(ShopItem shopItem)
+    {
+
+
+    }
 
 
 }

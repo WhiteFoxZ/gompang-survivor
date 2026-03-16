@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7aa6fed5b896f040a1530041ea5127f, type: 3}
   m_Name: ShopItemAdBoxSmall
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
-  mainTile: 
-  shopItemType: 0
+  shopItemType: 3
   payType: 0
   price: 0
-  mainImage: {fileID: 0}
-  smallImage: {fileID: 0}
+  itemCnt: 1

@@ -9,17 +9,11 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "ShopItem", menuName = "ScriptableObjects/ShopItem", order = 1)]
 public class ShopItem : ScriptableObject
 {
-    [Header("Only gameplay")]
-    public string mainTile; //타일
 
     public ShopItemType shopItemType; //상점 아이템 유형
     public PayType payType; //결제 유형
-    public int price; //가격    
-
-
-    [Header("Both")]
-    public Sprite mainImage; //아이템 이미지
-    public Sprite smallImage; //아이템 이미지
+    public int price; //가격
+    public int itemCnt; //충천갯수    
 
 }
 
@@ -29,8 +23,9 @@ public class ShopItem : ScriptableObject
 public enum ShopItemType
 {
     Energy, //에너지
-    Coin, //
-    ItemmBoxSmall, //작은 아이템 박스
+    Coin, //코인
+    Diamond,    //다이아
+    ItemBoxSmall, //작은 아이템 박스
     ItemBoxMedium, //중간 아이템 박스
     ItemBoxLarge //큰 아이템 박스
 }
