@@ -16,7 +16,7 @@ public class ItemBoxUi : MonoBehaviour
         buttonText = GetComponentsInChildren<Text>();
 
 
-        this.Log($"ssss: {buttonText[1]}");
+        this.Log($" : {buttonText[1]}");
 
 
         buttonText[1].text = _shopItem.price.ToString();
@@ -24,7 +24,6 @@ public class ItemBoxUi : MonoBehaviour
         if (_shopItem.payType == PayType.PAY)
         {
             buttonText[0].text = _shopItem.itemCnt.ToString();
-
         }
 
 

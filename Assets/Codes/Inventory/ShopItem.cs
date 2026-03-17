@@ -15,6 +15,9 @@ public class ShopItem : ScriptableObject
     public int price; //가격
     public int itemCnt; //충천갯수    
 
+
+
+
 }
 
 /// <summary>

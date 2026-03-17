@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 인벤토리 관리자 클래스 - 인벤토리의 아이템을 관리합니다.
@@ -13,13 +14,23 @@ public class InventoryManager : MonoBehaviour
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
 
 
+    [Header("아이템구매팝업창")]
+    public GameObject _shopItemPopUp;
+    public Text _itemName;
+    public Image _itemImge;
+    public Image _priceICon;
+    public Text _priceTxt;
+
+
+
+    [Header("코인")]
     public int coin = 0;
     public int diamond = 0;
     public int energy = 0;
     public int maxEnergy = 0;
 
 
-
+    ShopItem shopItem;
 
     /// <summary>
     /// 아이템 추가 - 인벤토리에 아이템을 추가합니다.
@@ -82,10 +93,52 @@ public class InventoryManager : MonoBehaviour
     }
 
 
+
     public void ShopItemClick(ShopItem shopItem)
     {
+        _shopItemPopUp.SetActive(true);
+        this.shopItem = shopItem;
 
 
+
+
+    }
+
+
+    public void confirmOK()
+    {
+        switch (shopItem.payType)
+
+        {
+            case PayType.AD:
+                switch (shopItem.shopItemType)
+                {
+                    case ShopItemType.Coin:
+                        this.coin += shopItem.itemCnt;
+                        break;
+
+                    case ShopItemType.Energy:
+                        this.energy += shopItem.itemCnt;
+                        break;
+
+                    case ShopItemType.ItemBoxSmall:
+                        this.energy += shopItem.itemCnt;
+                        break;
+
+
+                    default:
+                        break;
+
+                }
+                break;
+
+            case PayType.PAY:
+                break;
+
+            default:
+                break;
+
+        }
     }
 
 
