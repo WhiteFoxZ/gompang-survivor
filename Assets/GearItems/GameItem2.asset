@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: GameItem2
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  tile: {fileID: 0}
-  type: 1
-  actionType: 0
-  range: {x: 5, y: 4}
-  stackable: 1
-  image: {fileID: -703694536, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+  itemRarity: 0
+  gearType: 1
+  level: 1
+  atack: 0.05
+  defence: 0.05
+  moveSpeed: 0.05
+  atkSpeed: 0.05
+  image: {fileID: 6029673869176772580, guid: a0680b31f3236354cba8d9d1e0a94003, type: 3}

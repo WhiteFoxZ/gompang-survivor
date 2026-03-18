@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using static GoogleSpreadSheetManager;
 

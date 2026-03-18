@@ -1,6 +1,4 @@
 using UnityEngine;
-using System;
-using System.IO;
 
 /// <summary>
 /// 아이템 데이터 클래스 - ScriptableObject로 아이템 속성을 정의합니다.

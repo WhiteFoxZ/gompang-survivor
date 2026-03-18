@@ -49,7 +49,7 @@ public class InventoryManager : MonoBehaviour
             if (itemSlot != null
             && itemSlot.gameItem == newItem
             && itemSlot.count < maxStackItems
-            && itemSlot.gameItem.stackable)
+           )
             {
                 //개수 증가
                 itemSlot.count++;
@@ -99,12 +99,13 @@ public class InventoryManager : MonoBehaviour
         _shopItemPopUp.SetActive(true);
         this.shopItem = shopItem;
 
-
-
-
+        this._itemName.text = shopItem.title;
+        this._itemImge.sprite = shopItem.ImageItem;
+        this._priceICon.sprite = shopItem.ImageAd;
+        this._priceTxt.text = shopItem.price.ToString();
     }
 
-
+    //구매팝업창 클릭시
     public void confirmOK()
     {
         switch (shopItem.payType)
@@ -115,24 +116,44 @@ public class InventoryManager : MonoBehaviour
                 {
                     case ShopItemType.Coin:
                         this.coin += shopItem.itemCnt;
+                        this.Log($" coin : {this.coin}");
                         break;
 
                     case ShopItemType.Energy:
                         this.energy += shopItem.itemCnt;
+                        this.Log($" energy : {this.energy}");
                         break;
 
                     case ShopItemType.ItemBoxSmall:
                         this.energy += shopItem.itemCnt;
                         break;
 
-
                     default:
                         break;
-
                 }
                 break;
 
-            case PayType.PAY:
+            case PayType.PAY:   //코인,다이아
+
+                switch (shopItem.shopItemType)
+                {
+                    case ShopItemType.Coin:
+                        this.coin += shopItem.itemCnt;
+                        this.Log($" coin : {this.coin}");
+                        break;
+
+                    case ShopItemType.Diamond:
+                        this.energy += shopItem.itemCnt;
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+                break;
+
+            case PayType.DIAMOND:
                 break;
 
             default:

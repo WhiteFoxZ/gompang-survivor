@@ -1,7 +1,4 @@
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 /// <summary>
 /// 게임 아이템 데이터 클래스 - ScriptableObject로 아이템 속성을 정의합니다.
@@ -12,9 +9,15 @@ public class ShopItem : ScriptableObject
 
     public ShopItemType shopItemType; //상점 아이템 유형
     public PayType payType; //결제 유형
+
+
+    public string title;
     public int price; //가격
     public int itemCnt; //충천갯수    
 
+
+    public Sprite ImageItem;
+    public Sprite ImageAd;
 
 
 

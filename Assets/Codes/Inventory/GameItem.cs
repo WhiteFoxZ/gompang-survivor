@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 /// <summary>
 /// 게임 아이템 데이터 클래스 - ScriptableObject로 아이템 속성을 정의합니다.
@@ -9,16 +8,21 @@ using UnityEngine.UI;
 public class GameItem : ScriptableObject
 {
     [Header("Only gameplay")]
-    public TileBase tile; //타일
-    public ItemType type; //아이템 유형
-    public ActionType actionType; //행동 유형
-    public Vector2Int range = new Vector2Int(5, 4); //범위
+    public ItemRarity itemRarity; //등급
+    public GearType gearType; //착용아이템 유형
+
+    public int level = 1;
+
+    [Header("%증가")]
+    public float atack;  //공격력
+    public float defence;    //방어력
+    public float moveSpeed;    //움직임
+
+    [Header("%감소")]
+    public float atkSpeed;     //공격스피드
 
 
-    [Header("Only UI")]
-    public bool stackable = true; //스택 가능 여부
 
-    [Header("Both")]
     public Sprite image; //아이템 이미지
 
 
@@ -27,18 +31,23 @@ public class GameItem : ScriptableObject
 /// <summary>
 /// 행동 유형 열거형
 /// </summary>
-public enum ActionType
+public enum GearType
 {
-    Dig, //땅 파기
-    Mine //채굴
+    Weapon, //무기
+    Belt, //허리띠
+    Gloves,//장갑
+    Armor, //갑옷
+    Necklace,//목거리
+    Shoes//신발
 
 }
 
-/// <summary>
-/// 아이템 유형 열거형
-/// </summary>
-public enum ItemType
+//아이템등급
+public enum ItemRarity
 {
-    BuildingBlock, //건축 블록
-    Tool //도구
+    Common, //보통템 흰색
+    Rare, //레어템  파란색
+    Epic, //에픽템  보라섹
+    Legendary,//전설템  노락색
 }
+
