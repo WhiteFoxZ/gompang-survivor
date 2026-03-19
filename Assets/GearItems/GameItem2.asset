@@ -19,4 +19,4 @@ MonoBehaviour:
   defence: 0.05
   moveSpeed: 0.05
   atkSpeed: 0.05
-  image: {fileID: 6029673869176772580, guid: a0680b31f3236354cba8d9d1e0a94003, type: 3}
+  image: {fileID: 176535388, guid: a0680b31f3236354cba8d9d1e0a94003, type: 3}

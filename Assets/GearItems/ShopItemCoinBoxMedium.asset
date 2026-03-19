@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
   shopItemType: 4
   payType: 1
-  title: "\uAE30\uBCF8\uC7A5\uBE44"
+  title: "\uC5D0\uD53D\uC7A5\uBE44"
   price: 100
   itemCnt: 1
   ImageItem: {fileID: -155058199, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}

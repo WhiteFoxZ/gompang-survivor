@@ -7,11 +7,15 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
 
+    public static InventoryManager instance;  //싱글톤 인스턴스
+
     const int maxStackItems = 5; //최대 스택 개수
 
     public InventorySlot[] _inventorySlots; //인벤토리 슬롯 배열
 
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
+
+    public GameObject _scrollView; //
 
 
     [Header("아이템구매팝업창")]
@@ -31,6 +35,29 @@ public class InventoryManager : MonoBehaviour
 
 
     ShopItem shopItem;
+
+
+
+
+    /// <summary>
+    /// 시작 시 호출 - 싱글톤 설정 및 초기화
+    /// </summary>
+    void Awake()
+    {
+
+        // 싱글톤 구현: 인스턴스가 이미 존재하면 자신을 파괴
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+
+        // 씬 전환 시 파괴되지 않도록 설정
+        DontDestroyOnLoad(gameObject);
+
+    }
 
     /// <summary>
     /// 아이템 추가 - 인벤토리에 아이템을 추가합니다.
@@ -96,36 +123,41 @@ public class InventoryManager : MonoBehaviour
 
     public void ShopItemClick(ShopItem shopItem)
     {
-        _shopItemPopUp.SetActive(true);
+
         this.shopItem = shopItem;
 
         this._itemName.text = shopItem.title;
         this._itemImge.sprite = shopItem.ImageItem;
         this._priceICon.sprite = shopItem.ImageAd;
         this._priceTxt.text = shopItem.price.ToString();
-    }
 
-    //구매팝업창 클릭시
-    public void confirmOK()
-    {
+
         switch (shopItem.payType)
-
         {
             case PayType.AD:
                 switch (shopItem.shopItemType)
                 {
                     case ShopItemType.Coin:
                         this.coin += shopItem.itemCnt;
-                        this.Log($" coin : {this.coin}");
+                        this.Log($" 비용 : {shopItem.price} coin 구매갯수 itemCnt : {shopItem.itemCnt}");
+                        this.Log($" coin : {this.coin} ");
+
+
                         break;
 
                     case ShopItemType.Energy:
                         this.energy += shopItem.itemCnt;
-                        this.Log($" energy : {this.energy}");
+                        this.Log($" 비용 : {shopItem.price} Energy 구매갯수 itemCnt : {shopItem.itemCnt}");
+                        this.Log($" Energy : {this.energy} / {this.maxEnergy}");
+
                         break;
 
                     case ShopItemType.ItemBoxSmall:
-                        this.energy += shopItem.itemCnt;
+
+                        this.Log($" 비용 : {shopItem.price} ItemBoxSmall 구매갯수 itemCnt : {shopItem.itemCnt}");
+
+                        _scrollView.SetActive(true);
+
                         break;
 
                     default:
@@ -133,17 +165,38 @@ public class InventoryManager : MonoBehaviour
                 }
                 break;
 
+            default:
+
+                _shopItemPopUp.SetActive(true);
+                break;
+
+        }
+    }
+
+    //구매팝업창 클릭시
+    public void confirmOK()
+    {
+        this.Log($" confirmOK shopItem.payType  {shopItem.payType}");
+
+        switch (shopItem.payType)
+        {
             case PayType.PAY:   //코인,다이아
 
                 switch (shopItem.shopItemType)
                 {
                     case ShopItemType.Coin:
                         this.coin += shopItem.itemCnt;
-                        this.Log($" coin : {this.coin}");
+
+                        this.Log($"현질 비용 : {shopItem.price} Coin 구매갯수 itemCnt : {shopItem.itemCnt}");
+                        this.Log($" coin : {this.coin} ");
+
                         break;
 
                     case ShopItemType.Diamond:
-                        this.energy += shopItem.itemCnt;
+                        this.diamond += shopItem.itemCnt;
+                        this.Log($"현질 비용 : {shopItem.price} Diamond 구매갯수 itemCnt : {shopItem.itemCnt}");
+                        this.Log($" Diamond : {this.diamond} ");
+
                         break;
 
                     default:
@@ -151,9 +204,23 @@ public class InventoryManager : MonoBehaviour
                 }
 
 
+
                 break;
 
             case PayType.DIAMOND:
+
+                switch (shopItem.shopItemType)
+                {
+                    case ShopItemType.ItemBoxLarge:
+                        this.coin += shopItem.itemCnt;
+                        this.Log($" DIAMOND  ItemBoxLarge : {this.coin}");
+
+                        _scrollView.SetActive(true);
+
+                        break;
+                    default:
+                        break;
+                }
                 break;
 
             default:
