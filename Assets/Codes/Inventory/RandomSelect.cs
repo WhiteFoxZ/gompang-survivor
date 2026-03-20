@@ -4,36 +4,63 @@ using System.Collections.Generic;
 public class RandomSelect : MonoBehaviour
 {
 
-    public List<GameItem> deck = new List<GameItem>();  // 카드 덱
-    public int total = 0;  // 카드들의 가중치 총 합
-
-    public List<GameItem> result = new List<GameItem>();  // 랜덤하게 선택된 카드를 담을 리스트
 
 
-    void Start()
+    [Header("가중치아이템")]
+    public List<GameItem> gameItemCommon,
+    //보통템 흰색
+    gameItemRare, //레어템  파란색
+    gameItemEpic, //에픽템  보라섹
+    gameItemLegendary;//전설템  노락색
+
+
+
+    //덱이미지를 보여줄
+    [Header("아이템이미지")]
+    public GameObject _scrollviewContents;
+
+    // 프리펩들을 보관할 변수
+    public GameObject _prefabs;
+
+
+    //보통템 
+    public GameItem getGameItemCommon()
     {
+
+        return RandomCard(gameItemCommon);
+    }
+
+    //레어템 
+    public GameItem getGameItemRare()
+    {
+        return RandomCard(gameItemRare);
+    }
+
+    //에픽템  
+    public GameItem getgameItemEpic()
+    {
+        return RandomCard(gameItemEpic);
+    }
+
+    //전설템  
+    public GameItem getgameItemLegendary()
+    {
+        return RandomCard(gameItemLegendary);
+    }
+
+
+
+    // 가중치 랜덤의 설명은 영상을 참고.
+    private GameItem RandomCard(List<GameItem> deck)
+    {
+        int total = 0;  // 카드들의 가중치 총 합
+
         for (int i = 0; i < deck.Count; i++)
         {
             // 스크립트가 활성화 되면 카드 덱의 모든 카드의 총 가중치를 구해줍니다.
             total += deck[i].weight;
         }
-        // 실행
-        ResultSelect();
-    }
 
-    public void ResultSelect()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            // 가중치 랜덤을 돌리면서 결과 리스트에 넣어줍니다.
-            result.Add(RandomCard());
-            // 비어 있는 카드를 생성하고
-        }
-    }
-
-    // 가중치 랜덤의 설명은 영상을 참고.
-    public GameItem RandomCard()
-    {
         int weight = 0;
         int selectNum = 0;
 
