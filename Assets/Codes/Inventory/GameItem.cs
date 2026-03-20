@@ -22,8 +22,23 @@ public class GameItem : ScriptableObject
     public float atkSpeed;     //공격스피드
 
 
-
     public Sprite image; //아이템 이미지
+    public int weight;  //가중치
+
+
+
+    public GameItem(GameItem gameItem)
+    {
+        this.itemRarity = gameItem.itemRarity;
+        this.gearType = gameItem.gearType;
+        this.level = gameItem.level;
+        this.atack = gameItem.atack;
+        this.defence = gameItem.defence;
+        this.moveSpeed = gameItem.moveSpeed;
+        this.atkSpeed = gameItem.atkSpeed;
+        this.image = gameItem.image;
+
+    }
 
 
 }

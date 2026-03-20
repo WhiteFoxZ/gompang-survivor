@@ -176,7 +176,7 @@ public class InventoryManager : MonoBehaviour
     //구매팝업창 클릭시
     public void confirmOK()
     {
-        this.Log($" confirmOK shopItem.payType  {shopItem.payType}");
+        this.Log($" confirmOK shopItem.payType  {shopItem.payType} 구매 : {shopItem.shopItemType}");
 
         switch (shopItem.payType)
         {
