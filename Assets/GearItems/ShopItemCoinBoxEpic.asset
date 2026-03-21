@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7aa6fed5b896f040a1530041ea5127f, type: 3}
-  m_Name: ShopItemCoinBoxMedium
+  m_Name: ShopItemCoinBoxEpic
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
   shopItemType: 4
   payType: 1

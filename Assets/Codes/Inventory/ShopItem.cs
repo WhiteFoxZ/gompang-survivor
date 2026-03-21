@@ -31,9 +31,10 @@ public enum ShopItemType
     Energy, //에너지
     Coin, //코인
     Diamond,    //다이아
-    ItemBoxSmall, //작은 아이템 박스
-    ItemBoxMedium, //중간 아이템 박스
-    ItemBoxLarge //큰 아이템 박스
+    ItemBoxCommon,
+    ItemBoxRare,
+    ItemBoxEpic,
+    ItemBoxLegendary
 }
 
 

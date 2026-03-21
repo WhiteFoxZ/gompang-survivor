@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7aa6fed5b896f040a1530041ea5127f, type: 3}
-  m_Name: ShopItemCoinBoxSmall
+  m_Name: ShopItemAdBoxCommon
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
   shopItemType: 3
-  payType: 1
+  payType: 0
   title: "\uAE30\uBCF8\uC7A5\uBE44"
-  price: 10
+  price: 0
   itemCnt: 1
   ImageItem: {fileID: -155058199, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
-  ImageAd: {fileID: 21300042, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  ImageAd: {fileID: -3731365355672283624, guid: 28eeedd67d8d963458c69f813e8d7c04, type: 3}

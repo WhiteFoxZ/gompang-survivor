@@ -152,7 +152,7 @@ public class InventoryManager : MonoBehaviour
 
                         break;
 
-                    case ShopItemType.ItemBoxSmall:
+                    case ShopItemType.ItemBoxCommon:
 
                         this.Log($" 비용 : {shopItem.price} ItemBoxSmall 구매갯수 itemCnt : {shopItem.itemCnt}");
 
@@ -203,17 +203,24 @@ public class InventoryManager : MonoBehaviour
                         break;
                 }
 
-
-
                 break;
 
-            case PayType.DIAMOND:
+
+            case PayType.COIN:
 
                 switch (shopItem.shopItemType)
                 {
-                    case ShopItemType.ItemBoxLarge:
-                        this.coin += shopItem.itemCnt;
-                        this.Log($" DIAMOND  ItemBoxLarge : {this.coin}");
+                    case ShopItemType.ItemBoxRare:
+                        this.coin -= shopItem.itemCnt;
+                        this.Log($" COIN  ItemBoxRare : {this.coin}");
+
+                        _scrollView.SetActive(true);
+
+                        break;
+
+                    case ShopItemType.ItemBoxEpic:
+                        this.coin -= shopItem.itemCnt;
+                        this.Log($" COIN  ItemBoxEpic : {this.coin}");
 
                         _scrollView.SetActive(true);
 
@@ -222,6 +229,23 @@ public class InventoryManager : MonoBehaviour
                         break;
                 }
                 break;
+
+            case PayType.DIAMOND:
+
+                switch (shopItem.shopItemType)
+                {
+                    case ShopItemType.ItemBoxLegendary:
+                        this.diamond -= shopItem.itemCnt;
+                        this.Log($" DIAMOND  ItemBoxLegendary : {this.diamond}");
+
+                        _scrollView.SetActive(true);
+
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
 
             default:
                 break;
