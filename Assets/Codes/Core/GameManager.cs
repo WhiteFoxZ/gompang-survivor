@@ -59,17 +59,9 @@ public class GameManager : MonoBehaviour
         //저장된 스테이지 정보 불러오기 (기본값 1)
         next_stage = PlayerPrefs.GetInt("NextStage", 1);
 
-        // 싱글톤 구현: 인스턴스가 이미 존재하면 자신을 파괴
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = this;
-
-        // 씬 전환 시 파괴되지 않도록 설정
-        DontDestroyOnLoad(gameObject);
+        //싱글톤 인스턴스 설정
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
 
     }
 

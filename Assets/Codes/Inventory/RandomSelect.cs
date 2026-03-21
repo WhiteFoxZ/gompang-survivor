@@ -4,14 +4,17 @@ using System.Collections.Generic;
 public class RandomSelect : MonoBehaviour
 {
 
+    [Header("보통아이템 1,2,3,4")]
+    public List<GameItem> gameItemCommon;//보통템 흰색
 
+    [Header("레어아이템 3,4,5,6")]
+    public List<GameItem> gameItemRare; //레어템  파란색
 
-    [Header("가중치아이템")]
-    public List<GameItem> gameItemCommon,
-    //보통템 흰색
-    gameItemRare, //레어템  파란색
-    gameItemEpic, //에픽템  보라섹
-    gameItemLegendary;//전설템  노락색
+    [Header("에픽아이템 6,7,8")]
+    public List<GameItem> gameItemEpic; //에픽템  보라섹
+
+    [Header("전설아이템 8,9,10")]
+    public List<GameItem> gameItemLegendary;//전설템  노락색
 
 
 

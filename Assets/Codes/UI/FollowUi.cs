@@ -21,6 +21,13 @@ public class FollowUi : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+        // Check if GameManager and player exist to avoid MissingReferenceException
+        if (GameManager.instance == null || GameManager.instance.player == null)
+        {
+            // Skip update if player doesn't exist
+            return;
+        }
+
         //타겟의 월드 좌표를 스크린 좌표로 변환하여 UI 위치 설정
         rect.position = Camera.main.WorldToScreenPoint(GameManager.instance.player.transform.position);
     }

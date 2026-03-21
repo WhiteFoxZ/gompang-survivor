@@ -3,6 +3,12 @@ using UnityEngine.Tilemaps;
 
 /// <summary>
 /// 게임 아이템 데이터 클래스 - ScriptableObject로 아이템 속성을 정의합니다.
+///
+// Common(일반): 가중치 60 (매우 흔함)
+// Rare (희귀): 가중치 30 (조금 드묾)
+// Epic (에픽): 가중치 8 (매우 드묾)
+// Legendary (전설): 가중치 2 (최상위 희귀도)
+// 합계 : 100
 /// </summary>
 [CreateAssetMenu(fileName = "GearItem", menuName = "ScriptableObjects/GearItem", order = 1)]
 public class GameItem : ScriptableObject
@@ -65,4 +71,5 @@ public enum ItemRarity
     Epic, //에픽템  보라섹
     Legendary,//전설템  노락색
 }
+
 

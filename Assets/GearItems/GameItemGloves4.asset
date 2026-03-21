@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: GameItemGloves4
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  itemRarity: 0
+  itemRarity: 1
   gearType: 0
   level: 0
   atack: 0.05
