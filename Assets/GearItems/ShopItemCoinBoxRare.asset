@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7aa6fed5b896f040a1530041ea5127f, type: 3}
   m_Name: ShopItemCoinBoxRare
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
-  shopItemType: 3
+  shopItemType: 4
   payType: 1
-  title: "\uAE30\uBCF8\uC7A5\uBE44"
+  title: "\uB808\uC5B4\uC7A5\uBE44"
   price: 10
   itemCnt: 1
   ImageItem: {fileID: -155058199, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,8 +37,17 @@ public class InventoryManager : MonoBehaviour
 
     ShopItem shopItem;
 
+    [Header("아이템_스크롤뷰")]
+    public GameObject _scrollViewContent;   //확인버튼 클릭시 아이템박스 종류에 따른 이미지를 추가
+
+    public GameObject _randomSelect;    //박스종류별 아이템 이미지를 가져온다.
 
 
+    [Header("아이템_이미지 Prefab")]
+    public GameObject _scrollViewItemImage;    // 아이템 이미지를 Prefab.
+
+
+    ShopItemType nowShopItemType;
 
     /// <summary>
     /// 시작 시 호출 - 싱글톤 설정 및 초기화
@@ -158,7 +168,14 @@ public class InventoryManager : MonoBehaviour
 
                         _scrollView.SetActive(true);
 
-                        
+                        List<GameItem> items = _randomSelect.GetComponent<RandomSelect>().gameItemCommon;
+
+                        if (nowShopItemType != ShopItemType.ItemBoxCommon)
+                            InitScrollViewContent(items);
+
+                        _scrollView.GetComponent<AutoHorizontalStop>().OnClickConfirm(items.Count);    //이미지움직이게
+
+                        nowShopItemType = ShopItemType.ItemBoxCommon;
 
                         break;
 
@@ -176,9 +193,11 @@ public class InventoryManager : MonoBehaviour
     }
 
     //구매팝업창 클릭시
-    public void confirmOK()
+    public void ConfirmOK()
     {
         this.Log($" confirmOK shopItem.payType  {shopItem.payType} 구매 : {shopItem.shopItemType}");
+
+        List<GameItem> items;
 
         switch (shopItem.payType)
         {
@@ -218,6 +237,15 @@ public class InventoryManager : MonoBehaviour
 
                         _scrollView.SetActive(true);
 
+                        items = _randomSelect.GetComponent<RandomSelect>().gameItemRare;
+
+                        if (nowShopItemType != ShopItemType.ItemBoxRare)
+                            InitScrollViewContent(items);
+
+                        _scrollView.GetComponent<AutoHorizontalStop>().OnClickConfirm(items.Count);    //이미지움직이게
+
+                        nowShopItemType = ShopItemType.ItemBoxRare;
+
                         break;
 
                     case ShopItemType.ItemBoxEpic:
@@ -225,6 +253,15 @@ public class InventoryManager : MonoBehaviour
                         this.Log($" COIN  ItemBoxEpic : {this.coin}");
 
                         _scrollView.SetActive(true);
+
+                        items = _randomSelect.GetComponent<RandomSelect>().gameItemRare;
+
+                        if (nowShopItemType != ShopItemType.ItemBoxRare)
+                            InitScrollViewContent(items);
+
+                        _scrollView.GetComponent<AutoHorizontalStop>().OnClickConfirm(items.Count);    //이미지움직이게
+
+                        nowShopItemType = ShopItemType.ItemBoxRare;
 
                         break;
                     default:
@@ -242,6 +279,16 @@ public class InventoryManager : MonoBehaviour
 
                         _scrollView.SetActive(true);
 
+                        items = _randomSelect.GetComponent<RandomSelect>().gameItemLegendary;
+
+                        if (nowShopItemType != ShopItemType.ItemBoxLegendary)
+                            InitScrollViewContent(items);
+
+                        _scrollView.GetComponent<AutoHorizontalStop>().OnClickConfirm(items.Count);    //이미지움직이게
+
+
+                        nowShopItemType = ShopItemType.ItemBoxLegendary;
+
                         break;
                     default:
                         break;
@@ -255,5 +302,21 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+
+    private void InitScrollViewContent(List<GameItem> items)
+    {
+        foreach (Transform child in _scrollViewContent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+
+        foreach (GameItem item in items)
+        {
+            GameObject obj = Instantiate(_scrollViewItemImage, _scrollViewContent.transform);
+            obj.GetComponent<Image>().sprite = item.image;
+        }
+
+    }
 
 }

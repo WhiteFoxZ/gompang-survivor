@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7aa6fed5b896f040a1530041ea5127f, type: 3}
   m_Name: ShopItemCoinBoxEpic
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
-  shopItemType: 4
+  shopItemType: 5
   payType: 1
   title: "\uC5D0\uD53D\uC7A5\uBE44"
   price: 100

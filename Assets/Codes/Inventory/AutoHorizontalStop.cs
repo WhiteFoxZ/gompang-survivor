@@ -4,9 +4,14 @@ using UnityEngine.UI;
 public class AutoHorizontalStop : MonoBehaviour
 {
     public ScrollRect scrollRect;
+
+    [Header("멈출때까지시간")]
     public float duration = 20f;       // 총 걸리는 시간 (20초)
+
     public int targetIndex = 20;       // 멈출 이미지 번호
     public int totalImages = 100;      // 전체 이미지 개수
+
+    [Header("속도(돌리기횟수)")]
     public int loopCount = 5;          // 20초 동안 전체를 몇 번 왕복할지 (속도감 결정)
 
     private float timer = 0f;
@@ -17,17 +22,36 @@ public class AutoHorizontalStop : MonoBehaviour
 
     public GameObject _itemImge;  //스크롤뷰가 활성화시 보이지 않케
 
-    public GameObject _scrollViewContent;   //확인버튼 클릭시 아이템박스 종류에 따른 이미지를 추가
+    public GameObject _randomSelect;    //박스종류별 아이템 이미지를 가져온다.
 
-    // 버튼에 연결할 함수
-    void OnEnable()
+
+    // 버튼클릭시
+    public void OnClickConfirm(int totalImages)
     {
+
+        this.totalImages = totalImages;
+
         timer = 0f;
         isFinished = false;
-        Debug.Log("스크롤 시작!");
+
+        _itemImge.SetActive(false);
+        _itemBoxBtn.GetComponent<Button>().interactable = false;
+
+        Debug.Log("OnConfirmClick 시작!");
     }
 
+    void OnDisable()
+    {
+        timer = 0f;
+        isFinished = true;
 
+        _itemImge.SetActive(true);
+
+
+        _itemBoxBtn.GetComponent<Button>().interactable = true;
+
+        Debug.Log("OnDisable");
+    }
 
 
     void Update()
@@ -54,6 +78,8 @@ public class AutoHorizontalStop : MonoBehaviour
         {
             scrollRect.horizontalNormalizedPosition = targetPos; // 정확한 위치 고정
             isFinished = true;
+
+            _itemBoxBtn.GetComponent<Button>().interactable = true;
         }
     }
 }
