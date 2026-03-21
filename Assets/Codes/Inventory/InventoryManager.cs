@@ -158,6 +158,8 @@ public class InventoryManager : MonoBehaviour
 
                         _scrollView.SetActive(true);
 
+                        
+
                         break;
 
                     default:

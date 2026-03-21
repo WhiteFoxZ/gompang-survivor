@@ -289,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 347beeda8c60aa44b87ea32bc65119fb, type: 2}
     - target: {fileID: 6112932507890949734, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_Name
-      value: ShopItemCoinBoxSmall
+      value: ShopItemCoinBoxRare
       objectReference: {fileID: 0}
     - target: {fileID: 7126700284709670222, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1442,7 +1442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &301557547
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1549,6 +1549,9 @@ MonoBehaviour:
   targetIndex: 4
   totalImages: 6
   loopCount: 20
+  _itemBoxBtn: {fileID: 1807321752}
+  _itemImge: {fileID: 1880738444}
+  _scrollViewContent: {fileID: 387082973}
 --- !u!1 &323631216
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,7 +2085,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: cf10f8045a8f6ef4b89ab3b478845569, type: 2}
     - target: {fileID: 6112932507890949734, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_Name
-      value: ShopItemAdBoxSmall
+      value: ShopItemAdBoxCommon
       objectReference: {fileID: 0}
     - target: {fileID: 7126700284709670222, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -4966,7 +4969,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 05ad0614e7ae2794790025d0fe0635e1, type: 2}
     - target: {fileID: 6112932507890949734, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_Name
-      value: ShopItemCoinBoxMedium
+      value: ShopItemCoinBoxEpic
       objectReference: {fileID: 0}
     - target: {fileID: 7126700284709670222, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6271,7 +6274,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ccf93c9e31c81c548bedb675e253ef35, type: 2}
     - target: {fileID: 6112932507890949734, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_Name
-      value: ShopItemDiamondBoxLarge
+      value: ShopItemDiamondBoxLegendary
       objectReference: {fileID: 0}
     - target: {fileID: 7126700284709670222, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -8661,7 +8664,7 @@ GameObject:
   - component: {fileID: 1807321755}
   - component: {fileID: 1807321754}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: ItemBoxBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

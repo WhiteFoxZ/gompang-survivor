@@ -13,6 +13,12 @@ public class AutoHorizontalStop : MonoBehaviour
     private bool isFinished = true;
 
 
+    public GameObject _itemBoxBtn;  //확인 버튼을 활성화,비활성화 위해
+
+    public GameObject _itemImge;  //스크롤뷰가 활성화시 보이지 않케
+
+    public GameObject _scrollViewContent;   //확인버튼 클릭시 아이템박스 종류에 따른 이미지를 추가
+
     // 버튼에 연결할 함수
     void OnEnable()
     {
