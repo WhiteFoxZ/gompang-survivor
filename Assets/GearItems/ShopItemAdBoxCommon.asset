@@ -17,5 +17,5 @@ MonoBehaviour:
   title: "\uAE30\uBCF8\uC7A5\uBE44"
   price: 0
   itemCnt: 1
-  ImageItem: {fileID: -155058199, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
+  ImageItem: {fileID: -38345435, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   ImageAd: {fileID: -3731365355672283624, guid: 28eeedd67d8d963458c69f813e8d7c04, type: 3}

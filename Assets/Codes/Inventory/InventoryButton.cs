@@ -15,11 +15,33 @@ public class InventoryButton : MonoBehaviour
 
     public bool deckFree = true;
 
+    Button btn;
+
+
+    public void Awake()
+    {
+        //해당버튼 클릭 못하도록 인터랙션 비활성화
+        btn = GetComponent<Button>();
+        btn.interactable = false;
+
+        //버튼 이미지와 텍스트 null로 초기화
+        if (_buttonImage != null)
+        {
+            _buttonImage.sprite = null;
+        }
+
+        if (_buttonText != null)
+        {
+            _buttonText.text = null;
+        }
+    }
+
 
 
     public void Init(GameItem gameItems)
     {
         this._gameItems = gameItems;
+        btn.interactable = true;
 
         if (_inventoryManager == null)
         {
@@ -35,7 +57,7 @@ public class InventoryButton : MonoBehaviour
         _buttonImage = GetComponentsInChildren<Image>()[1];
         _buttonText = GetComponentInChildren<Text>();
 
-        if (_buttonImage != null && _gameItems.image != null)
+        if (_buttonImage != null)
         {
             _buttonImage.sprite = _gameItems.image; // 버튼 이미지 설정
         }
@@ -73,15 +95,15 @@ public class InventoryButton : MonoBehaviour
             _darkBackground.enabled = true; // 아이템이 추가되면 어두운 배경 비활성화
 
             //해당버튼 클릭 못하도록 인터랙션 비활성화
-            GetComponent<Button>().interactable = false;
+            btn.interactable = false;
 
             //버튼 이미지와 텍스트 null로 초기화
-            if (_buttonImage != null && _gameItems.image != null)
+            if (_buttonImage != null)
             {
                 _buttonImage.sprite = null;
             }
 
-            if (_buttonText != null && _gameItems.name != null)
+            if (_buttonText != null)
             {
                 _buttonText.text = null;
             }
