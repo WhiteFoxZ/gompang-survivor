@@ -22,31 +22,28 @@ public class RandomSelect : MonoBehaviour
     [Header("아이템이미지")]
     public GameObject _scrollviewContents;
 
-    // 프리펩들을 보관할 변수
-    public GameObject _prefabs;
-
 
     //보통템 
-    public GameItem getGameItemCommon()
+    public int GetGameItemCommon()
     {
 
         return RandomCard(gameItemCommon);
     }
 
     //레어템 
-    public GameItem getGameItemRare()
+    public int GetGameItemRare()
     {
         return RandomCard(gameItemRare);
     }
 
     //에픽템  
-    public GameItem getgameItemEpic()
+    public int GetGameItemEpic()
     {
         return RandomCard(gameItemEpic);
     }
 
     //전설템  
-    public GameItem getgameItemLegendary()
+    public int GetGameItemLegendary()
     {
         return RandomCard(gameItemLegendary);
     }
@@ -54,7 +51,7 @@ public class RandomSelect : MonoBehaviour
 
 
     // 가중치 랜덤의 설명은 영상을 참고.
-    private GameItem RandomCard(List<GameItem> deck)
+    private int RandomCard(List<GameItem> deck)
     {
         int total = 0;  // 카드들의 가중치 총 합
 
@@ -75,11 +72,14 @@ public class RandomSelect : MonoBehaviour
             if (selectNum <= weight)
             {
                 GameItem temp = new GameItem(deck[i]);
-                return temp;
+                return i;
             }
         }
-        return null;
+        return 0;
     }
+
+
+
 
 
 

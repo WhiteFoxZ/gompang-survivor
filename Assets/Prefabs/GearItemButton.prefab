@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryButton
   _inventoryManager: {fileID: 0}
-  _gameItems: {fileID: 11400000, guid: aee385fcda60f78409256a9eb2df7308, type: 2}
+  _gameItems: {fileID: 11400000, guid: 00bd9c792ef17c246a6d17203bfa04f9, type: 2}
 --- !u!1 &5364780508706822125
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class InventoryButton : MonoBehaviour
 
 
 
-    public void Start()
+    public void Init(GameItem _gameItems)
     {
         if (_inventoryManager == null)
         {

@@ -8,8 +8,8 @@ public class AutoHorizontalStop : MonoBehaviour
     [Header("멈출때까지시간")]
     public float duration = 20f;       // 총 걸리는 시간 (20초)
 
-    public int targetIndex = 20;       // 멈출 이미지 번호
-    public int totalImages = 100;      // 전체 이미지 개수
+    public int targetIndex = -1;       // 멈출 이미지 번호
+    public int totalImages = 0;      // 전체 이미지 개수
 
     [Header("속도(돌리기횟수)")]
     public int loopCount = 5;          // 20초 동안 전체를 몇 번 왕복할지 (속도감 결정)
@@ -25,19 +25,52 @@ public class AutoHorizontalStop : MonoBehaviour
     public GameObject _randomSelect;    //박스종류별 아이템 이미지를 가져온다.
 
 
+    [Header("구매한 장비아이템 버튼들")]
+    public GameObject[] _gearItemButton; //구매한 장비아이템 버튼들
+
+
     // 버튼클릭시
-    public void OnClickConfirm(int totalImages)
+    public void OnClickConfirm(int totalImages, ShopItemType shopItemType)
     {
+        RandomSelect random = _randomSelect.GetComponent<RandomSelect>();
+        int itemIndex = 0;
 
+        if (shopItemType == ShopItemType.ItemBoxCommon)
+        {
+            itemIndex = random.GetGameItemCommon();
+            Debug.Log($"ItemBoxCommon 시작! itemIndex : {itemIndex}");
+        }
+        else if (shopItemType == ShopItemType.ItemBoxRare)
+        {
+            itemIndex = random.GetGameItemRare();
+            Debug.Log($"ItemBoxRare 시작! itemIndex : {itemIndex}");
+        }
+        else if (shopItemType == ShopItemType.ItemBoxEpic)
+        {
+            itemIndex = random.GetGameItemEpic();
+            Debug.Log($"ItemBoxEpic 시작! itemIndex : {itemIndex}");
+        }
+        else if (shopItemType == ShopItemType.ItemBoxLegendary)
+        {
+            itemIndex = random.GetGameItemLegendary();
+            Debug.Log($"ItemBoxLegendary 시작! itemIndex : {itemIndex}");
+        }
+
+        targetIndex = itemIndex;
         this.totalImages = totalImages;
-
         timer = 0f;
         isFinished = false;
 
         _itemImge.SetActive(false);
         _itemBoxBtn.GetComponent<Button>().interactable = false;
 
-        Debug.Log("OnConfirmClick 시작!");
+
+        foreach (GameObject button in _gearItemButton)
+        {
+
+            // button.GetComponent<InventoryButton>().Init(_gameItems);
+        }
+
     }
 
     void OnDisable()
