@@ -6,7 +6,7 @@ public class ItemBoxUi : MonoBehaviour
 
     public ShopItem _shopItem;
 
-    private Text[] buttonText;
+    private Text[] titleTxt;
     private Image ImageItem;
 
     private Image ImageAd;
@@ -15,8 +15,19 @@ public class ItemBoxUi : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+
+        // public ShopItemType shopItemType; //상점 아이템 유형
+        // public PayType payType; //결제 유형
+
+
+        // public string title;
+        // public int price; //가격
+        // public int itemCnt; //충천갯수    
+
+        this.Log($" _shopItem : {_shopItem} ");
         // 자식중에 text 컴포넌트중 2번째 text 에 _shopItem에 itemCnt을 보여준다
-        buttonText = GetComponentsInChildren<Text>();
+        titleTxt = GetComponentsInChildren<Text>();
 
 
         //자신하위에 이미지를 이름으로 찾는다
@@ -48,23 +59,22 @@ public class ItemBoxUi : MonoBehaviour
         switch (_shopItem.payType)
         {
             case PayType.PAY:
-                buttonText[0].text = _shopItem.itemCnt.ToString();
+
+
+                titleTxt[0].text = _shopItem.itemCnt.ToString();
                 break;
 
-
             case PayType.AD:
-                buttonText[0].text = _shopItem.title;
+            case PayType.COIN:
+            case PayType.DIAMOND:
+
+                titleTxt[0].text = _shopItem.title;
                 break;
 
 
         }
 
-
-
-
-
-
-        buttonText[1].text = _shopItem.price == 0 ? "무료" : _shopItem.price.ToString();
+        titleTxt[1].text = _shopItem.price == 0 ? "무료" : _shopItem.price.ToString();
 
 
 
