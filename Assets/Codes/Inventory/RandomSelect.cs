@@ -72,6 +72,8 @@ public class RandomSelect : MonoBehaviour
             if (selectNum <= weight)
             {
                 GameItem temp = new GameItem(deck[i]);
+
+                
                 return i;
             }
         }

@@ -34,25 +34,30 @@ public class AutoHorizontalStop : MonoBehaviour
     {
         RandomSelect random = _randomSelect.GetComponent<RandomSelect>();
         int itemIndex = 0;
+        GameItem gameItem = null;
 
         if (shopItemType == ShopItemType.ItemBoxCommon)
         {
             itemIndex = random.GetGameItemCommon();
+            gameItem = random.gameItemCommon[itemIndex];
             Debug.Log($"ItemBoxCommon 시작! itemIndex : {itemIndex}");
         }
         else if (shopItemType == ShopItemType.ItemBoxRare)
         {
             itemIndex = random.GetGameItemRare();
+            gameItem = random.gameItemRare[itemIndex];
             Debug.Log($"ItemBoxRare 시작! itemIndex : {itemIndex}");
         }
         else if (shopItemType == ShopItemType.ItemBoxEpic)
         {
             itemIndex = random.GetGameItemEpic();
+            gameItem = random.gameItemEpic[itemIndex];
             Debug.Log($"ItemBoxEpic 시작! itemIndex : {itemIndex}");
         }
         else if (shopItemType == ShopItemType.ItemBoxLegendary)
         {
             itemIndex = random.GetGameItemLegendary();
+            gameItem = random.gameItemLegendary[itemIndex];
             Debug.Log($"ItemBoxLegendary 시작! itemIndex : {itemIndex}");
         }
 
@@ -64,11 +69,18 @@ public class AutoHorizontalStop : MonoBehaviour
         _itemImge.SetActive(false);
         _itemBoxBtn.GetComponent<Button>().interactable = false;
 
-
+        //장비덱 버튼에 추가
         foreach (GameObject button in _gearItemButton)
         {
+            InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
 
-            // button.GetComponent<InventoryButton>().Init(_gameItems);
+            this.Log($" inventoryButton.deckFree : {inventoryButton.deckFree}");
+            if (inventoryButton.deckFree)
+            {
+                inventoryButton.Init(gameItem);
+                break;
+            }
+
         }
 
     }

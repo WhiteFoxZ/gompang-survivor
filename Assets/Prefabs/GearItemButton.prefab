@@ -149,7 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryButton
   _inventoryManager: {fileID: 0}
-  _gameItems: {fileID: 11400000, guid: 00bd9c792ef17c246a6d17203bfa04f9, type: 2}
+  _gameItems: {fileID: 0}
+  deckFree: 1
 --- !u!1 &5364780508706822125
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,7 +216,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7248594915933479845, guid: a0680b31f3236354cba8d9d1e0a94003, type: 3}
+  m_Sprite: {fileID: -155058199, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1

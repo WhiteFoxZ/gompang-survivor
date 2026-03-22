@@ -13,10 +13,14 @@ public class InventoryButton : MonoBehaviour
 
     private Image _darkBackground; // 아이템이 없는 경우 어두운 배경 이미지
 
+    public bool deckFree = true;
 
 
-    public void Init(GameItem _gameItems)
+
+    public void Init(GameItem gameItems)
     {
+        this._gameItems = gameItems;
+
         if (_inventoryManager == null)
         {
             Debug.LogError("InventoryManager reference is missing!");
@@ -45,8 +49,10 @@ public class InventoryButton : MonoBehaviour
         _darkBackground = GetComponentsInChildren<Image>()[2];
         if (_darkBackground != null)
         {
-            _darkBackground.enabled = false; // 아이템이 없는 경우 어두운 배경 활성화
+            _darkBackground.enabled = false; // 아이템이 있는경우 어두운 배경 비활성화
         }
+
+        deckFree = false;
 
     }
 
@@ -79,6 +85,8 @@ public class InventoryButton : MonoBehaviour
             {
                 _buttonText.text = null;
             }
+
+            deckFree = true;
         }
         else
         {

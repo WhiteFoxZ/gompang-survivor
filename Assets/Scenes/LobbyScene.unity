@@ -1868,7 +1868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AutoHorizontalStop
   scrollRect: {fileID: 301557548}
-  duration: 10
+  duration: 5
   targetIndex: 4
   totalImages: 6
   loopCount: 5
@@ -7626,7 +7626,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93855891f0e6c264d9bb106303fa8d8c, type: 2}
   - {fileID: 11400000, guid: 9ce1a86a30ffdb84abb6197ba666de65, type: 2}
   _scrollviewContents: {fileID: 387082973}
-  _prefabs: {fileID: 0}
 --- !u!1 &1226115293
 GameObject:
   m_ObjectHideFlags: 0
