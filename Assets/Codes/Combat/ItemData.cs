@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// 아이템 데이터 클래스 - ScriptableObject로 아이템 속성을 정의합니다.
+/// 게임내에서 플레이어에 경험치 증가에 따른 무기아이템 - ScriptableObject로 아이템 속성을 정의합니다.
 /// </summary>
 [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData", order = 1)]
 public class ItemData : ScriptableObject
