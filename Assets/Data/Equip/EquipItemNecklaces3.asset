@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
-  m_Name: GameItemRings4
+  m_Name: EquipItemNecklaces3
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
   itemRarity: 0
-  gearType: 0
-  level: 0
+  gearType: 2
+  level: 1
   atack: 0.05
   defence: 0.05
   moveSpeed: 0.05
   atkSpeed: 0.05
-  image: {fileID: 21300000, guid: f2c25ec43a8949a4f97735170fad1e8c, type: 3}
-  weight: 100
+  image: {fileID: 21300000, guid: 982891f0e235d3a48a1f922d29e65e2c, type: 3}
+  weight: 60

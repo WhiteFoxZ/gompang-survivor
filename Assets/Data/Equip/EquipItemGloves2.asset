@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
-  m_Name: GameItemGloves6
+  m_Name: EquipItemGloves2
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
   itemRarity: 0
   gearType: 0
@@ -19,5 +19,5 @@ MonoBehaviour:
   defence: 0.05
   moveSpeed: 0.05
   atkSpeed: 0.05
-  image: {fileID: 21300000, guid: 8e3c0765fb790434eb3f2260423da8fe, type: 3}
-  weight: 100
+  image: {fileID: 21300000, guid: c934a695880d5c8408520c24893c3b5f, type: 3}
+  weight: 60
