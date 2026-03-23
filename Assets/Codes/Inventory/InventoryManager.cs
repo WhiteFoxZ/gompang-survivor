@@ -36,7 +36,7 @@ public class InventoryManager : MonoBehaviour
     public int maxEnergy = 0;
 
 
-    ShopItem shopItem;
+    ShopItemSO shopItem;
 
     [Header("아이템_스크롤뷰")]
     public GameObject _scrollViewContent;   //확인버튼 클릭시 아이템박스 종류에 따른 이미지를 추가
@@ -132,7 +132,7 @@ public class InventoryManager : MonoBehaviour
 
 
 
-    public void ShopItemClick(ShopItem shopItem)
+    public void ShopItemClick(ShopItemSO shopItem)
     {
 
         this.shopItem = shopItem;

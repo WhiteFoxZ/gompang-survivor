@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ItemBoxUi : MonoBehaviour
 {
 
-    public ShopItem _shopItem;
+    public ShopItemSO _shopItem;
 
     private Text[] titleTxt;
     private Image ImageItem;

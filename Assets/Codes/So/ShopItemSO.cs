@@ -4,7 +4,7 @@ using UnityEngine;
 /// 게임 아이템 데이터 클래스 - ScriptableObject로 아이템 속성을 정의합니다.
 /// </summary>
 [CreateAssetMenu(fileName = "ShopItem", menuName = "ScriptableObjects/ShopItem", order = 1)]
-public class ShopItem : ScriptableObject
+public class ShopItemSO : ScriptableObject
 {
 
     public ShopItemType shopItemType; //상점 아이템 유형
