@@ -11,7 +11,7 @@ public class PlayerInfoLobby : MonoBehaviour
 
 
     [Header("장착장비")]
-    public GameItem[] gameItems;
+    public EquipmentSO[] gameItems;
 
 
     public InventorySlot[] _inventorySlots; //인벤토리 슬롯 배열

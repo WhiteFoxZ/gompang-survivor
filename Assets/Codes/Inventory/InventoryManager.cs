@@ -75,7 +75,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="newItem">추가할 아이템</param>
     /// <returns>추가 성공 여부</returns>
-    public bool AddItem(GameItem newItem)
+    public bool AddItem(EquipmentSO newItem)
     {
         //먼저 기존 아이템과 스택 가능한지 확인
         for (int i = 0; i < _inventorySlots.Length; i++)
@@ -122,7 +122,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="item">생성할 아이템 데이터</param>
     /// <param name="slot">생성할 슬롯</param>
-    void SpawnNewItem(GameItem item, InventorySlot slot)
+    void SpawnNewItem(EquipmentSO item, InventorySlot slot)
     {
         //프리팹からインスタンス生成
         GameObject newItemGameObj = Instantiate(_inventoryItemPrefabs, slot.transform);
@@ -169,7 +169,7 @@ public class InventoryManager : MonoBehaviour
 
                         _scrollView.SetActive(true);
 
-                        List<GameItem> items = _randomSelect.GetComponent<RandomSelect>().gameItemCommon;
+                        List<EquipmentSO> items = _randomSelect.GetComponent<RandomSelect>().gameItemCommon;
 
                         if (nowShopItemType != ShopItemType.ItemBoxCommon)
                             InitScrollViewContent(items);
@@ -198,7 +198,7 @@ public class InventoryManager : MonoBehaviour
     {
         this.Log($" confirmOK shopItem.payType  {shopItem.payType} 구매 : {shopItem.shopItemType}");
 
-        List<GameItem> items;
+        List<EquipmentSO> items;
 
         switch (shopItem.payType)
         {
@@ -303,7 +303,7 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    private void InitScrollViewContent(List<GameItem> items)
+    private void InitScrollViewContent(List<EquipmentSO> items)
     {
         foreach (Transform child in _scrollViewContent.transform)
         {
@@ -311,7 +311,7 @@ public class InventoryManager : MonoBehaviour
         }
 
 
-        foreach (GameItem item in items)
+        foreach (EquipmentSO item in items)
         {
             GameObject obj = Instantiate(_scrollViewItemImage, _scrollViewContent.transform);
             obj.GetComponent<Image>().sprite = item.image;

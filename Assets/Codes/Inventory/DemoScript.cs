@@ -8,7 +8,7 @@ public class DemoScript : MonoBehaviour
 
     public InventoryManager _inventoryManager; // 인벤토리 관리자 참조
 
-    public GameItem[] _gameItemsToPickup; // 테스트용 획득 아이템 배열
+    public EquipmentSO[] _gameItemsToPickup; // 테스트용 획득 아이템 배열
 
 
     /// <summary>

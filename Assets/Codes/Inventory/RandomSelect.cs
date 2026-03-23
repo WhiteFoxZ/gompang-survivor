@@ -5,16 +5,16 @@ public class RandomSelect : MonoBehaviour
 {
 
     [Header("보통아이템 1,2,3,4")]
-    public List<GameItem> gameItemCommon;//보통템 흰색
+    public List<EquipmentSO> gameItemCommon;//보통템 흰색
 
     [Header("레어아이템 3,4,5,6")]
-    public List<GameItem> gameItemRare; //레어템  파란색
+    public List<EquipmentSO> gameItemRare; //레어템  파란색
 
     [Header("에픽아이템 6,7,8")]
-    public List<GameItem> gameItemEpic; //에픽템  보라섹
+    public List<EquipmentSO> gameItemEpic; //에픽템  보라섹
 
     [Header("전설아이템 8,9,10")]
-    public List<GameItem> gameItemLegendary;//전설템  노락색
+    public List<EquipmentSO> gameItemLegendary;//전설템  노락색
 
 
 
@@ -51,7 +51,7 @@ public class RandomSelect : MonoBehaviour
 
 
     // 가중치 랜덤의 설명은 영상을 참고.
-    private int RandomCard(List<GameItem> deck)
+    private int RandomCard(List<EquipmentSO> deck)
     {
         int total = 0;  // 카드들의 가중치 총 합
 
@@ -71,9 +71,9 @@ public class RandomSelect : MonoBehaviour
             weight += deck[i].weight;
             if (selectNum <= weight)
             {
-                GameItem temp = new GameItem(deck[i]);
+                EquipmentSO temp = new EquipmentSO(deck[i]);
 
-                
+
                 return i;
             }
         }

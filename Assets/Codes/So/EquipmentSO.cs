@@ -10,8 +10,8 @@ using UnityEngine.Tilemaps;
 // Legendary (전설): 가중치 2 (최상위 희귀도)
 // 합계 : 100
 /// </summary>
-[CreateAssetMenu(fileName = "GearItem", menuName = "ScriptableObjects/GearItem", order = 1)]
-public class GameItem : ScriptableObject
+[CreateAssetMenu(fileName = "EquipmentSO", menuName = "ScriptableObjects/EquipmentSO", order = 1)]
+public class EquipmentSO : ScriptableObject
 {
     [Header("Only gameplay")]
     public ItemRarity itemRarity; //등급
@@ -33,7 +33,7 @@ public class GameItem : ScriptableObject
 
 
 
-    public GameItem(GameItem gameItem)
+    public EquipmentSO(EquipmentSO gameItem)
     {
         this.itemRarity = gameItem.itemRarity;
         this.gearType = gameItem.gearType;

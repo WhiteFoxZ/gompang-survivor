@@ -13,7 +13,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Text _countText; //개수 텍스트
 
     [HideInInspector]
-    public GameItem gameItem; //게임 아이템 데이터
+    public EquipmentSO gameItem; //게임 아이템 데이터
 
     [HideInInspector]
     public int count = 1; //아이템 개수
@@ -26,7 +26,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// 아이템 초기화
     /// </summary>
     /// <param name="newitem">새로운 아이템 데이터</param>
-    public void InitialiseItem(GameItem newitem)
+    public void InitialiseItem(EquipmentSO newitem)
     {
         gameItem = newitem;
         itemImage.sprite = newitem.image;

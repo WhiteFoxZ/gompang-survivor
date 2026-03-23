@@ -35,7 +35,7 @@ public class AutoHorizontalStop : MonoBehaviour
     {
         RandomSelect random = _randomSelect.GetComponent<RandomSelect>();
         int itemIndex = 0;
-        GameItem gameItem = null;
+        EquipmentSO gameItem = null;
 
         if (shopItemType == ShopItemType.ItemBoxCommon)
         {

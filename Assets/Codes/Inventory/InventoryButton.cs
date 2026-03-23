@@ -6,7 +6,7 @@ public class InventoryButton : MonoBehaviour
 
     public InventoryManager _inventoryManager; // 인벤토리 관리자 참조
 
-    public GameItem _gameItems; // 테스트용 획득 아이템 배열
+    public EquipmentSO _gameItems; // 테스트용 획득 아이템 배열
 
     private Image _buttonImage; // 버튼 이미지 컴포넌트
     private Text _buttonText; // 버튼 텍스트 컴포넌트
@@ -38,7 +38,7 @@ public class InventoryButton : MonoBehaviour
 
 
 
-    public void Init(GameItem gameItems)
+    public void Init(EquipmentSO gameItems)
     {
         this._gameItems = gameItems;
         btn.interactable = true;
