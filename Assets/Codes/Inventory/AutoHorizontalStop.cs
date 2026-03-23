@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//스크롤뷰에서 여러이미지중에 duration 기간동안 이미지를 보여주다.특정이미지를 마지막에 보여준다.
 public class AutoHorizontalStop : MonoBehaviour
 {
     public ScrollRect scrollRect;
