@@ -12,6 +12,7 @@ public class InventoryManager : MonoBehaviour
 
     const int maxStackItems = 5; //최대 스택 개수
 
+    [Header("장비장착정보")]
     public InventorySlot[] _inventorySlots; //인벤토리 슬롯 배열
 
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
