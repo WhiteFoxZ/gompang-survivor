@@ -13,7 +13,7 @@ public class AutoHorizontalStop : MonoBehaviour
     public int totalImages = 0;      // 전체 이미지 개수
 
     [Header("속도(돌리기횟수)")]
-    public int loopCount = 5;          // 20초 동안 전체를 몇 번 왕복할지 (속도감 결정)
+    public int loopCount = 3;          // 20초 동안 전체를 몇 번 왕복할지 (속도감 결정)
 
     private float timer = 0f;
     private bool isFinished = true;
@@ -102,30 +102,34 @@ public class AutoHorizontalStop : MonoBehaviour
 
     void Update()
     {
-        if (isFinished || scrollRect == null) return;
+        if (isFinished || scrollRect == null || totalImages <= 1) return;
 
         timer += Time.deltaTime;
-        float t = Mathf.Clamp01(timer / duration);
+        float t = timer / duration;
 
-        // 1. 속도감 연출: Ease-Out (처음엔 빠르고 끝에 느려짐)
-        // t를 보정하여 초반에 훨씬 더 많이 움직이게 만듭니다.
+        // 1. Ease-Out 큐빅 베지어 (초반엔 빠르고 끝에 아주 천천히 멈춤)
         float curve = 1f - Mathf.Pow(1f - t, 3f);
 
-        // 2. 전체 이동 거리 계산
-        // (전체 한 바퀴 * 루프 횟수) + 최종 목표 위치
-        float targetPos = (float)(targetIndex - 1) / (totalImages - 1);
-        float totalMovement = loopCount + targetPos;
+        // 2. 최종 목표 normalized 위치 (0.0 ~ 1.0)
+        // 0번째 이미지는 0, 마지막 이미지는 1에 위치함
+        float finalTargetPos = (float)targetIndex / (totalImages - 1);
 
-        // 3. 실제 적용 (NormalizedPosition은 0~1 사이여야 하므로 % 1 사용)
-        float currentPos = (curve * totalMovement) % 1.0001f;
-        scrollRect.horizontalNormalizedPosition = currentPos;
+        // 3. 총 이동해야 할 '양' (루프 횟수 + 최종 위치)
+        float totalDistance = loopCount + finalTargetPos;
+
+        // 4. 현재 위치 계산 (0~1 사이로 반복되다가 마지막에 finalTargetPos에 도달)
+        float currentPos = (curve * totalDistance);
+
+        // ScrollRect의 위치를 업데이트 (1.0을 넘어가면 나머지 값으로 순환 효과)
+        scrollRect.horizontalNormalizedPosition = currentPos % 1.0001f;
 
         if (t >= 1f)
         {
-            scrollRect.horizontalNormalizedPosition = targetPos; // 정확한 위치 고정
+            // 마지막에 정확한 위치로 고정
+            scrollRect.horizontalNormalizedPosition = finalTargetPos;
             isFinished = true;
-
             _itemBoxBtn.GetComponent<Button>().interactable = true;
         }
     }
+
 }
