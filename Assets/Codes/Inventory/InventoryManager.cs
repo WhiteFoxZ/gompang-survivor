@@ -17,7 +17,7 @@ public class InventoryManager : MonoBehaviour
 
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
 
-    public GameObject _scrollView; //팝업창에서 램덤아이템 이미지
+
 
 
     [Header("아이템구매팝업창")]
@@ -38,14 +38,17 @@ public class InventoryManager : MonoBehaviour
 
     ShopItemSO shopItem;
 
-    [Header("아이템_스크롤뷰")]
-    public GameObject _scrollViewContent;   //확인버튼 클릭시 아이템박스 종류에 따른 이미지를 추가
+    [Header("장비아이템_스크롤뷰")]
+    public GameObject _scrollView; //장비아이템 팝업창에서 구매확인 클릭시 이미지는 숨기고 스크롧뷰이미지를 보여주기위해
+
+    [Header("장비아이템_스크롤뷰_컨텐츠")]
+    public GameObject _scrollViewContent;   //확인버튼 클릭시 아이템박스 종류에 따른 이미지를 추가(램덤박스로부터 가져온다.)
 
     public GameObject _randomSelect;    //박스종류별 아이템 이미지를 가져온다.
 
 
-    [Header("아이템_이미지 Prefab")]
-    public GameObject _scrollViewItemImage;    // 아이템 이미지를 Prefab.
+    [Header("장비아이템_이미지 Prefab")]
+    public GameObject _scrollViewItemImagePrefab;    // 아이템 이미지를 Prefab.
 
 
     ShopItemType nowShopItemType;
@@ -302,7 +305,9 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-
+    /**
+    장비아이템 구매 확인 팝업창에서 스크롤뷰를 초기화 한다. RandomSelect 로부턴 아이템박스 종류별로 가져온다.
+    **/
     private void InitScrollViewContent(List<EquipmentSO> items)
     {
         foreach (Transform child in _scrollViewContent.transform)
@@ -313,7 +318,7 @@ public class InventoryManager : MonoBehaviour
 
         foreach (EquipmentSO item in items)
         {
-            GameObject obj = Instantiate(_scrollViewItemImage, _scrollViewContent.transform);
+            GameObject obj = Instantiate(_scrollViewItemImagePrefab, _scrollViewContent.transform);
             obj.GetComponent<Image>().sprite = item.image;
         }
 

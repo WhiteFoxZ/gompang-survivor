@@ -7,7 +7,7 @@ public class AutoHorizontalStop : MonoBehaviour
     public ScrollRect scrollRect;
 
     [Header("멈출때까지시간")]
-    public float duration = 20f;       // 총 걸리는 시간 (20초)
+    public float duration = 15f;       // 총 걸리는 시간 (20초)
 
     public int targetIndex = -1;       // 멈출 이미지 번호
     public int totalImages = 0;      // 전체 이미지 개수
@@ -75,7 +75,7 @@ public class AutoHorizontalStop : MonoBehaviour
         {
             InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
 
-            this.Log($" inventoryButton.deckFree : {inventoryButton.deckFree}");
+            this.Log($" 장비덱 버튼에 추가 : {inventoryButton.deckFree}");
             if (inventoryButton.deckFree)
             {
                 inventoryButton.Init(gameItem);

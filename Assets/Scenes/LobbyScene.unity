@@ -4292,7 +4292,6 @@ MonoBehaviour:
   - {fileID: 92756845}
   - {fileID: 538878396}
   _inventoryItemPrefabs: {fileID: 2195778712710251881, guid: d0f4ed9183f65d146a3c68d4ff109226, type: 3}
-  _scrollView: {fileID: 301557546}
   _shopItemPopUp: {fileID: 1543002481}
   _itemName: {fileID: 1488783740}
   _itemImge: {fileID: 1880738446}
@@ -4302,9 +4301,10 @@ MonoBehaviour:
   diamond: 0
   energy: 0
   maxEnergy: 0
+  _scrollView: {fileID: 301557546}
   _scrollViewContent: {fileID: 387082973}
   _randomSelect: {fileID: 1217294395}
-  _scrollViewItemImage: {fileID: 7518722505722133717, guid: 3728057afe4a5f7468d8d9f04c5343b0, type: 3}
+  _scrollViewItemImagePrefab: {fileID: 7518722505722133717, guid: 3728057afe4a5f7468d8d9f04c5343b0, type: 3}
 --- !u!4 &671021414
 Transform:
   m_ObjectHideFlags: 0

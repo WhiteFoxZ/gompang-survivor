@@ -19,7 +19,7 @@ public class RandomSelect : MonoBehaviour
 
 
     //덱이미지를 보여줄
-    [Header("아이템이미지")]
+    [Header("팝업창_램덤_장비이미지")]
     public GameObject _scrollviewContents;
 
 
