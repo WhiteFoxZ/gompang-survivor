@@ -15,15 +15,19 @@ public class AutoHorizontalStop : MonoBehaviour
     [Header("속도(돌리기횟수)")]
     public int loopCount = 3;          // 20초 동안 전체를 몇 번 왕복할지 (속도감 결정)
 
+    [Header("장비팝업창 구매확인버튼")]
+    public GameObject _itemBoxBtn;  //확인 버튼을 활성화,비활성화 위해
+
+    [Header("장비팝업창 장비박스이미지")]
+    public GameObject _itemImge;  //스크롤뷰가 활성화시 보이지 않케
+
+    public GameObject _randomSelect;    //박스종류별 장비 이미지를 가져온다.
+
+
     private float timer = 0f;
     private bool isFinished = true;
 
 
-    public GameObject _itemBoxBtn;  //확인 버튼을 활성화,비활성화 위해
-
-    public GameObject _itemImge;  //스크롤뷰가 활성화시 보이지 않케
-
-    public GameObject _randomSelect;    //박스종류별 아이템 이미지를 가져온다.
 
 
     [Header("구매한 장비아이템 버튼들")]
