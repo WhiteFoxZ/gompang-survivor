@@ -6,6 +6,7 @@ public class InventoryButton : MonoBehaviour
 
     public InventoryManager _inventoryManager; // 인벤토리 관리자 참조
 
+    [HideInInspector]
     public EquipmentSO _gameItems; // 테스트용 획득 아이템 배열
 
     private Image _buttonImage; // 버튼 이미지 컴포넌트
@@ -109,6 +110,8 @@ public class InventoryButton : MonoBehaviour
             }
 
             deckFree = true;
+
+            DataManager.instance.Save();
         }
         else
         {

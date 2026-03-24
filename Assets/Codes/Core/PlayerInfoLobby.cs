@@ -10,17 +10,6 @@ public class PlayerInfoLobby : MonoBehaviour
 
 
 
-    [Header("장착장비")]
-    public EquipmentSO[] gameItems;
-
-
-    public InventorySlot[] _inventorySlots; //인벤토리 슬롯 배열
-
-    public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
-
-
-
-
 
     /// <summary>
     /// 시작 시 호출 - 싱글톤 설정 및 초기화
@@ -46,35 +35,6 @@ public class PlayerInfoLobby : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-
-        this.Log($" Start : ************************** ");
-
-        _inventorySlots = InventoryManager.instance._inventorySlots;
-
-
-
-        // public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
-
-
-
-
-        //빈 슬롯에 새로운 아이템 추가
-        for (int i = 0; i < _inventorySlots.Length; i++)
-        {
-            InventorySlot slot = _inventorySlots[i];
-            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
-
-            //빈 슬롯이면
-            if (itemSlot != null)
-            {
-                //새 아이템 생성
-
-                this.Log($" objname : {itemSlot}");
-            }
-        }
-
-
 
 
 
