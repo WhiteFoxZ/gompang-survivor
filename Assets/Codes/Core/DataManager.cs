@@ -35,10 +35,10 @@ public class DataManager : MonoBehaviour
     }
 
 
-    public void Save()
-    {
-        path = Application.persistentDataPath + "/";
 
+    //장비덱 있는 아이템 저장
+    public void InventorySlots()
+    {
         InventorySlot[] _inventorySlots = InventoryManager.instance._inventorySlots;    //장착한아이템
 
         InventoryItem itemSlot;
@@ -57,30 +57,33 @@ public class DataManager : MonoBehaviour
 
         }
 
+    }
+
+    //장바구니 버튼에 있는 아이템 저장
+    public void GearItemButton()
+    {
+        GameObject[] _gearItemButton = InventoryManager.instance._gearItemButton;    //장착한아이템
+
+        EquipmentSO equipmentItem;
+
+        foreach (GameObject button in _gearItemButton)
+        {
+            InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
+
+            equipmentItem = inventoryButton._equipmentItem;
+
+            if (equipmentItem != null)
+                playerInfo.buttonItems.Add(equipmentItem.id);
+
+        }
+    }
+
+
+    public void Save()
+    {
+        path = Application.persistentDataPath + "/";
 
         print(path);
-
-
-
-        // InventorySlot[] _inventorySlots = InventoryManager.instance._inventorySlots;    //장착한아이템
-
-        // InventoryItem itemSlot;
-
-        // EquipmentSO equipmentSO;
-
-        // foreach (InventorySlot slot in _inventorySlots)
-        // {
-        //     itemSlot = slot.GetComponentInChildren<InventoryItem>();
-        //     if (itemSlot != null)
-        //     {
-        //         equipmentSO = itemSlot.gameItem;
-        //         if (equipmentSO != null)
-        //             playerInfo.slotItems.Add(equipmentSO.id);
-        //     }
-
-        // }
-
-
 
         // string data = JsonUtility.ToJson(playerInfo);
 

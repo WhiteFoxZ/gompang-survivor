@@ -7,7 +7,7 @@ public class InventoryButton : MonoBehaviour
     public InventoryManager _inventoryManager; // 인벤토리 관리자 참조
 
     [HideInInspector]
-    public EquipmentSO _gameItems; // 테스트용 획득 아이템 배열
+    public EquipmentSO _equipmentItem; // 테스트용 획득 아이템 배열
 
     private Image _buttonImage; // 버튼 이미지 컴포넌트
     private Text _buttonText; // 버튼 텍스트 컴포넌트
@@ -39,9 +39,9 @@ public class InventoryButton : MonoBehaviour
 
 
 
-    public void Init(EquipmentSO gameItems)
+    public void Init(EquipmentSO equipmentItem)
     {
-        this._gameItems = gameItems;
+        this._equipmentItem = equipmentItem;
         btn.interactable = true;
 
         if (_inventoryManager == null)
@@ -49,23 +49,23 @@ public class InventoryButton : MonoBehaviour
             Debug.LogError("InventoryManager reference is missing!");
         }
 
-        if (_gameItems == null)
+        if (_equipmentItem == null)
         {
             Debug.LogError("GameItem reference is missing!");
         }
-        //_gameItems 에 이미지를 넣어주세요. 그래야 인벤토리에 아이템이 보입니다.
+        //_equipmentItem 에 이미지를 넣어주세요. 그래야 인벤토리에 아이템이 보입니다.
 
         _buttonImage = GetComponentsInChildren<Image>()[1];
         _buttonText = GetComponentInChildren<Text>();
 
         if (_buttonImage != null)
         {
-            _buttonImage.sprite = _gameItems.image; // 버튼 이미지 설정
+            _buttonImage.sprite = _equipmentItem.image; // 버튼 이미지 설정
         }
 
-        if (_buttonText != null && _gameItems.name != null)
+        if (_buttonText != null && _equipmentItem.name != null)
         {
-            _buttonText.text = _gameItems.name; // 버튼 텍스트 설정
+            _buttonText.text = _equipmentItem.name; // 버튼 텍스트 설정
         }
 
         // 아이템이 없는 경우 어두운 배경 이미지 설정
@@ -87,11 +87,11 @@ public class InventoryButton : MonoBehaviour
     public void pickupItem()
     {
         //인벤토리에 아이템 추가 시도
-        bool result = _inventoryManager.AddItem(_gameItems);
+        bool result = _inventoryManager.AddItem(_equipmentItem);
 
         if (result)
         {
-            this.Log("item added: " + _gameItems.name);
+            this.Log("item added: " + _equipmentItem.name);
 
             _darkBackground.enabled = true; // 아이템이 추가되면 어두운 배경 비활성화
 
@@ -110,8 +110,6 @@ public class InventoryButton : MonoBehaviour
             }
 
             deckFree = true;
-
-            DataManager.instance.Save();
         }
         else
         {
