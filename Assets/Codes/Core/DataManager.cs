@@ -141,6 +141,8 @@ public class DataManager : MonoBehaviour
             foreach (EquipItem item in saveData.slotItems)
             {
 
+                // item.id 와 같은 EquipmentSO 를 찾아 .초기화 한다.
+
             }
 
 
@@ -222,6 +224,8 @@ public class EquipItem
         this.atkSpeed = gameItem.atkSpeed;
 
     }
+
+
 
 
 }

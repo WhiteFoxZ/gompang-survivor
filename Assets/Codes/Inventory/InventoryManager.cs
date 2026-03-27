@@ -76,7 +76,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 아이템 추가 - 인벤토리에 아이템을 추가합니다.
+    /// 아이템 추가 - 장비덱에 아이템을 추가합니다.
     /// </summary>
     /// <param name="newItem">추가할 아이템</param>
     /// <returns>추가 성공 여부</returns>
