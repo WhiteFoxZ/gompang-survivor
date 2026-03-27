@@ -21,4 +21,4 @@ MonoBehaviour:
   moveSpeed: 0.05
   atkSpeed: 0.05
   image: {fileID: 21300000, guid: 161d4730f36de6b42ad214d0d33e423d, type: 3}
-  weight: 60
+  weight: 100

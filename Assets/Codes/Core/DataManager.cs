@@ -12,7 +12,7 @@ using System;
 public class DataManager : MonoBehaviour
 {
 
-    public static DataManager instance;  //싱글톤 인스턴스
+    public static DataManager instance;
 
     PlayerData playerInfo = new PlayerData();
 
@@ -21,6 +21,7 @@ public class DataManager : MonoBehaviour
 
     void Awake()
     {
+
         // 싱글톤 구현: 인스턴스가 이미 존재하면 자신을 파괴
         if (instance != null && instance != this)
         {
@@ -52,10 +53,18 @@ public class DataManager : MonoBehaviour
             {
                 equipmentSO = itemSlot.gameItem;
                 if (equipmentSO != null)
-                    playerInfo.slotItems.Add(equipmentSO.id);
+                {
+                    EquipItem item = new EquipItem(equipmentSO);
+                    playerInfo.slotItems.Add(item);
+                }
+                else
+                    print("******InventorySlots is null ****");
+
             }
 
         }
+
+        Save();
 
     }
 
@@ -70,12 +79,25 @@ public class DataManager : MonoBehaviour
         {
             InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
 
-            equipmentItem = inventoryButton._equipmentItem;
+            if (!inventoryButton.deckFree)
+            {
+                equipmentItem = inventoryButton._equipmentItem;
 
-            if (equipmentItem != null)
-                playerInfo.buttonItems.Add(equipmentItem.id);
+
+
+                if (equipmentItem != null)
+                {
+                    EquipItem item = new EquipItem(equipmentItem);
+                    playerInfo.buttonItems.Add(item);
+                }
+                else
+                    print("******buttonItems is null ****");
+            }
+
 
         }
+
+        Save();
     }
 
 
@@ -106,30 +128,34 @@ public class DataManager : MonoBehaviour
             // 1. JSON 파일 읽기
             string json = File.ReadAllText(filePath);
 
+            print("LoadData ");
             print(json);
 
 
             // 2. 저장용 클래스로 역직렬화
             PlayerData saveData = JsonConvert.DeserializeObject<PlayerData>(json);
 
-            // 3. 실제 게임 데이터(PlayerInfo)에 값 복사
-            PlayerData info = new PlayerData();
-            // info.playerinfoLV = saveData.playerinfoLV;
 
 
-            // 4. 아이템 이름으로 실제 SO 에셋 로드 (Resources.Load 사용 예시)
-            foreach (string itemName in saveData.slotItems)
+
+            foreach (EquipItem item in saveData.slotItems)
             {
-                EquipmentSO equipmentSO = Resources.Load<EquipmentSO>($"Items/{itemName}");
 
-                //인벤토리에 slot 에 추가해야함.
-
-                print("인벤토리에 slot 에 추가해야함.");
-
-                this.Log($" EquipmentSO : {equipmentSO}");
-
-                // if (so != null) info.slotItems.Add(so);
             }
+
+
+            //saveData 에 _inventorySlots 은 EquipmentTop 자식 InventorySlot 에  
+            InventoryManager inventory = InventoryManager.instance.GetComponent<InventoryManager>();
+
+            InventorySlot[] inventorySlots = inventory._inventorySlots;
+
+            foreach (InventorySlot slot in inventorySlots)
+            {
+                this.Log($" InventorySlot : {slot}");
+            }
+
+
+
 
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
         }
@@ -158,8 +184,44 @@ public class PlayerData
     public Dictionary<string, int> Talents { get; set; } // 특성 ID와 강화 레벨
 
     // 4. 장비 , 인벤토리,SO 객체 대신 ID(이름) 리스트를 저장합니다.
-    public List<string> slotItems = new List<string>();
-    public List<string> buttonItems = new List<string>();
+    public List<EquipItem> slotItems = new List<EquipItem>();
+    public List<EquipItem> buttonItems = new List<EquipItem>();
+
+
+}
+
+[System.Serializable]
+public class EquipItem
+{
+    public string id;
+    public ItemRarity itemRarity; //등급
+    public GearType gearType; //착용아이템 유형
+
+    public int level = 1;
+
+    public float atack;  //공격력
+    public float defence;    //방어력
+    public float moveSpeed;    //움직임
+
+    public float atkSpeed;     //공격스피드
+
+    public EquipItem()
+    {
+
+    }
+
+    public EquipItem(EquipmentSO gameItem)
+    {
+        this.id = gameItem.id;
+        this.itemRarity = gameItem.itemRarity;
+        this.gearType = gameItem.gearType;
+        this.level = gameItem.level;
+        this.atack = gameItem.atack;
+        this.defence = gameItem.defence;
+        this.moveSpeed = gameItem.moveSpeed;
+        this.atkSpeed = gameItem.atkSpeed;
+
+    }
 
 
 }

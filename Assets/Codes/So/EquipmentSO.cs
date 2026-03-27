@@ -30,6 +30,8 @@ public class EquipmentSO : ScriptableObject
 
 
     public Sprite image; //아이템 이미지
+
+    [Header("뽑힐확율")]
     public int weight;  //가중치
 
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: EquipItemGloves6
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  id: EquipItemGloves6
+  id: Gloves6
   itemRarity: 1
   gearType: 3
   level: 0
@@ -21,4 +21,4 @@ MonoBehaviour:
   moveSpeed: 0.05
   atkSpeed: 0.05
   image: {fileID: 21300000, guid: 8e3c0765fb790434eb3f2260423da8fe, type: 3}
-  weight: 100
+  weight: 80

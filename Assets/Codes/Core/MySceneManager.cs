@@ -26,10 +26,6 @@ public class MySceneManager : MonoBehaviour
     {
         // 'lobby'라는 이름의 씬으로 이동합니다.
         SceneManager.LoadScene("lobby");
-
-        DataManager.instance.LoadData();
-
-
     }
 
 
