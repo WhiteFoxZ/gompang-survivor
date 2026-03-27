@@ -14,6 +14,7 @@ using UnityEngine.Tilemaps;
 public class EquipmentSO : ScriptableObject
 {
     [Header("Only gameplay")]
+    public string id;
     public ItemRarity itemRarity; //등급
     public GearType gearType; //착용아이템 유형
 
@@ -35,6 +36,7 @@ public class EquipmentSO : ScriptableObject
 
     public EquipmentSO(EquipmentSO gameItem)
     {
+        this.id = gameItem.id;
         this.itemRarity = gameItem.itemRarity;
         this.gearType = gameItem.gearType;
         this.level = gameItem.level;
@@ -54,13 +56,14 @@ public class EquipmentSO : ScriptableObject
 /// </summary>
 public enum GearType
 {
-    Weapon, //무기
+    Dron, //드론
+    Ring,
     Belt, //허리띠
     Gloves,//장갑
     Armor, //갑옷
     Necklace,//목거리
-    Shoes//신발
-
+    Shoes,//신발
+    Weapon
 }
 
 //아이템등급

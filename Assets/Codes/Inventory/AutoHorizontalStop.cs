@@ -30,8 +30,8 @@ public class AutoHorizontalStop : MonoBehaviour
 
 
 
-    [Header("구매한 장비아이템 버튼들")]
-    public GameObject[] _gearItemButton; //구매한 장비아이템 버튼들
+
+
 
 
     // 버튼클릭시
@@ -74,7 +74,10 @@ public class AutoHorizontalStop : MonoBehaviour
         _itemImge.SetActive(false);
         _itemBoxBtn.GetComponent<Button>().interactable = false;
 
-        //장비덱 버튼에 추가
+        //장바구니 버튼들
+        GameObject[] _gearItemButton = InventoryManager.instance._gearItemButton;
+
+        //비어있는 장바구니 버튼 아이템추가
         foreach (GameObject button in _gearItemButton)
         {
             InventoryButton inventoryButton = button.GetComponent<InventoryButton>();

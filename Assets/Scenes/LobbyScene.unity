@@ -1883,35 +1883,6 @@ MonoBehaviour:
   _itemBoxBtn: {fileID: 1807321752}
   _itemImge: {fileID: 1880738444}
   _randomSelect: {fileID: 1217294395}
-  _gearItemButton:
-  - {fileID: 1361874649}
-  - {fileID: 1102519924}
-  - {fileID: 247653246}
-  - {fileID: 440535007}
-  - {fileID: 895680198}
-  - {fileID: 1725742560}
-  - {fileID: 314103351}
-  - {fileID: 1319201146}
-  - {fileID: 1553470322}
-  - {fileID: 1870963865}
-  - {fileID: 112759966}
-  - {fileID: 2130191538}
-  - {fileID: 693341471}
-  - {fileID: 1896814752}
-  - {fileID: 1286926567}
-  - {fileID: 1499184313}
-  - {fileID: 580257357}
-  - {fileID: 900253608}
-  - {fileID: 546650460}
-  - {fileID: 603238020}
-  - {fileID: 754427986}
-  - {fileID: 808276701}
-  - {fileID: 2141046648}
-  - {fileID: 922020232}
-  - {fileID: 2060705934}
-  - {fileID: 1416727832}
-  - {fileID: 395300830}
-  - {fileID: 501541786}
 --- !u!1 &314103351 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 969461134448215909, guid: 4ced5273c52fe0149ba33b01c3e390c9, type: 3}
@@ -4292,6 +4263,35 @@ MonoBehaviour:
   - {fileID: 92756845}
   - {fileID: 538878396}
   _inventoryItemPrefabs: {fileID: 2195778712710251881, guid: d0f4ed9183f65d146a3c68d4ff109226, type: 3}
+  _gearItemButton:
+  - {fileID: 1361874649}
+  - {fileID: 1102519924}
+  - {fileID: 247653246}
+  - {fileID: 440535007}
+  - {fileID: 895680198}
+  - {fileID: 1725742560}
+  - {fileID: 314103351}
+  - {fileID: 1319201146}
+  - {fileID: 1553470322}
+  - {fileID: 1870963865}
+  - {fileID: 112759966}
+  - {fileID: 2130191538}
+  - {fileID: 693341471}
+  - {fileID: 1896814752}
+  - {fileID: 1286926567}
+  - {fileID: 1499184313}
+  - {fileID: 580257357}
+  - {fileID: 900253608}
+  - {fileID: 546650460}
+  - {fileID: 603238020}
+  - {fileID: 754427986}
+  - {fileID: 808276701}
+  - {fileID: 2141046648}
+  - {fileID: 922020232}
+  - {fileID: 2060705934}
+  - {fileID: 1416727832}
+  - {fileID: 395300830}
+  - {fileID: 501541786}
   _shopItemPopUp: {fileID: 1543002481}
   _itemName: {fileID: 1488783740}
   _itemImge: {fileID: 1880738446}

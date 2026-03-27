@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: EquipItemRings3
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
+  id: R03
   itemRarity: 0
-  gearType: 0
+  gearType: 1
   level: 0
   atack: 0.05
   defence: 0.05

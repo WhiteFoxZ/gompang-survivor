@@ -17,6 +17,8 @@ public class InventoryManager : MonoBehaviour
 
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
 
+    [Header("구매한 장비아이템 버튼들")]
+    public GameObject[] _gearItemButton; //구매한 장비아이템 버튼들
 
 
 
@@ -196,7 +198,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    //구매팝업창 클릭시
+    //구매팝업창 클릭시 램덤박스를 호출해서 램덤한 아이템이 나온다.
     public void ConfirmOK()
     {
         this.Log($" confirmOK shopItem.payType  {shopItem.payType} 구매 : {shopItem.shopItemType}");
