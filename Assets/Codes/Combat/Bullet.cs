@@ -6,6 +6,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 
+    public string name; //무기이름
+    public ItemData.ItemType itemType;
     public float damage; //총알 데미지
     public float per; //총알 관통력
     public float knockback; //넉백 세기
@@ -38,6 +40,7 @@ public class Bullet : MonoBehaviour
     /// <param name="knockbackRate">넉백 확률</param>
     public void Init(float damage, float per, Vector3 dir, float knockback = 3f, float knockbackRate = 1f)
     {
+
         this.damage = damage;
         this.per = per;
         this.knockback = knockback;

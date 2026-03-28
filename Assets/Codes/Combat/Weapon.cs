@@ -121,8 +121,7 @@ public class Weapon : MonoBehaviour
                 //장비적용
                 speed = speed * (1 + equipItem.atkSpeed);
 
-                this.Log($"장비적용  근접 : {speed:F4}");
-
+                this.Log($"장비적용  근접 회전속도 : {speed:F4}");
 
                 Plcae(); //무기 배치
 
@@ -135,7 +134,7 @@ public class Weapon : MonoBehaviour
                 //장비적용
                 speed = speed / (1 + equipItem.atkSpeed);
 
-                this.Log($"장비적용 총 : {speed:F4}");
+                this.Log($"장비적용 총 발사속도 : {speed:F4}");
 
                 hand = player.hands[1]; //원거리 무기는 오른손
                 break;
@@ -146,7 +145,7 @@ public class Weapon : MonoBehaviour
                 // 공식: 실제 장전 시간 = 기본 장전 시간 / (1 + 장전 속도 증가율)
                 //장비적용
                 speed = speed / (1 + equipItem.atkSpeed);
-                this.Log($"장비적용 missle : {speed:F4}");
+                this.Log($"장비적용 missle 발사속도 : {speed:F4}");
 
                 hand = player.hands[2]; //미사일은 등
                 break;

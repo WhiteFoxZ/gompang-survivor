@@ -170,5 +170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6284cc960829fca4cb2dc83d55b019aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
+  name: "\uCD1D"
+  itemType: 1
   damage: 0
   per: 0
+  knockback: 0
+  knockbackRate: 0

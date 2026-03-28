@@ -130,8 +130,6 @@ public class Enemy : MonoBehaviour
         {
             Bullet bullet = collision.GetComponent<Bullet>();
 
-            // Bullet 0
-
             // Bullet 컴포넌트가 있으면 일반 총알 처리
             if (bullet != null)
             {
@@ -143,7 +141,15 @@ public class Enemy : MonoBehaviour
                 float knockbackRate = bullet.knockbackRate;
                 float appliedKnockback = (Random.value <= knockbackRate) ? knockback : 0f;
 
-                this.Log($"총알,삽 Damage: {damage}, Knockback: {appliedKnockback}");
+                if (bullet.itemType == ItemData.ItemType.Melee)
+                {
+                    this.Log($"삽 Damage: {damage}, Knockback: {appliedKnockback}  ");
+                }
+                else if (bullet.itemType == ItemData.ItemType.Range)
+                {
+                    this.Log($"총알 Damage: {damage}, Knockback: {appliedKnockback} ");
+                }
+
 
                 //데미지 적용 (넉백 값 포함)
                 TakeDamage(damage, appliedKnockback);
