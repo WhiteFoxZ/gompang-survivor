@@ -16,7 +16,7 @@ public class Item : MonoBehaviour
     Text itemName; //이름 텍스트
     Text itemDesc; //설명 텍스트
 
-    
+
 
 
     /// <summary>
@@ -71,7 +71,7 @@ public class Item : MonoBehaviour
 
             default:
                 //기타: 설명만 표시
-                itemDesc.text = string.Format(data.itemDesc);
+                itemDesc.text = string.Format(data.itemDesc, data.baseDamage);
                 break;
         }
 
