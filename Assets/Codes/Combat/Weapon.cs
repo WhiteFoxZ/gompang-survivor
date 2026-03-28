@@ -18,12 +18,16 @@ public class Weapon : MonoBehaviour
 
     Player player; //플레이어 참조
 
+    PlayerData playerData;  //플레이어 장비,재능
+
     /// <summary>
     /// 시작 시 호출 - 플레이어 참조 가져오기
     /// </summary>
     void Awake()
     {
         player = GameManager.instance.player;
+        //작비적용
+        playerData = GameManager.instance.playerData;
     }
 
 
@@ -105,24 +109,46 @@ public class Weapon : MonoBehaviour
 
         Hand hand = null; //손 참조
 
+        //장비 적용
+        EquipItem equipItem = playerData.GetTotalSlotStats();
 
         //무기 유형에 따른 초기화
         switch (itemData.itemID)
         {
-            case 0: //삽 (근접 무기)
+            case 0: //삽 (근접 무기) 숫자가 커야 속도가 빨라짐
                 speed = 150 * Character.WeaponSpeed;
+
+                //장비적용
+                speed = speed * (1 + equipItem.atkSpeed);
+
+                this.Log($"장비적용  근접 : {speed:F4}");
+
+
                 Plcae(); //무기 배치
 
                 hand = player.hands[0]; //근접 무기는 왼손
                 break;
-            case 1: //원거리 무기
+            case 1: //원거리 무기 작아야 발사속도가 빨라짐
                 speed = 0.3f * Character.WeaponRate;    //1초에 3번발사
+
+                // 공식: 실제 장전 시간 = 기본 장전 시간 / (1 + 장전 속도 증가율)
+                //장비적용
+                speed = speed / (1 + equipItem.atkSpeed);
+
+                this.Log($"장비적용 총 : {speed:F4}");
+
                 hand = player.hands[1]; //원거리 무기는 오른손
                 break;
 
             case 6: //missle 무기
                 speed = 2.0f; // 미사일 발사 간격 (2초당 1회)
-                hand = player.hands[2]; //미사일은 왼손
+
+                // 공식: 실제 장전 시간 = 기본 장전 시간 / (1 + 장전 속도 증가율)
+                //장비적용
+                speed = speed / (1 + equipItem.atkSpeed);
+                this.Log($" missle : {speed:F4}");
+
+                hand = player.hands[2]; //미사일은 등
                 break;
 
             default:

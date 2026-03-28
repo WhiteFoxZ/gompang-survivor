@@ -13,6 +13,8 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     public enum DownType { Item, Exp, Map }
 
     const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
+
+    //게임시간,MAX_STAGE
     const string EXP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:J";
 
     [Header("게임 Item Data")]
@@ -126,7 +128,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //itemDatas 에 정보를 로그로 출력 (테스트용)
         foreach (var item in itemDatas)
         {
-            Debug.Log($" 유형: {item.itemType},아이템: {item.itemName},설명: {item.itemDesc}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
+            // Debug.Log($" 유형: {item.itemType},아이템: {item.itemName},설명: {item.itemDesc}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
         }
 
     }
@@ -151,7 +153,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
             maxGameStage = int.Parse(column[1]);
             extExp = Array.ConvertAll(column[2].Split(','), int.Parse);
 
-            Debug.Log($"maxGameTime: {maxGameTime}, maxGameStage: {maxGameStage}, extExp: {string.Join(",", extExp)}");
+            // Debug.Log($"maxGameTime: {maxGameTime}, maxGameStage: {maxGameStage}, extExp: {string.Join(",", extExp)}");
         }
 
         GameManager.instance.SetMaxGameTime(maxGameTime);

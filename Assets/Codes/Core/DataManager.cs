@@ -135,8 +135,8 @@ public class DataManager : MonoBehaviour
             // 1. JSON 파일 읽기
             string json = File.ReadAllText(filePath);
 
-            print("*********** LoadData *********");
-            this.Log(json);
+            // print("*********** LoadData *********");
+            // this.Log(json);
 
             // 2. 저장용 클래스로 역직렬화
             PlayerData saveData = JsonConvert.DeserializeObject<PlayerData>(json);
@@ -159,7 +159,7 @@ public class DataManager : MonoBehaviour
         {
             if (!equipmentDict.ContainsKey(eq.id))
             {
-                this.Log($" equipmentDict : {eq.id}");
+                // this.Log($" equipmentDict : {eq.id}");
                 equipmentDict.Add(eq.id, eq);
             }
         }
@@ -168,7 +168,7 @@ public class DataManager : MonoBehaviour
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
             {
-                this.Log($" InventoryManager.instance.AddItem : {equipmentToAdd}");
+                // this.Log($" InventoryManager.instance.AddItem : {equipmentToAdd}");
                 InventoryManager.instance.AddItem(equipmentToAdd);
             }
             else
@@ -182,7 +182,7 @@ public class DataManager : MonoBehaviour
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
             {
-                this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentToAdd}");
+                // this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentToAdd}");
                 InventoryManager.instance.AddButtonDeck(equipmentToAdd);
             }
             else
@@ -237,6 +237,9 @@ public class PlayerData
             total.defence += item.defence * itemLevelModifier;
             total.moveSpeed += item.moveSpeed * itemLevelModifier;
             total.atkSpeed += item.atkSpeed * itemLevelModifier;
+
+            // this.Log(total.atack + "   " + itemLevelModifier);
+
         }
 
         // 2. 최종 결과에 플레이어 레벨 보정(1%당)을 추가 적용

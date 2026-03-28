@@ -65,6 +65,11 @@ public class Player : MonoBehaviour
     {
         //기본 속도 설정 (캐릭터별 보정)
         speed = defaultSpeed * Character.Speed;
+
+        //장비 적용
+        EquipItem equipItem = playerData.GetTotalSlotStats();
+        speed = speed + equipItem.moveSpeed;
+
         //애니메이션 컨트롤러 설정
         animator.runtimeAnimatorController = animCon[GameManager.instance.playerId];
     }

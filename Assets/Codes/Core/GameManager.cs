@@ -46,9 +46,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject enemyCleaner; //적 정리기
 
-
-
-
+    public PlayerData playerData;  //플레이어 장비,재능
 
 
     /// <summary>
@@ -64,6 +62,9 @@ public class GameManager : MonoBehaviour
         //싱글톤 인스턴스 설정
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
+        //장비적용
+        playerData = DataManager.instance.LoadData();
 
     }
 
@@ -110,7 +111,14 @@ public class GameManager : MonoBehaviour
         }
 
         this.playerId = playerId;
+
+        //장비 적용
+        EquipItem equipItem = playerData.GetTotalSlotStats();
+
+        maxHealth = maxHealth * (1 + equipItem.level * 0.01f);
+
         health = maxHealth; //체력 초기화
+
         player.gameObject.SetActive(true);
 
         uiLevelup.Select(0);
