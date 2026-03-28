@@ -3034,7 +3034,7 @@ MonoBehaviour:
   maxStage: 100
   playerId: 0
   health: 100
-  maxHealth: 100
+  maxHealth: 99999
   level: 0
   kill: 0
   exp: 0
@@ -3045,6 +3045,9 @@ MonoBehaviour:
   uiResult: {fileID: 28438387}
   _uiJoy: {fileID: 1486296962}
   enemyCleaner: {fileID: 565628390}
+  playerData:
+    slotItems: []
+    buttonItems: []
 --- !u!4 &559569579
 Transform:
   m_ObjectHideFlags: 0

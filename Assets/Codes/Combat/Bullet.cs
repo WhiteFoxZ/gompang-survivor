@@ -22,7 +22,8 @@ public class Bullet : MonoBehaviour
         //Rigidbody2D 컴포넌트 가져오기
         rig2d = GetComponent<Rigidbody2D>();
 
-        playerData = DataManager.instance.playerInfo;
+        //장비적용
+        playerData = GameManager.instance.playerData;
     }
 
 
@@ -38,14 +39,13 @@ public class Bullet : MonoBehaviour
     public void Init(float damage, float per, Vector3 dir, float knockback = 3f, float knockbackRate = 1f)
     {
         this.damage = damage;
-
-        EquipItem equipItemTotal = playerData.GetTotalSlotStats();
-
-        this.damage = this.damage + equipItemTotal.atack;
-
         this.per = per;
         this.knockback = knockback;
         this.knockbackRate = knockbackRate;
+
+        //장비적용
+        EquipItem equipItemTotal = playerData.GetTotalSlotStats();
+        this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
 
         if (per >= 0)   //원거리무기인경우
         {

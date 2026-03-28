@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour
     void Awake()
     {
         player = GameManager.instance.player;
-        //작비적용
+        //장비적용
         playerData = GameManager.instance.playerData;
     }
 
@@ -146,7 +146,7 @@ public class Weapon : MonoBehaviour
                 // 공식: 실제 장전 시간 = 기본 장전 시간 / (1 + 장전 속도 증가율)
                 //장비적용
                 speed = speed / (1 + equipItem.atkSpeed);
-                this.Log($" missle : {speed:F4}");
+                this.Log($"장비적용 missle : {speed:F4}");
 
                 hand = player.hands[2]; //미사일은 등
                 break;

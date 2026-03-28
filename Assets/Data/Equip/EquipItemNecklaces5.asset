@@ -19,6 +19,6 @@ MonoBehaviour:
   atack: 0.05
   defence: 0.05
   moveSpeed: 0.05
-  atkSpeed: 0.05
+  atkSpeed: 0.1
   image: {fileID: 21300000, guid: b02ca333d88b94b49b7a8c3db615e3a7, type: 3}
   weight: 80

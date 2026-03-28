@@ -17,6 +17,8 @@ public class BulletMissle : MonoBehaviour
     public float speed = 5f;
     public float rotateSpeed = 150f;    //회전 속도 값이 클수록 꺽이는 각도가 커짐
 
+    PlayerData playerData;
+
 
     /// <summary>
     /// 초기화 메서드 - 총알의 속성을 설정합니다.
@@ -25,6 +27,9 @@ public class BulletMissle : MonoBehaviour
     {
         //Rigidbody2D 컴포넌트 가져오기
         rig2d = GetComponent<Rigidbody2D>();
+
+        //장비적용
+        playerData = GameManager.instance.playerData;
     }
 
 
@@ -41,6 +46,10 @@ public class BulletMissle : MonoBehaviour
         this.target = target;
         this.impackDamage = impackDamage;
         this.impackRate = impackRate;
+
+        //장비적용
+        EquipItem equipItemTotal = playerData.GetTotalSlotStats();
+        this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
 
     }
 

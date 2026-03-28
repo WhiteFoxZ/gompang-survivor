@@ -54,8 +54,8 @@ public class Player : MonoBehaviour
         scanner = GetComponent<Scanner>();
         //비활성화된 자식을 가져올때는 GetComponentsInChildren<Hand>(true) 사용
         hands = GetComponentsInChildren<Hand>(true);
-
-        playerData = DataManager.instance.playerInfo;
+        //장비적용
+        playerData = GameManager.instance.playerData;
     }
 
     /// <summary>
@@ -68,7 +68,8 @@ public class Player : MonoBehaviour
 
         //장비 적용
         EquipItem equipItem = playerData.GetTotalSlotStats();
-        speed = speed + equipItem.moveSpeed;
+        speed = speed * (1 + equipItem.moveSpeed * 0.01f);
+
 
         //애니메이션 컨트롤러 설정
         animator.runtimeAnimatorController = animCon[GameManager.instance.playerId];
