@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json; // 네임스페이스 추가
 using System;
+using System.Globalization;
 
 
 // 1.저장할 데이터가 존재
@@ -36,7 +37,6 @@ public class DataManager : MonoBehaviour
     }
 
 
-
     //장비덱 있는 아이템 저장
     public void InventorySlots()
     {
@@ -45,6 +45,8 @@ public class DataManager : MonoBehaviour
         InventoryItem itemSlot;
 
         EquipmentSO equipmentSO;
+
+        playerInfo.slotItems.Clear();
 
         foreach (InventorySlot slot in _inventorySlots)
         {
@@ -63,7 +65,7 @@ public class DataManager : MonoBehaviour
             }
         }
 
-        Save();
+
 
     }
 
@@ -73,6 +75,8 @@ public class DataManager : MonoBehaviour
         GameObject[] _gearItemButton = InventoryManager.instance._gearItemButton;    //장착한아이템
 
         EquipmentSO equipmentItem;
+
+        playerInfo.buttonItems.Clear();
 
         foreach (GameObject button in _gearItemButton)
         {
@@ -96,7 +100,9 @@ public class DataManager : MonoBehaviour
 
         }
 
-        Save();
+
+
+
     }
 
 
@@ -115,6 +121,7 @@ public class DataManager : MonoBehaviour
         File.WriteAllText(path + filename, data);
 
     }
+
 
 
     public void LoadData()
@@ -174,6 +181,7 @@ public class DataManager : MonoBehaviour
             }
 
 
+
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
         }
     }
@@ -193,7 +201,7 @@ public class PlayerData
     public int Gold { get; set; }
     public int Gem { get; set; }
     public int Energy { get; set; }
-    public DateTime LastEnergyUpdateTime { get; set; } // 에너지 회복 계산용
+    public DateTime LastEnergyUpdateTime { get; set; } = System.DateTime.Now;// 에너지 회복 계산용
 
     // 3. 진행도 및 스탯
     public int MaxStageReached { get; set; } // 최고 클리어 스테이지
@@ -242,4 +250,5 @@ public class EquipItem
 
 
 }
+
 

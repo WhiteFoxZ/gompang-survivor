@@ -112,6 +112,9 @@ public class InventoryButton : MonoBehaviour
             deckFree = true;
             //파일로 저장
             DataManager.instance.InventorySlots();
+            DataManager.instance.GearItemButton();
+            DataManager.instance.Save();
+
         }
         else
         {

@@ -72,6 +72,8 @@ public class AutoHorizontalStop : MonoBehaviour
 
         //파일로 저장
         DataManager.instance.GearItemButton();
+        DataManager.instance.Save();
+
 
     }
 
