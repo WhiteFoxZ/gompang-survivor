@@ -70,10 +70,8 @@ public class InventoryManager : MonoBehaviour
 
         instance = this;
 
-        // 씬 전환 시 파괴되지 않도록 설정
-        DontDestroyOnLoad(gameObject);
-
     }
+
 
     /// <summary>
     /// 아이템 추가 - 장비덱에 아이템을 추가합니다.
@@ -92,7 +90,7 @@ public class InventoryManager : MonoBehaviour
             if (itemSlot != null
             && itemSlot.gameItem == newItem
             && itemSlot.count < maxStackItems
-           )
+            )
             {
                 //개수 증가
                 itemSlot.count++;
@@ -119,6 +117,8 @@ public class InventoryManager : MonoBehaviour
         }
 
         //인벤토리가 가득 찼음
+        this.Log("***** 인벤토리가 가득 찼음 ****");
+
         return false;
     }
 

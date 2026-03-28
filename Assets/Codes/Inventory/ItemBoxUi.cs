@@ -25,7 +25,7 @@ public class ItemBoxUi : MonoBehaviour
         // public int price; //가격
         // public int itemCnt; //충천갯수    
 
-        this.Log($" _shopItem : {_shopItem} ");
+        // this.Log($" _shopItem : {_shopItem} ");
         // 자식중에 text 컴포넌트중 2번째 text 에 _shopItem에 itemCnt을 보여준다
         titleTxt = GetComponentsInChildren<Text>();
 

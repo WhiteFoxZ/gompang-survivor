@@ -61,7 +61,6 @@ public class DataManager : MonoBehaviour
                     print("******InventorySlots is null ****");
 
             }
-
         }
 
         Save();
@@ -84,7 +83,6 @@ public class DataManager : MonoBehaviour
                 equipmentItem = inventoryButton._equipmentItem;
 
 
-
                 if (equipmentItem != null)
                 {
                     EquipItem item = new EquipItem(equipmentItem);
@@ -95,10 +93,12 @@ public class DataManager : MonoBehaviour
             }
 
 
+
         }
 
         Save();
     }
+
 
 
     public void Save()
@@ -128,40 +128,39 @@ public class DataManager : MonoBehaviour
             // 1. JSON 파일 읽기
             string json = File.ReadAllText(filePath);
 
-            print("LoadData ");
-            print(json);
-
+            print("*********** LoadData *********");
+            this.Log(json);
 
             // 2. 저장용 클래스로 역직렬화
             PlayerData saveData = JsonConvert.DeserializeObject<PlayerData>(json);
 
-
-
+            // Load all EquipmentSO and create a lookup dictionary
+            EquipmentSO[] allEquipment = Resources.FindObjectsOfTypeAll<EquipmentSO>();
+            Dictionary<string, EquipmentSO> equipmentDict = new Dictionary<string, EquipmentSO>();
+            foreach (EquipmentSO eq in allEquipment)
+            {
+                if (!equipmentDict.ContainsKey(eq.id))
+                {
+                    this.Log($" equipmentDict : {eq.id}");
+                    equipmentDict.Add(eq.id, eq);
+                }
+            }
 
             foreach (EquipItem item in saveData.slotItems)
             {
-
-                // item.id 와 같은 EquipmentSO 를 찾아 .초기화 한다.
-
+                if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
+                {
+                    this.Log($" InventoryManager.instance.AddItem : {equipmentToAdd}");
+                    InventoryManager.instance.AddItem(equipmentToAdd);
+                }
+                else
+                {
+                    Debug.LogWarning($"EquipmentSO with id {item.id} not found!");
+                }
             }
-
-
-            //saveData 에 _inventorySlots 은 EquipmentTop 자식 InventorySlot 에  
-            InventoryManager inventory = InventoryManager.instance.GetComponent<InventoryManager>();
-
-            InventorySlot[] inventorySlots = inventory._inventorySlots;
-
-            foreach (InventorySlot slot in inventorySlots)
-            {
-                this.Log($" InventorySlot : {slot}");
-            }
-
-
-
 
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
         }
-
     }
 
 
@@ -227,5 +226,5 @@ public class EquipItem
 
 
 
-
 }
+
