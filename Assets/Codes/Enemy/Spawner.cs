@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour
     public Transform[] spawnPoint; //스폰 위치 배열
 
 
-    [Header("스폰 데이터 입력값")]
+    [Header("Emeny스폰 데이터 입력값")]
     public SpawnData[] _spawnDatas; //스폰 데이터 배열
 
 
@@ -61,7 +61,7 @@ public class Spawner : MonoBehaviour
         //스폰 시간 도달 시 적 생성
         //스테이지가 증가할수록 스폰 시간 5% 감소
         float spawnTime = _spawnDatas[level].spawnTime * Mathf.Pow(0.95f, level);
-        
+
         spawnTime = spawnTime * Mathf.Pow(0.95f, GameManager.instance.next_stage); //게임 레벨에 따른 추가 스폰 시간 감소
 
 
@@ -94,6 +94,7 @@ public class Spawner : MonoBehaviour
         //스폰 데이터 설정 - 
         SpawnData spawnData = new SpawnData
         {
+            attack = _spawnDatas[spawnDataIdx].attack,
             spawnTime = _spawnDatas[spawnDataIdx].spawnTime,
             spriteType = _spawnDatas[spawnDataIdx].spriteType,
 
@@ -130,6 +131,8 @@ public class SpawnData
     public int spriteType;  //적의 애니메이션 유형
     public int health; //체력
     public float speed; //이동 속도
+    public float attack; //공격력
+
 
 
 }

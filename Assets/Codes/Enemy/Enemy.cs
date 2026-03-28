@@ -112,7 +112,9 @@ public class Enemy : MonoBehaviour
         animator.runtimeAnimatorController = animatorController[data.spriteType];
         speed = data.speed;
         maxHealth = data.health;
+        attack = data.attack;
         health = maxHealth;
+
     }
 
     /// <summary>
