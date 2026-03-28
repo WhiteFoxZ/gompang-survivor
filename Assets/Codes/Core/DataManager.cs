@@ -124,7 +124,7 @@ public class DataManager : MonoBehaviour
 
 
 
-    public void LoadData()
+    public PlayerData LoadData()
     {
         string filePath = Application.persistentDataPath + "/" + filename;
 
@@ -141,48 +141,54 @@ public class DataManager : MonoBehaviour
             // 2. 저장용 클래스로 역직렬화
             PlayerData saveData = JsonConvert.DeserializeObject<PlayerData>(json);
 
-            // Load all EquipmentSO and create a lookup dictionary
-            EquipmentSO[] allEquipment = Resources.FindObjectsOfTypeAll<EquipmentSO>();
-            Dictionary<string, EquipmentSO> equipmentDict = new Dictionary<string, EquipmentSO>();
-            foreach (EquipmentSO eq in allEquipment)
-            {
-                if (!equipmentDict.ContainsKey(eq.id))
-                {
-                    this.Log($" equipmentDict : {eq.id}");
-                    equipmentDict.Add(eq.id, eq);
-                }
-            }
-
-            foreach (EquipItem item in saveData.slotItems)
-            {
-                if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
-                {
-                    this.Log($" InventoryManager.instance.AddItem : {equipmentToAdd}");
-                    InventoryManager.instance.AddItem(equipmentToAdd);
-                }
-                else
-                {
-                    Debug.LogWarning($"EquipmentSO with id {item.id} not found!");
-                }
-            }
-
-            //버튼
-            foreach (EquipItem item in saveData.buttonItems)
-            {
-                if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
-                {
-                    this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentToAdd}");
-                    InventoryManager.instance.AddButtonDeck(equipmentToAdd);
-                }
-                else
-                {
-                    Debug.LogWarning($"EquipmentSO with id {item.id} not found!");
-                }
-            }
-
-
-
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
+
+            return saveData;
+        }
+
+        return null;
+    }
+
+
+    public void UpdateUI(PlayerData saveData)
+    {
+        // Load all EquipmentSO and create a lookup dictionary
+        EquipmentSO[] allEquipment = Resources.FindObjectsOfTypeAll<EquipmentSO>();
+        Dictionary<string, EquipmentSO> equipmentDict = new Dictionary<string, EquipmentSO>();
+        foreach (EquipmentSO eq in allEquipment)
+        {
+            if (!equipmentDict.ContainsKey(eq.id))
+            {
+                this.Log($" equipmentDict : {eq.id}");
+                equipmentDict.Add(eq.id, eq);
+            }
+        }
+
+        foreach (EquipItem item in saveData.slotItems)
+        {
+            if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
+            {
+                this.Log($" InventoryManager.instance.AddItem : {equipmentToAdd}");
+                InventoryManager.instance.AddItem(equipmentToAdd);
+            }
+            else
+            {
+                Debug.LogWarning($"EquipmentSO with id {item.id} not found!");
+            }
+        }
+
+        //버튼
+        foreach (EquipItem item in saveData.buttonItems)
+        {
+            if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
+            {
+                this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentToAdd}");
+                InventoryManager.instance.AddButtonDeck(equipmentToAdd);
+            }
+            else
+            {
+                Debug.LogWarning($"EquipmentSO with id {item.id} not found!");
+            }
         }
     }
 

@@ -110,11 +110,10 @@ public class GameManager : MonoBehaviour
         this.playerId = playerId;
         health = maxHealth; //체력 초기화
         player.gameObject.SetActive(true);
+
         uiLevelup.Select(0);
         uiLevelup.Select(1);
-
         uiLevelup.Select(6);
-
 
         Resume();
 
