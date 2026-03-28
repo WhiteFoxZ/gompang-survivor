@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
 
 
 
+
+
     /// <summary>
     /// 시작 시 호출 - 싱글톤 설정 및 초기화
     /// </summary>

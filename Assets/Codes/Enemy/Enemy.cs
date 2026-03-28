@@ -7,9 +7,11 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
+    public float attack; //공격력
     public float speed; //이동 속도
     public float health; //현재 체력
     public float maxHealth; //최대 체력
+
     public RuntimeAnimatorController[] animatorController; //애니메이션 컨트롤러 배열
     public Rigidbody2D target; //플레이어 리지드바디
 

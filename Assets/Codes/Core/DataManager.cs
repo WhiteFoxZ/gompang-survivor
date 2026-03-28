@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
 
     public static DataManager instance;
 
-    PlayerData playerInfo = new PlayerData();
+    public PlayerData playerInfo = new PlayerData();
 
     string path;
     string filename = "playerinfo";
@@ -200,7 +200,7 @@ public class PlayerData
 {
     // 1. 기본 정보
     public string PlayerName { get; set; }
-    public int Level { get; set; }
+    public int Level { get; set; } = 1;
     public long CurrentExp { get; set; }
 
     // 2. 재화 관련
@@ -216,6 +216,44 @@ public class PlayerData
     // 4. 장비 , 인벤토리,SO 객체 대신 ID(이름) 리스트를 저장합니다.
     public List<EquipItem> slotItems = new List<EquipItem>();
     public List<EquipItem> buttonItems = new List<EquipItem>();
+
+
+    //합산된 장비정보
+
+    public EquipItem GetTotalSlotStats()
+    {
+        EquipItem total = new EquipItem();
+        total.id = "TotalCombinedStats";
+
+        // 1. 모든 장착 아이템의 능력치를 각 아이템 레벨 보정(1%당)을 적용해 합산
+        foreach (var item in slotItems)
+        {
+            if (item == null) continue;
+
+            // 아이벨 보정치 (예: 아이템 10레벨 = 1.1배)
+            float itemLevelModifier = 1f + (item.level * 0.01f);
+
+            total.atack += item.atack * itemLevelModifier;
+            total.defence += item.defence * itemLevelModifier;
+            total.moveSpeed += item.moveSpeed * itemLevelModifier;
+            total.atkSpeed += item.atkSpeed * itemLevelModifier;
+        }
+
+        // 2. 최종 결과에 플레이어 레벨 보정(1%당)을 추가 적용
+        // (예: 플레이어 50레벨 = 장비 총합의 1.5배)
+        float playerLevelModifier = 1f + (this.Level * 0.01f);
+
+        total.atack *= playerLevelModifier;
+        total.defence *= playerLevelModifier;
+        total.moveSpeed *= playerLevelModifier;
+        total.atkSpeed *= playerLevelModifier;
+
+        return total;
+    }
+
+
+
+
 
 
 }
@@ -252,8 +290,6 @@ public class EquipItem
         this.atkSpeed = gameItem.atkSpeed;
 
     }
-
-
 
 }
 

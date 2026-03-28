@@ -15,7 +15,7 @@ MonoBehaviour:
   id: Gloves5
   itemRarity: 1
   gearType: 3
-  level: 0
+  level: 1
   atack: 0.05
   defence: 0.05
   moveSpeed: 0.05

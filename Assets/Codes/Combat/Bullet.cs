@@ -10,7 +10,9 @@ public class Bullet : MonoBehaviour
     public float per; //총알 관통력
     public float knockback; //넉백 세기
     public float knockbackRate; //넉백 확률
-    Rigidbody2D rig2d; //물리엔진 컴포넌트
+    Rigidbody2D rig2d; //물리엔진 
+
+    PlayerData playerData;
 
     /// <summary>
     /// 초기화 메서드 - 총알의 속성을 설정합니다.
@@ -19,6 +21,8 @@ public class Bullet : MonoBehaviour
     {
         //Rigidbody2D 컴포넌트 가져오기
         rig2d = GetComponent<Rigidbody2D>();
+
+        playerData = DataManager.instance.playerInfo;
     }
 
 
@@ -34,6 +38,11 @@ public class Bullet : MonoBehaviour
     public void Init(float damage, float per, Vector3 dir, float knockback = 3f, float knockbackRate = 1f)
     {
         this.damage = damage;
+
+        EquipItem equipItemTotal = playerData.GetTotalSlotStats();
+
+        this.damage = this.damage + equipItemTotal.atack;
+
         this.per = per;
         this.knockback = knockback;
         this.knockbackRate = knockbackRate;

@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
 
     public GameObject _fireVFXObject; //(스팀팩 효과 추적용)
 
+    PlayerData playerData;  //플레이어 장비,재능
+
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
@@ -52,6 +54,8 @@ public class Player : MonoBehaviour
         scanner = GetComponent<Scanner>();
         //비활성화된 자식을 가져올때는 GetComponentsInChildren<Hand>(true) 사용
         hands = GetComponentsInChildren<Hand>(true);
+
+        playerData = DataManager.instance.playerInfo;
     }
 
     /// <summary>
@@ -157,8 +161,27 @@ public class Player : MonoBehaviour
         if (!GameManager.instance.isLive)
             return;
 
+
+        float enemyAttack = 10;
+
+        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            // 정보를 가져오는 예시
+            enemyAttack = enemy.attack;
+        }
+
+        EquipItem equipItem = playerData.GetTotalSlotStats();
+
+        float deffence = equipItem.defence;
+
+        // 최종 데미지 = 공격력 * (100 / (100 + 방어력))
+        // 방어력 100일 때: 데미지 50 % 감소(1 / 2)
+        // 방어력 200일 때: 데미지 66 % 감소(1 / 3)
+
+        float damage = enemyAttack * (100 / (100 + deffence));
+
         //체력 감소
-        GameManager.instance.health -= Time.deltaTime * 10;
+        GameManager.instance.health -= Time.deltaTime * damage;
 
         //체력이 0 이하이면 사망
         if (GameManager.instance.health < 0)
