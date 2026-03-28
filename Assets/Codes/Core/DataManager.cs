@@ -159,6 +159,21 @@ public class DataManager : MonoBehaviour
                 }
             }
 
+            //버튼
+            foreach (EquipItem item in saveData.buttonItems)
+            {
+                if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
+                {
+                    this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentToAdd}");
+                    InventoryManager.instance.AddButtonDeck(equipmentToAdd);
+                }
+                else
+                {
+                    Debug.LogWarning($"EquipmentSO with id {item.id} not found!");
+                }
+            }
+
+
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
         }
     }

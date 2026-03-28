@@ -326,4 +326,28 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+
+
+
+    //인벤토리 비어있는 버튼덱에 뽑힌 아이템 추가(AutoHorizontalStop 호출,DataManager.Load 호출)
+
+    public void AddButtonDeck(EquipmentSO gameItem)
+    {
+
+        //비어있는 장바구니 버튼 아이템추가
+        foreach (GameObject button in _gearItemButton)
+        {
+            InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
+
+            this.Log($" 장비덱 버튼에 추가 : {inventoryButton.deckFree}");
+            if (inventoryButton.deckFree)
+            {
+                inventoryButton.Init(gameItem);
+                break;
+            }
+
+        }
+    }
+
+
 }
