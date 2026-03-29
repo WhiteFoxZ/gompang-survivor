@@ -197,11 +197,11 @@ public class PlayerData
     // 1. 기본 정보
     public string PlayerName = "";
     public float Level = 1;
-    public float MaxLevel = 1;
+    public float MaxLevel = 60;
 
     // 2. 재화 관련
-    public int Gold = 10;
-    public int Gem = 10;
+    public int Gold = 1;
+    public int Gem = 1;
     public int Energy = 20; // 초기 에너지
     public DateTime LastEnergyUpdateTime = System.DateTime.Now;// 에너지 회복 계산용
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class LobbyHUD : MonoBehaviour
     public enum InfoType { LEVEL, GOLD, GEM, ENERGY }
     public InfoType infoType;  //정보 유형
 
-    UnityEngine.UI.Text infoText;  //정보 텍스트
+    Text infoText;  //정보 텍스트
     Slider expSlider;  //경험치 슬라이더
 
     public LobbyManager lobbyManager;  //로비 매니저 참조
@@ -19,13 +20,22 @@ public class LobbyHUD : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        infoText = GetComponent<UnityEngine.UI.Text>();
+        infoText = GetComponent<Text>();
         expSlider = GetComponent<Slider>();
+    }
 
-        
+    void Start()
+    {
+        StartCoroutine(WaitForLobbyManager());
+    }
 
-        playerInfo = lobbyManager.GetComponent<LobbyManager>().playerData;  //로비 매니저에서 플레이어 데이터 가져오기    
+    IEnumerator WaitForLobbyManager()
+    {
+        yield return new WaitUntil(() => lobbyManager != null);
 
+        // 인스턴스화된 후 실행할 코드
+        Debug.Log("LobbyManager 준비 완료!");
+        playerInfo = lobbyManager.GetComponent<LobbyManager>().playerData;
 
     }
 
@@ -34,6 +44,11 @@ public class LobbyHUD : MonoBehaviour
     /// </summary>
     void LateUpdate()
     {
+        if (playerInfo == null)
+        {
+            Debug.LogWarning("PlayerData가 아직 로드되지 않았습니다.");
+            return;
+        }
 
         switch (infoType)
         {
@@ -41,7 +56,12 @@ public class LobbyHUD : MonoBehaviour
                 //스테이지 텍스트 업데이트
                 float playerinfoLV = playerInfo.Level;  //현재 체력
                 float playerinfoMaxLV = playerInfo.MaxLevel;  //최대 체력
-                expSlider.value = playerinfoLV / playerinfoMaxLV;  //슬라이더 값 
+
+                if (infoText != null)
+                    infoText.text = playerinfoLV.ToString();  //골드 텍스트 업데이트
+
+                if (expSlider != null)
+                    expSlider.value = playerinfoLV / playerinfoMaxLV;  //슬라이더 값 
                 break;
 
             case InfoType.GOLD:
