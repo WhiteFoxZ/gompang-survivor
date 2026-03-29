@@ -142,7 +142,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         int rowSize = row.Length;
         int columnSize = row[0].Split('\t').Length;
 
-        int maxGameTime = 0, maxGameStage = 0;
+        int maxGameTime = 0, maxGameStage = 0, maxHealth = 0;
         int[] extExp = new int[rowSize];
 
         for (int i = 0; i < rowSize; i++)
@@ -152,6 +152,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
             maxGameTime = int.Parse(column[0]);
             maxGameStage = int.Parse(column[1]);
             extExp = Array.ConvertAll(column[2].Split(','), int.Parse);
+            maxHealth = int.Parse(column[3]);
 
             // Debug.Log($"maxGameTime: {maxGameTime}, maxGameStage: {maxGameStage}, extExp: {string.Join(",", extExp)}");
         }
@@ -159,6 +160,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         GameManager.instance.SetMaxGameTime(maxGameTime);
         GameManager.instance.SetMaxGameStage(maxGameStage);
         GameManager.instance.SetExtExp(extExp);
+        GameManager.instance.maxHealth = maxHealth;
 
 
     }

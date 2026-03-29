@@ -16,9 +16,9 @@ MonoBehaviour:
   itemRarity: 0
   gearType: 3
   level: 1
-  atack: 0.05
-  defence: 0.05
-  moveSpeed: 0.05
-  atkSpeed: 0.1
+  atack: 0.5
+  defence: 0.5
+  moveSpeed: 0.5
+  atkSpeed: 0.5
   image: {fileID: 21300000, guid: c934a695880d5c8408520c24893c3b5f, type: 3}
   weight: 100
