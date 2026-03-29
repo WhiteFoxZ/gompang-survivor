@@ -3,22 +3,21 @@ using UnityEngine;
 public class LobbyManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public PlayerData playerData;
+
     void Start()
     {
-        PlayerData saveData = DataManager.instance.LoadData();
-        if (saveData != null)
+        playerData = DataManager.instance.LoadData();
+        if (playerData != null)
         {
-            EquipItem equipItem = saveData.GetTotalSlotStats();
+            EquipItem equipItem = playerData.GetTotalSlotStats();
             this.Log(equipItem.ToString());
 
-            DataManager.instance.UpdateUI(saveData);
+            DataManager.instance.UpdateUI(playerData);
         }
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 }

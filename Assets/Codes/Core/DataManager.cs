@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
 
     public static DataManager instance;
 
-    public PlayerData playerInfo = new PlayerData();
+    PlayerData playerInfo = new PlayerData();
 
     string path;
     string filename = "playerinfo";
@@ -95,14 +95,7 @@ public class DataManager : MonoBehaviour
                 else
                     print("******buttonItems is null ****");
             }
-
-
-
         }
-
-
-
-
     }
 
 
@@ -135,11 +128,14 @@ public class DataManager : MonoBehaviour
             // 1. JSON 파일 읽기
             string json = File.ReadAllText(filePath);
 
-            // print("*********** LoadData *********");
-            // this.Log(json);
+            print("*********** LoadData *********");
+            print(json);
 
             // 2. 저장용 클래스로 역직렬화
             PlayerData saveData = JsonConvert.DeserializeObject<PlayerData>(json);
+
+            playerInfo = saveData; // 로드한 데이터를 playerInfo에 할당
+
 
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
 
@@ -199,19 +195,19 @@ public class DataManager : MonoBehaviour
 public class PlayerData
 {
     // 1. 기본 정보
-    public string PlayerName { get; set; }
-    public int Level { get; set; } = 1;
-    public long CurrentExp { get; set; }
+    public string PlayerName = "";
+    public float Level = 1;
+    public float MaxLevel = 1;
 
     // 2. 재화 관련
-    public int Gold { get; set; }
-    public int Gem { get; set; }
-    public int Energy { get; set; }
-    public DateTime LastEnergyUpdateTime { get; set; } = System.DateTime.Now;// 에너지 회복 계산용
+    public int Gold = 10;
+    public int Gem = 10;
+    public int Energy = 20; // 초기 에너지
+    public DateTime LastEnergyUpdateTime = System.DateTime.Now;// 에너지 회복 계산용
 
     // 3. 진행도 및 스탯
-    public int MaxStageReached { get; set; } // 최고 클리어 스테이지
-    public Dictionary<string, int> Talents { get; set; } // 특성 ID와 강화 레벨
+    public int MaxStageReached = 0; // 최고 클리어 스테이지
+    public Dictionary<string, int> Talents = new Dictionary<string, int>(); // 특성 ID와 강화 레벨
 
     // 4. 장비 , 인벤토리,SO 객체 대신 ID(이름) 리스트를 저장합니다.
     public List<EquipItem> slotItems = new List<EquipItem>();

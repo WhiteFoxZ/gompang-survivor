@@ -3031,6 +3031,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
   infoType: 0
+  playerInfo:
+    PlayerName: 
+    Level: 1
+    MaxLevel: 1
+    Gold: 10
+    Gem: 10
+    Energy: 20
+    MaxStageReached: 0
+    slotItems: []
+    buttonItems: []
 --- !u!1001 &520684723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6424,6 +6434,7 @@ GameObject:
   - component: {fileID: 938603128}
   - component: {fileID: 938603130}
   - component: {fileID: 938603129}
+  - component: {fileID: 938603131}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -6492,6 +6503,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938603127}
   m_CullTransparentMesh: 1
+--- !u!114 &938603131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938603127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf17cbf7b7708ad49923f5977a08481e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
+  infoType: 3
+  playerInfo:
+    PlayerName: 
+    Level: 1
+    MaxLevel: 1
+    Gold: 10
+    Gem: 10
+    Energy: 20
+    MaxStageReached: 0
+    slotItems: []
+    buttonItems: []
 --- !u!1001 &992998089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7223,6 +7257,7 @@ GameObject:
   - component: {fileID: 1074631911}
   - component: {fileID: 1074631913}
   - component: {fileID: 1074631912}
+  - component: {fileID: 1074631914}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -7282,7 +7317,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 60/60
+  m_Text: 0
 --- !u!222 &1074631913
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7291,6 +7326,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074631910}
   m_CullTransparentMesh: 1
+--- !u!114 &1074631914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074631910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf17cbf7b7708ad49923f5977a08481e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
+  infoType: 1
+  playerInfo:
+    PlayerName: 
+    Level: 1
+    MaxLevel: 1
+    Gold: 10
+    Gem: 10
+    Energy: 20
+    MaxStageReached: 0
+    slotItems: []
+    buttonItems: []
 --- !u!1 &1092607936
 GameObject:
   m_ObjectHideFlags: 0
@@ -7799,6 +7857,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataManager
   playerInfo:
+    PlayerName: "\uBA4B\uC9C4\uB0A8\uC790"
+    Level: 0
+    MaxLevel: 0
+    Gold: 0
+    Gem: 0
+    Energy: 0
+    MaxStageReached: 0
     slotItems: []
     buttonItems: []
 --- !u!4 &1157135575
@@ -12159,7 +12224,6 @@ GameObject:
   - component: {fileID: 1792929148}
   - component: {fileID: 1792929150}
   - component: {fileID: 1792929149}
-  - component: {fileID: 1792929151}
   m_Layer: 5
   m_Name: PlayerInfoLobby
   m_TagString: Untagged
@@ -12226,20 +12290,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792929147}
   m_CullTransparentMesh: 1
---- !u!114 &1792929151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792929147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb6725c63e8865c4986bbb24e68809e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInfo
-  playerinfoLV: 50
-  playerinfoMaxLV: 60
 --- !u!1 &1807321752
 GameObject:
   m_ObjectHideFlags: 0
@@ -12999,6 +13049,7 @@ GameObject:
   - component: {fileID: 1887474952}
   - component: {fileID: 1887474954}
   - component: {fileID: 1887474953}
+  - component: {fileID: 1887474955}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -13058,7 +13109,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 60/60
+  m_Text: 0
 --- !u!222 &1887474954
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13067,6 +13118,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887474951}
   m_CullTransparentMesh: 1
+--- !u!114 &1887474955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887474951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf17cbf7b7708ad49923f5977a08481e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
+  infoType: 2
+  playerInfo:
+    PlayerName: 
+    Level: 1
+    MaxLevel: 1
+    Gold: 10
+    Gem: 10
+    Energy: 20
+    MaxStageReached: 0
+    slotItems: []
+    buttonItems: []
 --- !u!1 &1896814752 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 969461134448215909, guid: 4ced5273c52fe0149ba33b01c3e390c9, type: 3}
