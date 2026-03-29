@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviour
         // Increase Gold by the current stage value when winning
         if (playerData != null)
         {
-            playerData.Gold += curr_stage;
+            playerData.Gold += curr_stage * 100;
             DataManager.instance.Save();
         }
 
