@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
         //장비 적용
         EquipItem equipItem = playerData.GetTotalSlotStats();
 
+
         maxHealth = maxHealth * (1 + equipItem.level * 0.01f);
 
         health = maxHealth; //체력 초기화
@@ -124,6 +125,22 @@ public class GameManager : MonoBehaviour
         uiLevelup.Select(0);
         uiLevelup.Select(1);
         uiLevelup.Select(6);
+
+        // Energy decreases by 1 when starting a game
+        if (playerData != null)
+        {
+            if (playerData.Energy <= 0)
+            {
+                Debug.Log("에너지가 부족합니다!");
+                // 에너지 부족 시 게임 시작을 막거나, UI에서 알림을 표시할 수 있습니다.
+                return;
+            }
+
+            playerData.Energy -= 1;
+            if (playerData.Energy < 0)
+                playerData.Energy = 0;
+            DataManager.instance.Save();
+        }
 
         Resume();
 
@@ -271,6 +288,13 @@ public class GameManager : MonoBehaviour
             next_stage++;
             PlayerPrefs.SetInt("NextStage", next_stage);
             PlayerPrefs.Save();
+        }
+
+        // Increase Gold by the current stage value when winning
+        if (playerData != null)
+        {
+            playerData.Gold += curr_stage;
+            DataManager.instance.Save();
         }
 
         //결과 UI 표시

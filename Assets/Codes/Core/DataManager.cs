@@ -142,7 +142,7 @@ public class DataManager : MonoBehaviour
             return saveData;
         }
 
-        return null;
+        return playerInfo;
     }
 
 
