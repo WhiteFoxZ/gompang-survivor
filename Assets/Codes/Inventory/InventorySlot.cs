@@ -6,6 +6,15 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
+    public enum SlotType
+    {
+        Inventory,
+        Dron,
+        Trash
+    }
+
+    public SlotType slotType; //착용아이템 유형
+
     /// <summary>
     /// 드롭 이벤트 처리 - 아이템을 슬롯에 놓았을 때 호출됩니다.
     /// </summary>
