@@ -34,6 +34,58 @@ public class DataManager : MonoBehaviour
 
         // 씬 전환 시 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
+
+        LoadData();
+        UpdateEnergy();
+    }
+
+    private const int EnergyRechargeInterval = 1200; // 20 minutes in seconds
+
+    public void UpdateEnergy()
+    {
+        // If energy is already at max, we update the last update time to now to avoid storing old time
+        if (playerInfo.Energy >= playerInfo.MaxEnergy)
+        {
+            playerInfo.LastEnergyUpdateTime = DateTime.UtcNow;
+            return;
+        }
+
+        TimeSpan elapsed = DateTime.UtcNow - playerInfo.LastEnergyUpdateTime;
+        int elapsedSeconds = (int)elapsed.TotalSeconds;
+
+        if (elapsedSeconds < EnergyRechargeInterval)
+        {
+            // Not enough time to recharge even one energy
+            return;
+        }
+
+        int rechargeCount = elapsedSeconds / EnergyRechargeInterval;
+        int energyToAdd = rechargeCount; // 1 energy per interval
+
+        // Calculate new energy, but do not exceed MaxEnergy
+        int newEnergy = Mathf.Min(playerInfo.Energy + energyToAdd, playerInfo.MaxEnergy);
+
+        // Update the last energy update time: we subtract the time that was used for recharging
+        // i.e., we only keep the remainder time for the next recharge.
+        if (newEnergy > playerInfo.Energy)
+        {
+            // We actually added some energy, so we update the time by the amount that was used for recharging
+            playerInfo.LastEnergyUpdateTime = playerInfo.LastEnergyUpdateTime.AddSeconds(rechargeCount * EnergyRechargeInterval);
+            playerInfo.Energy = newEnergy;
+        }
+        else
+        {
+            // Energy is already at max, so we set the last update time to now to avoid storing old time
+            playerInfo.LastEnergyUpdateTime = DateTime.UtcNow;
+        }
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus) // Resumed
+        {
+            UpdateEnergy();
+        }
     }
 
 
@@ -203,7 +255,8 @@ public class PlayerData
     public int Gold = 1;
     public int Gem = 1;
     public int Energy = 20; // 초기 에너지
-    public DateTime LastEnergyUpdateTime = System.DateTime.Now;// 에너지 회복 계산용
+    public int MaxEnergy = 100; // 최대 에너지
+    public DateTime LastEnergyUpdateTime = System.DateTime.UtcNow;// 에너지 회복 계산용 (UTC 사용)
 
     // 3. 진행도 및 스탯
     public int MaxStageReached = 0; // 최고 클리어 스테이지

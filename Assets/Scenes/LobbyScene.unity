@@ -2494,7 +2494,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 150, y: 50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413463623
 MonoBehaviour:
@@ -2518,7 +2518,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
-    m_FontSize: 30
+    m_FontSize: 35
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -3039,6 +3039,7 @@ MonoBehaviour:
     Gold: 10
     Gem: 10
     Energy: 20
+    MaxEnergy: 100
     MaxStageReached: 0
     slotItems: []
     buttonItems: []
@@ -3941,7 +3942,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 100, y: 50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &642295600
 MonoBehaviour:
@@ -3965,7 +3966,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
-    m_FontSize: 30
+    m_FontSize: 35
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -4045,7 +4046,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
-    m_FontSize: 22
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -4056,7 +4057,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '-'
+  m_Text: 60
 --- !u!222 &658456367
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4086,6 +4087,7 @@ MonoBehaviour:
     Gold: 10
     Gem: 10
     Energy: 20
+    MaxEnergy: 100
     MaxStageReached: 0
     slotItems: []
     buttonItems: []
@@ -6509,7 +6511,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
-    m_FontSize: 22
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -6550,6 +6552,7 @@ MonoBehaviour:
     Gold: 10
     Gem: 10
     Energy: 20
+    MaxEnergy: 100
     MaxStageReached: 0
     slotItems: []
     buttonItems: []
@@ -7333,7 +7336,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
-    m_FontSize: 22
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -7374,6 +7377,7 @@ MonoBehaviour:
     Gold: 10
     Gem: 10
     Energy: 20
+    MaxEnergy: 100
     MaxStageReached: 0
     slotItems: []
     buttonItems: []
@@ -13116,7 +13120,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
-    m_FontSize: 22
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -13157,6 +13161,7 @@ MonoBehaviour:
     Gold: 10
     Gem: 10
     Energy: 20
+    MaxEnergy: 100
     MaxStageReached: 0
     slotItems: []
     buttonItems: []
@@ -13574,6 +13579,7 @@ MonoBehaviour:
     Gold: 10
     Gem: 10
     Energy: 20
+    MaxEnergy: 100
     MaxStageReached: 0
     slotItems: []
     buttonItems: []
@@ -14318,10 +14324,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 671021413}
-    - target: {fileID: 7126700284709670222, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: ShopItemSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
