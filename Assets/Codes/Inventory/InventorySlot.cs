@@ -21,14 +21,27 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     /// <param name="eventData">이벤트 데이터</param>
     public void OnDrop(PointerEventData eventData)
     {
-
-        //슬롯이 비어있는지 확인
-        if (transform.childCount == 0)
+        // 드래그된 아이템이 유효한지 확인
+        InventoryItem inventoryItem = eventData.pointerDrag?.GetComponent<InventoryItem>();
+        if (inventoryItem == null)
         {
-            //드래그된 아이템 가져오기
-            InventoryItem inventoryItem = eventData.pointerDrag.GetComponent<InventoryItem>();
+            return;
+        }
 
-            //새 부모 설정
+        // 휴지통 슬롯에 드롭되면 아이템 파괴
+        if (slotType == SlotType.Trash)
+        {
+            Destroy(inventoryItem.gameObject);
+
+            DataManager.instance.InventorySlots();
+            DataManager.instance.Save();
+
+            return;
+        }
+
+        // 휴지통이 아닌 슬롯에만 빈 공간이 있으면 아이템을 이동
+        if (slotType != SlotType.Trash && transform.childCount == 0)
+        {
             inventoryItem.parentAfterDrag = transform;
         }
     }

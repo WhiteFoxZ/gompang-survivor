@@ -14432,6 +14432,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5198995339442928075, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
+      propertyPath: _shopItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d04ced7ed3955e4b80e1f5fc72fcb8f, type: 2}
     - target: {fileID: 6112932507890949734, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
       propertyPath: m_Name
       value: ShopItemAdEnegy
@@ -14440,6 +14444,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 671021413}
+    - target: {fileID: 7126700284709670222, guid: 59651fbdaa79f124897d27ee95bf4e99, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d04ced7ed3955e4b80e1f5fc72fcb8f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

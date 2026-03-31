@@ -9,7 +9,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public static GoogleSpreadSheetManager instance;  //싱글톤 인스턴스
 
-    //아이템 유형 열거형
+    //다운로드 유형 열거형
     public enum DownType { Item, Exp, Map }
 
     const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
