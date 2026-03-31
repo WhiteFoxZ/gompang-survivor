@@ -64,8 +64,15 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
 
         //장비적용
-        playerData = DataManager.instance.LoadData();
-
+        if (DataManager.instance != null)
+        {
+            playerData = DataManager.instance.LoadData();
+        }
+        else
+        {
+            Debug.LogError("DataManager 인스턴스를 찾을 수 없습니다. 로비씬에서 시작하세요.");
+            return;
+        }
     }
 
     /// <summary>
