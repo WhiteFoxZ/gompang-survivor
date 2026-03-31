@@ -10,16 +10,20 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     public static GoogleSpreadSheetManager instance;  //싱글톤 인스턴스
 
     //다운로드 유형 열거형
-    public enum DownType { Item, Exp, Map }
+    public enum DownType { Item, Exp, Map, Equip }
 
     const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
+
+    const string EQUIP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:H";
 
     //게임시간,MAX_STAGE
     const string EXP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:J";
 
     [Header("게임 Item Data")]
-    public ItemData[] itemDatas; //아이템 데이터 참조 (추후 아이템 시스템 구현 시 사용)
+    public ItemData[] itemDatas; //아이템 데이터 참조 
 
+    [Header("장비 Item Data")]
+    public EquipmentSO[] equipmentDatas; //장비 데이터 참조
 
     void Awake()
     {
@@ -41,6 +45,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         else if (type == DownType.Exp)
         {
             URL = EXP_URL;
+        }
+        else if (type == DownType.Equip)
+        {
+            URL = EQUIP_URL;
         }
         else if (type == DownType.Map)
         {
@@ -71,15 +79,18 @@ public class GoogleSpreadSheetManager : MonoBehaviour
                 {
                     SetItemSO(data); //데이터 파싱 및 아이템 데이터 설정
                 }
+                else if (type == DownType.Equip)
+                {
+                    SetEquipmentSO(data);
+                }
                 else if (type == DownType.Exp)
                 {
-                    //EXP 데이터 파싱 및 설정 로직 추가 필요
-                    SetExp(data); //데이터 파싱 및 아이템 데이터 설정
+                    SetExp(data);
                 }
                 else if (type == DownType.Map)
                 {
                     //맵 데이터 파싱 및 설정 로직 추가 필요
-                    SetMap(data); //데이터 파싱 및 아이템 데이터 설정
+                    SetMap(data);
                 }
 
 
@@ -129,6 +140,49 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         foreach (var item in itemDatas)
         {
             Debug.Log($" 유형: {item.itemType},아이템: {item.itemName},설명: {item.itemDesc}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
+        }
+
+    }
+
+
+    void SetEquipmentSO(string tsv)
+    {
+
+        //GearType	Id	atack	defence	moveSpeed	atkSpeed	ItemRarity	WEIGHT	DESC
+        //BodyArmor   1   0   0.01    0   0   Common  1000    방어력 { 0}% 증가
+
+
+        string[] row = tsv.Split('\n');
+        int rowSize = row.Length;
+        int columnSize = row[0].Split('\t').Length;
+
+
+        if (itemDatas.Length != rowSize)
+        {
+            Debug.LogError("itemDatas 배열 크기와 다운로드한 데이터의 행 수가 일치하지 않습니다.");
+            return;
+        }
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] column = row[i].Split('\t');
+            equipmentDatas[i].gearType = (GearType)System.Enum.Parse(typeof(GearType), column[0]);
+            equipmentDatas[i].id = column[1];
+            equipmentDatas[i].atack = float.Parse(column[2]);
+            equipmentDatas[i].defence = float.Parse(column[3]);
+            equipmentDatas[i].moveSpeed = float.Parse(column[4]);
+            equipmentDatas[i].atkSpeed = float.Parse(column[5]);
+            equipmentDatas[i].itemRarity = (ItemRarity)System.Enum.Parse(typeof(ItemRarity), column[6]);
+            equipmentDatas[i].weight = int.Parse(column[7]);
+
+
+        }
+
+
+        //equipmentDatas 에 정보를 로그로 출력 (테스트용)
+        foreach (var item in equipmentDatas)
+        {
+            Debug.Log($" 유형: {item.gearType},아이템: {item.id},설명: {item.desc}, 데미지: {item.atack}, 방어력: {item.defence}, 이동속도: {item.moveSpeed}, 공격속도: {item.atkSpeed}, 희귀도: {item.itemRarity}, 가중치: {item.weight}");
         }
 
     }

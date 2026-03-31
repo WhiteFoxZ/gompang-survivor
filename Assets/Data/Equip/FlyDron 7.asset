@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: FlyDron 7
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  id: Armor1
-  itemRarity: 0
+  id: 7
+  itemRarity: 2
   gearType: 0
   level: 1
-  atack: 0.5
-  defence: 0.5
-  moveSpeed: 0.5
-  atkSpeed: 0.5
-  image: {fileID: 21300000, guid: 603e026921ee6c44ab5c48b149bb31e9, type: 3}
-  weight: 100
+  atack: 1
+  defence: 1
+  moveSpeed: 1
+  atkSpeed: 1
+  image: {fileID: 21300000, guid: e9e38db694f315246944fd3dbcb01fb1, type: 3}
+  weight: 30

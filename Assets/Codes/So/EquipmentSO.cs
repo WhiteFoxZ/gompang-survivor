@@ -31,8 +31,13 @@ public class EquipmentSO : ScriptableObject
 
     public Sprite image; //아이템 이미지
 
-    [Header("뽑힐확율")]
+    [Header("확율")]
     public int weight;  //가중치
+
+
+    [Header("설명")]
+    public int desc;  //가중치
+
 
 
 
@@ -47,7 +52,8 @@ public class EquipmentSO : ScriptableObject
         this.moveSpeed = gameItem.moveSpeed;
         this.atkSpeed = gameItem.atkSpeed;
         this.image = gameItem.image;
-
+        this.weight = gameItem.weight;
+        this.desc = gameItem.desc;
     }
 
 
@@ -62,10 +68,10 @@ public enum GearType
     Ring,
     Belt, //허리띠
     Gloves,//장갑
-    Armor, //갑옷
+    BodyArmor, //갑옷
     Necklace,//목거리
     Shoes,//신발
-    Weapon
+    Pants
 }
 
 //아이템등급

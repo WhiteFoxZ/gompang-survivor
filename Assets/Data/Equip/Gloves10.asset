@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
-  m_Name: FlyDron 8
+  m_Name: Gloves10
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  id: 8
-  itemRarity: 2
-  gearType: 0
+  id: 10
+  itemRarity: 3
+  gearType: 3
   level: 1
   atack: 1
   defence: 1
   moveSpeed: 1
   atkSpeed: 1
-  image: {fileID: 21300000, guid: e9e38db694f315246944fd3dbcb01fb1, type: 3}
-  weight: 30
+  image: {fileID: 21300000, guid: abd035fb6332ca349b38f5a611127c07, type: 3}
+  weight: 10
