@@ -30,6 +30,9 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //싱글톤 인스턴스 설정
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
+        // 씬 전환 시 파괴되지 않도록 설정
+        DontDestroyOnLoad(gameObject);
     }
 
 
@@ -154,12 +157,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
-        int columnSize = row[0].Split('\t').Length;
 
-
-        if (itemDatas.Length != rowSize)
+        if (equipmentDatas.Length != rowSize)
         {
-            Debug.LogError("itemDatas 배열 크기와 다운로드한 데이터의 행 수가 일치하지 않습니다.");
+            Debug.LogError("equipmentDatas 배열 크기와 다운로드한 데이터의 행 수가 일치하지 않습니다.");
             return;
         }
 
@@ -182,7 +183,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //equipmentDatas 에 정보를 로그로 출력 (테스트용)
         foreach (var item in equipmentDatas)
         {
-            Debug.Log($" 유형: {item.gearType},아이템: {item.id},설명: {item.desc}, 데미지: {item.atack}, 방어력: {item.defence}, 이동속도: {item.moveSpeed}, 공격속도: {item.atkSpeed}, 희귀도: {item.itemRarity}, 가중치: {item.weight}");
+            Debug.Log($" 장비 유형: {item.gearType},아이템: {item.id},설명: {item.desc}, 데미지: {item.atack}, 방어력: {item.defence}, 이동속도: {item.moveSpeed}, 공격속도: {item.atkSpeed}, 희귀도: {item.itemRarity}, 가중치: {item.weight}");
         }
 
     }
