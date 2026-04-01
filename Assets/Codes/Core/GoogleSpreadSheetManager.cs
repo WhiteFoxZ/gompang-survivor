@@ -14,7 +14,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
 
-    const string EQUIP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:H";
+    const string EQUIP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1723476130&range=A2:H";
 
     //게임시간,MAX_STAGE
     const string EXP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:J";
@@ -158,6 +158,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
 
+        this.Log(" 장비 다운갯수 : " + rowSize);
+        this.Log(" equipmentDatas : " + equipmentDatas.Length);
+
+
         if (equipmentDatas.Length != rowSize)
         {
             Debug.LogError("equipmentDatas 배열 크기와 다운로드한 데이터의 행 수가 일치하지 않습니다.");
@@ -167,6 +171,9 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         for (int i = 0; i < rowSize; i++)
         {
             string[] column = row[i].Split('\t');
+
+            this.Log($" gearType : {column[0]}, id : {column[1]}, atack : {column[2]}, defence : {column[3]}, moveSpeed : {column[4]}, atkSpeed : {column[5]}, itemRarity : {column[6]}, weight : {column[7]}");
+
             equipmentDatas[i].gearType = (GearType)System.Enum.Parse(typeof(GearType), column[0]);
             equipmentDatas[i].id = column[1];
             equipmentDatas[i].atack = float.Parse(column[2]);
