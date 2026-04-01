@@ -30,9 +30,6 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //싱글톤 인스턴스 설정
         if (instance == null) instance = this;
         else Destroy(gameObject);
-
-        // 씬 전환 시 파괴되지 않도록 설정
-        DontDestroyOnLoad(gameObject);
     }
 
 
@@ -113,6 +110,8 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         int rowSize = row.Length;
         int columnSize = row[0].Split('\t').Length;
 
+        this.Log(" item 다운갯수 : " + rowSize);
+        this.Log(" itemDatas : " + itemDatas.Length);
 
         if (itemDatas.Length != rowSize)
         {
