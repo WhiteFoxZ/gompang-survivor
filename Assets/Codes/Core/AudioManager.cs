@@ -54,6 +54,8 @@ public class AudioManager : MonoBehaviour
         bgmPlayer.loop = true;
         bgmPlayer.volume = bgmVolumn;
 
+        //bgmPlayer.Play(); //배경음 재생 시작
+
         //카메라의 고역 통과 필터 가져오기
         bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
 
@@ -97,6 +99,9 @@ public class AudioManager : MonoBehaviour
     /// <param name="isPlay">재생 여부</param>
     public void PlayBgm(bool isPlay)
     {
+
+        this.Log("PlayBgm : " + isPlay);
+
         if (isPlay)
         {
             bgmPlayer.Play();

@@ -154,6 +154,8 @@ public class GameManager : MonoBehaviour
         //오디오 재생
         if (AudioManager.instance != null)
         {
+            this.Log("***************AudioManager.instance****************");
+
             AudioManager.instance.PlayBgm(true);
             AudioManager.instance.PlaySfx(AudioManager.SFX.Select);
         }
