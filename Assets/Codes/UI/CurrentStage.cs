@@ -54,6 +54,25 @@ public class CurrentStage : MonoBehaviour
     // 선택 버튼 클릭 시 호출
     void OnSelectButtonClicked()
     {
+
+        if (DataManager.instance.playerInfo.Energy <= 0)
+        {
+            Debug.Log("에너지가 부족합니다!");
+            // 에너지 부족 시 게임 시작을 막거나, UI에서 알림을 표시할 수 있습니다.
+            return;
+        }
+
+        // Energy decreases by 1 when starting a game
+        DataManager.instance.playerInfo.Energy -= 1;
+        if (DataManager.instance.playerInfo.Energy < 0)
+        {
+            DataManager.instance.playerInfo.Energy = 0;
+        }
+
+        DataManager.instance.Save(); // 에너지 업데이트 및 저장
+
+
+
         // 선택한 스테이지를 PlayerPrefs에 저장
         PlayerPrefs.SetInt("SelectedStage", nextStage);
         PlayerPrefs.Save();

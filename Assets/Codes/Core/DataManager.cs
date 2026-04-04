@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
 
     public static DataManager instance;
 
-    PlayerData playerInfo = new PlayerData();
+    public PlayerData playerInfo = new PlayerData();
 
     string path;
     string filename = "playerinfo";
