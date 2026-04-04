@@ -10,14 +10,27 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     public static GoogleSpreadSheetManager instance;  //싱글톤 인스턴스
 
     //다운로드 유형 열거형
-    public enum DownType { Item, Exp, Map, Equip }
+    public enum DownType { Item, Exp, Map, Equip, ENEMY }
 
     const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
 
-    const string EQUIP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1723476130&range=A2:H";
-
     //게임시간,MAX_STAGE
     const string EXP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:J";
+
+
+    const string MAP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=809858262&range=A2:E";
+
+
+    const string EQUIP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1723476130&range=A2:H";
+
+
+
+    //적 데이터 URL (예시)
+    const string ENEMY_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1674237518&range=A2:F";
+
+
+
+
 
     [Header("게임 Item Data")]
     public ItemData[] itemDatas; //아이템 데이터 참조 
@@ -52,8 +65,12 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         }
         else if (type == DownType.Map)
         {
-            //맵 데이터 URL 설정 필요
-            URL = ""; //맵 데이터 URL로 변경 필요
+            URL = MAP_URL;
+        }
+        else if (type == DownType.ENEMY)
+        {
+
+            URL = ENEMY_URL; //적 데이터 URL로 변경 필요
         }
         else
         {
@@ -91,6 +108,11 @@ public class GoogleSpreadSheetManager : MonoBehaviour
                 {
                     //맵 데이터 파싱 및 설정 로직 추가 필요
                     SetMap(data);
+                }
+                else if (type == DownType.ENEMY)
+                {
+                    //적 데이터 파싱 및 설정 로직 추가 필요
+                    SetEnemy(data);
                 }
 
 
@@ -139,10 +161,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
 
         //itemDatas 에 정보를 로그로 출력 (테스트용)
-        foreach (var item in itemDatas)
-        {
-            Debug.Log($" 유형: {item.itemType},아이템: {item.itemName},설명: {item.itemDesc}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
-        }
+        // foreach (var item in itemDatas)
+        // {
+        //     Debug.Log($" 유형: {item.itemType},아이템: {item.itemName},설명: {item.itemDesc}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
+        // }
 
     }
 
@@ -171,7 +193,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         {
             string[] column = row[i].Split('\t');
 
-            this.Log($" gearType : {column[0]}, id : {column[1]}, atack : {column[2]}, defence : {column[3]}, moveSpeed : {column[4]}, atkSpeed : {column[5]}, itemRarity : {column[6]}, weight : {column[7]}");
+            // this.Log($" gearType : {column[0]}, id : {column[1]}, atack : {column[2]}, defence : {column[3]}, moveSpeed : {column[4]}, atkSpeed : {column[5]}, itemRarity : {column[6]}, weight : {column[7]}");
 
             equipmentDatas[i].gearType = (GearType)System.Enum.Parse(typeof(GearType), column[0]);
             equipmentDatas[i].id = column[1];
@@ -187,23 +209,28 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
 
         //equipmentDatas 에 정보를 로그로 출력 (테스트용)
-        foreach (var item in equipmentDatas)
-        {
-            Debug.Log($" 장비 유형: {item.gearType},아이템: {item.id},설명: {item.desc}, 데미지: {item.atack}, 방어력: {item.defence}, 이동속도: {item.moveSpeed}, 공격속도: {item.atkSpeed}, 희귀도: {item.itemRarity}, 가중치: {item.weight}");
-        }
+        // foreach (var item in equipmentDatas)
+        // {
+        //     Debug.Log($" 장비 유형: {item.gearType},아이템: {item.id},설명: {item.desc}, 데미지: {item.atack}, 방어력: {item.defence}, 이동속도: {item.moveSpeed}, 공격속도: {item.atkSpeed}, 희귀도: {item.itemRarity}, 가중치: {item.weight}");
+        // }
 
     }
 
 
     void SetExp(string tsv)
     {
-        //item type	item id	이름(name)	item Desc	공격력(base Damage)	Base Count	LevelUp Damage	LevelUp Counts	knockBack	knockBackRate
-
+        //item type	item id	이름(name)	item Desc	공격력(base Damage)	Base Count	LevelUp Damage	LevelUp Counts	knockBack	knockBackRate   GAME_TIME	MAX_STAGE	NEXT_EXP	MAX_HEALTH	ENEMY_speedRate	ENENy_healthRate	ENENY_attackRate	ENENY_spawnTimeRate
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
         int columnSize = row[0].Split('\t').Length;
 
         int maxGameTime = 0, maxGameStage = 0, maxHealth = 0;
+
+        float ENEMY_speedRate = 0,
+            ENENy_healthRate = 0,
+            ENENY_attackRate = 0,
+            ENENY_spawnTimeRate = 0;
+
         int[] extExp = new int[rowSize];
 
         for (int i = 0; i < rowSize; i++)
@@ -214,8 +241,13 @@ public class GoogleSpreadSheetManager : MonoBehaviour
             maxGameStage = int.Parse(column[1]);
             extExp = Array.ConvertAll(column[2].Split(','), int.Parse);
             maxHealth = int.Parse(column[3]);
+            ENEMY_speedRate = float.Parse(column[4]);
+            ENENy_healthRate = float.Parse(column[5]);
+            ENENY_attackRate = float.Parse(column[6]);
+            ENENY_spawnTimeRate = float.Parse(column[7]);
 
-            // Debug.Log($"maxGameTime: {maxGameTime}, maxGameStage: {maxGameStage}, extExp: {string.Join(",", extExp)}");
+
+            // Debug.Log($"maxGameTime: {maxGameTime}, maxGameStage: {maxGameStage}, extExp: {string.Join(",", extExp)} maxHealth: {maxHealth}, ENEMY_speedRate: {ENEMY_speedRate}, ENENy_healthRate: {ENENy_healthRate}, ENENY_attackRate: {ENENY_attackRate}, ENENY_spawnTimeRate: {ENENY_spawnTimeRate}");
         }
 
         GameManager.instance.SetMaxGameTime(maxGameTime);
@@ -223,6 +255,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         GameManager.instance.SetExtExp(extExp);
         GameManager.instance.maxHealth = maxHealth;
 
+        Spawner.speedRate = ENEMY_speedRate;
+        Spawner.healthRate = ENENy_healthRate;
+        Spawner.attackRate = ENENY_attackRate;
+        Spawner.spawnTimeRate = ENENY_spawnTimeRate;
 
     }
 
@@ -231,4 +267,54 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     {
         //맵 데이터 파싱 및 설정 로직 추가 필요
     }
+
+
+    void SetEnemy(string tsv)
+    {
+        //no	spawnTime	spriteType	health	speed	attack
+        string[] row = tsv.Split('\n');
+        int rowSize = row.Length;
+        int columnSize = row[0].Split('\t').Length;
+
+
+        float spawnTime = 0f;
+        int spriteType = 0;
+        int health = 0;
+        float speed = 0f;
+        float attack = 0f;
+
+        Spawner._spawnDatas = new SpawnData[rowSize]; //스폰 데이터 배열 초기화''
+
+        this.Log($" Spawner._spawnDatas : {Spawner._spawnDatas.Length}");
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] column = row[i].Split('\t');
+
+            spawnTime = float.Parse(column[1]);
+            spriteType = int.Parse(column[2]);
+            health = int.Parse(column[3]);
+            speed = float.Parse(column[4]);
+            attack = float.Parse(column[5]);
+
+            Spawner._spawnDatas[i] = new SpawnData
+            {
+                spawnTime = spawnTime,
+                spriteType = spriteType,
+                health = health,
+                speed = speed,
+                attack = attack
+            };
+
+        }
+
+        //itemDatas 에 정보를 로그로 출력 (테스트용)
+        foreach (var item in Spawner._spawnDatas)
+        {
+            Debug.Log($" spriteType: {item.spriteType},health: {item.health},speed: {item.speed}, attack: {item.attack}, spawnTime: {item.spawnTime}");
+        }
+
+    }
+
+
 }

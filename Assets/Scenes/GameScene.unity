@@ -17966,34 +17966,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   spawnPoint:
   - {fileID: 1958569121}
-  - {fileID: 1372118898}
-  - {fileID: 1565449409}
-  - {fileID: 981913834}
-  - {fileID: 1398021567}
-  - {fileID: 1580862736}
-  - {fileID: 435589941}
-  - {fileID: 2115916443}
-  - {fileID: 1089337930}
-  - {fileID: 1376170301}
-  - {fileID: 35480786}
-  - {fileID: 833063055}
-  - {fileID: 471517740}
-  - {fileID: 1278893678}
-  - {fileID: 282675358}
-  - {fileID: 1846908152}
   _spawnDatas:
   - spawnTime: 1
     spriteType: 0
     health: 50
     speed: 1.8
-    attack: 10
+    attack: 5
   - spawnTime: 0.8
     spriteType: 1
     health: 150
     speed: 2
-    attack: 20
+    attack: 10
   levelTime: 0
-  level: 0
+  enemyLevel: 0
 --- !u!61 &1597902382
 BoxCollider2D:
   m_ObjectHideFlags: 0

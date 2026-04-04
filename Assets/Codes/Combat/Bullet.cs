@@ -53,7 +53,7 @@ public class Bullet : MonoBehaviour
         if (per >= 0)   //원거리무기인경우
         {
             //관통력이 있을때 속도 증가
-            rig2d.linearVelocity = dir * 15f;
+            rig2d.linearVelocity = dir * 12f;
         }
 
     }

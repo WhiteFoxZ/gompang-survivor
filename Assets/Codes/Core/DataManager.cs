@@ -156,7 +156,8 @@ public class DataManager : MonoBehaviour
     {
         path = Application.persistentDataPath + "/";
 
-        print(path);
+        this.Log("SAVE");
+
 
         // string data = JsonUtility.ToJson(playerInfo);
 
@@ -173,7 +174,7 @@ public class DataManager : MonoBehaviour
     {
         string filePath = Application.persistentDataPath + "/" + filename;
 
-        print(filePath);
+        // print(filePath);
 
         if (File.Exists(filePath))
         {
@@ -181,7 +182,7 @@ public class DataManager : MonoBehaviour
             string json = File.ReadAllText(filePath);
 
             print("*********** LoadData *********");
-            print(json);
+            // print(json);
 
             // 2. 저장용 클래스로 역직렬화
             PlayerData saveData = JsonConvert.DeserializeObject<PlayerData>(json);

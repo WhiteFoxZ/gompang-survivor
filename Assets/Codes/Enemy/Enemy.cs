@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     public float maxHealth; //최대 체력
 
     public RuntimeAnimatorController[] animatorController; //애니메이션 컨트롤러 배열
+
+    [Header("Target 참고용")]
     public Rigidbody2D target; //플레이어 리지드바디
 
 
