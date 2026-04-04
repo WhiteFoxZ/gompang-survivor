@@ -88,12 +88,25 @@ public class GameManager : MonoBehaviour
     /// </summary>
     IEnumerator LoadDataAndStartGame()
     {
+        yield return StartCoroutine(WaitForAudioManager());
+
+        this.Log("AudioManager 인스턴스를 찾았습니다. 데이터 로드 시작.");
+
         // 아이템 데이터 다운로드 먼저 실행
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Item));
 
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Exp));
         // 다운로드 완료 후 게임 시작
         GameStart(0);
+    }
+
+    IEnumerator WaitForAudioManager()
+    {
+        while (AudioManager.instance == null)
+        {
+            this.Log("AudioManager 인스턴스를 찾을 수 없습니다.");
+            yield return null;
+        }
     }
 
     /// <summary>
@@ -136,12 +149,7 @@ public class GameManager : MonoBehaviour
         // Energy decreases by 1 when starting a game
         if (playerData != null)
         {
-            if (playerData.Energy <= 0)
-            {
-                Debug.Log("에너지가 부족합니다!");
-                // 에너지 부족 시 게임 시작을 막거나, UI에서 알림을 표시할 수 있습니다.
-                return;
-            }
+
 
             playerData.Energy -= 1;
             if (playerData.Energy < 0)
@@ -154,14 +162,20 @@ public class GameManager : MonoBehaviour
         //오디오 재생
         if (AudioManager.instance != null)
         {
-            this.Log("***************AudioManager.instance****************");
-
+            //Debug.Log("AudioManager.instance.PlayBgm(true).");
             AudioManager.instance.PlayBgm(true);
             AudioManager.instance.PlaySfx(AudioManager.SFX.Select);
+        }
+        else
+        {
+            Debug.Log("AudioManager 인스턴스를 찾을 수 없습니다.");
         }
 
         Debug.Log($"스테이지 {curr_stage} 시작!");
     }
+
+
+
 
     /// <summary>
     /// 매 프레임 호출 - 게임 시간 관리

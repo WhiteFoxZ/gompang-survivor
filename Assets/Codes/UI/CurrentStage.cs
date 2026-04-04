@@ -44,7 +44,7 @@ public class CurrentStage : MonoBehaviour
                 nextStage = PlayerPrefs.GetInt("NextStage", 1);
             }
 
-            Debug.Log($"현재 스테이지: {nextStage}");
+            // Debug.Log($"현재 스테이지: {nextStage}");
 
             // 다음 스테이지 표시
             _titleLabel.text = "STAGE " + nextStage;

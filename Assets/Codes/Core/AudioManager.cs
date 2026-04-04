@@ -35,7 +35,9 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        instance = this;
+        //싱글톤 인스턴스 설정
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
         Init();
     }
 
@@ -99,9 +101,6 @@ public class AudioManager : MonoBehaviour
     /// <param name="isPlay">재생 여부</param>
     public void PlayBgm(bool isPlay)
     {
-
-        this.Log("PlayBgm : " + isPlay);
-
         if (isPlay)
         {
             bgmPlayer.Play();
