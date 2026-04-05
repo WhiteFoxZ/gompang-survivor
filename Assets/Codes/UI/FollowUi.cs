@@ -5,6 +5,10 @@ using UnityEngine;
 /// </summary>
 public class FollowUi : MonoBehaviour
 {
+
+    [Header("Health,HealthSlider 포지션 변경하지 마세요")]
+    public string dummy; //더미 변수 - 컴포넌트가 사라지는 것을 방지하기 위해 사용
+
     RectTransform rect; //RectTransform 컴포넌트
 
     /// <summary>
