@@ -63,9 +63,17 @@ public class Spawner : MonoBehaviour
 
         // this.Log("레벨이 최대치를 넘지 않도록 제한 >>>>  enemyLevel >>> " + enemyLevel);
 
+        int spawnDataIdx = 0;
 
-        //Random.Range(0, 2) = 0, 1 섞임
-        int spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
+        if (isBossSpawned)
+        {
+            spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
+        }
+        else
+        {
+            //Random.Range(0, 2) = 0, 1 섞임
+            spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
+        }
 
         // this.Log($" spawnDataIdx : {spawnDataIdx}  = Random.Range(0, {enemyLevel + 1}) ");
 
