@@ -8,6 +8,13 @@ public class Result : MonoBehaviour
 
     public GameObject[] titles; //결과 제목 배열 (0: 패배, 1: 승리)
 
+    [Header("일시정지 버튼")]
+    public GameObject pauseBG; //일시정지 배경 오브젝트
+
+    void OEnable()
+    {
+        pauseBG.SetActive(false); //일시정지 배경 비활성화
+    }
 
     /// <summary>
     /// 패배 화면 표시
@@ -16,6 +23,7 @@ public class Result : MonoBehaviour
     {
         //패배 제목 활성화
         titles[0].SetActive(true);
+
     }
 
     /// <summary>

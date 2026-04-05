@@ -79,7 +79,7 @@ public class Spawner : MonoBehaviour
         //Random.Range(0, 2) = 0, 1 섞임
         int spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
 
-        // this.Log("spawnDataIdx " + spawnDataIdx, " enemyLevel " + enemyLevel);
+        this.Log("spawnDataIdx " + spawnDataIdx, " enemyLevel " + enemyLevel);
 
         //스폰 시간 도달 시 적 생성
         //스테이지가 증가할수록 스폰 시간 5% 감소
@@ -135,6 +135,17 @@ public class Spawner : MonoBehaviour
 
         enemy.GetComponent<Enemy>().Init(spawnData);
 
+        //보스인경우 스케일을 키운다.
+        if (spawnData.boss)
+        {
+            enemy.transform.localScale = Vector3.one * 1.5f; //보스는 1.5배 크기로 설정
+        }
+        else
+        {
+            enemy.transform.localScale = Vector3.one; //일반 적은 기본 크기
+        }
+
+
         //0은 부모 오브젝트이므로 제외하고 랜덤 선택
         int randomIndex = Random.Range(1, spawnPoint.Length);
         Vector3 spawnPos = spawnPoint[randomIndex].position;
@@ -157,6 +168,7 @@ public class Spawner : MonoBehaviour
 public class SpawnData
 {
 
+    public bool boss; //스폰 간격
     public float spawnTime; //스폰 간격
     public int spriteType;  //적의 애니메이션 유형
     public int health; //체력
@@ -165,7 +177,7 @@ public class SpawnData
 
     public void Print()
     {
-        Debug.Log($"SpawnData  spriteType: {spriteType}, health: {health}, speed: {speed}, attack: {attack}");
+        Debug.Log($"SpawnData boss: {boss}, spriteType: {spriteType}, health: {health}, speed: {speed}, attack: {attack}");
     }
 
 }

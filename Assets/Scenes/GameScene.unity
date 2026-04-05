@@ -344,6 +344,7 @@ MonoBehaviour:
   titles:
   - {fileID: 2022162806}
   - {fileID: 982582823}
+  PauseBG: {fileID: 2113798019}
 --- !u!1 &35480785
 GameObject:
   m_ObjectHideFlags: 0
@@ -10494,7 +10495,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 20, y: 22}
+  m_Size: {x: 20, y: 21}
   m_EdgeRadius: 0
 --- !u!1 &714430605
 GameObject:

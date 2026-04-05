@@ -291,6 +291,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         {
             string[] column = row[i].Split('\t');
 
+            bool boss = bool.Parse(column[0]);
             spawnTime = float.Parse(column[1]);
             spriteType = int.Parse(column[2]);
             health = int.Parse(column[3]);
@@ -299,6 +300,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
             Spawner._spawnDatas[i] = new SpawnData
             {
+                boss = boss,
                 spawnTime = spawnTime,
                 spriteType = spriteType,
                 health = health,
