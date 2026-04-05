@@ -321,7 +321,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //itemDatas 에 정보를 로그로 출력 (테스트용)
         foreach (var item in Spawner._spawnDatas)
         {
-            Debug.Log($" boss: {item.boss}, spriteType: {item.spriteType},health: {item.health},speed: {item.speed}, attack: {item.attack}, spawnTime: {item.spawnTime}");
+            Debug.Log($"다운로드 boss: {item.boss}, spriteType: {item.spriteType},health: {item.health},speed: {item.speed}, attack: {item.attack}, spawnTime: {item.spawnTime}");
         }
 
     }

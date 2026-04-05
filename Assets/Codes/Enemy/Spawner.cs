@@ -27,6 +27,7 @@ public class Spawner : MonoBehaviour
     public static float spawnTimeRate = 0f; //스폰 시간 감소율
 
 
+    bool isBossSpawned = false; //보스 스폰 여부 - 한 게임당 한 번만 보스가 나오도록 설정
 
     /// <summary>
     /// 시작 시 호출 - 초기화
@@ -58,13 +59,13 @@ public class Spawner : MonoBehaviour
         //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(2,2) -> 2, Mathf.Min(3,2) -> 2
         enemyLevel = Mathf.Min(enemyLevel, _spawnDatas.Length - 1);
 
-        // this.Log("레벨이 최대치를 넘지 않도록 제한 >>>>  enemyLevel >>> " + enemyLevel);
+        this.Log("레벨이 최대치를 넘지 않도록 제한 >>>>  enemyLevel >>> " + enemyLevel);
 
 
         //Random.Range(0, 2) = 0, 1 섞임
         int spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
 
-        // this.Log($" spawnDataIdx : {spawnDataIdx}  = Random.Range(0, {enemyLevel + 1}) ");
+        this.Log($" spawnDataIdx : {spawnDataIdx}  = Random.Range(0, {enemyLevel + 1}) ");
 
         //스폰 시간 도달 시 적 생성
         //스테이지가 증가할수록 스폰 시간 5% 감소
@@ -119,13 +120,19 @@ public class Spawner : MonoBehaviour
             speed = _spawnDatas[spawnDataIdx].speed * (1 + (curr_stage * speedRate))
         };
 
-        spawnData.Print();
+        if (spawnDataIdx == 2)
+        {
+            this.Log("보스 스폰 시도 >>>> spawnDataIdx : " + spawnDataIdx);
+            spawnData.Print();
+        }
+
 
         enemy.GetComponent<Enemy>().Init(spawnData);
 
-        //보스인경우 스케일을 키운다.
-        if (spawnData.boss == 1)
+        //보스인경우 스케일을 키운다.보스는 한게임당 한마리만 나오도록 설정되어있음
+        if (spawnData.boss == 1 && !isBossSpawned)
         {
+            isBossSpawned = true;
             enemy.transform.localScale = Vector3.one * 3f; //보스는 1.5배 크기로 설정
         }
         else

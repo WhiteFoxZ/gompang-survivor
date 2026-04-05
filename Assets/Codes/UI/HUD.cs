@@ -74,7 +74,7 @@ public class HUD : MonoBehaviour
                 float currHealth = GameManager.instance.health;  //현재 체력
                 float maxHealth = GameManager.instance.maxHealth;  //최대 체력
 
-                this.Log($"Health : {expSlider.value}  = {currHealth}  / {maxHealth} ");
+                // this.Log($"Health : {expSlider.value}  = {currHealth}  / {maxHealth} ");
 
                 expSlider.value = currHealth / maxHealth;  //슬라이더 값 
                 break;
