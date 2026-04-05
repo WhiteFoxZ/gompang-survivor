@@ -17,7 +17,9 @@ public class Spawner : MonoBehaviour
 
     [Header("디버그용 변수")]
     public static float levelTime; //레벨당 시간
-    public int enemyLevel = 0; //적 레벨 (0부터 시작)
+
+
+    int enemyLevel = 0; //적 레벨 (0부터 시작)
 
     float timer = 0f; //타이머
 
@@ -28,6 +30,9 @@ public class Spawner : MonoBehaviour
 
 
     bool isBossSpawned = false; //보스 스폰 여부 - 한 게임당 한 번만 보스가 나오도록 설정
+
+    [Header("보스출현시 생성되는 벽 스포너")]
+    public WallSpawner wallSpawner; //벽 스포너 참조
 
     /// <summary>
     /// 시작 시 호출 - 초기화
@@ -134,6 +139,8 @@ public class Spawner : MonoBehaviour
         {
             isBossSpawned = true;
             enemy.transform.localScale = Vector3.one * 3f; //보스는 1.5배 크기로 설정
+
+            wallSpawner.SpawnFixedWalls(); //보스가 스폰될 때 벽 생성
         }
         else
         {
