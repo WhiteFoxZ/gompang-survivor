@@ -31,9 +31,6 @@ public class Spawner : MonoBehaviour
 
     bool isBossSpawned = false; //보스 스폰 여부 - 한 게임당 한 번만 보스가 나오도록 설정
 
-    [Header("보스출현시 생성되는 벽 스포너")]
-    public WallSpawner wallSpawner; //벽 스포너 참조
-
     /// <summary>
     /// 시작 시 호출 - 초기화
     /// </summary>
@@ -64,13 +61,13 @@ public class Spawner : MonoBehaviour
         //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(2,2) -> 2, Mathf.Min(3,2) -> 2
         enemyLevel = Mathf.Min(enemyLevel, _spawnDatas.Length - 1);
 
-        this.Log("레벨이 최대치를 넘지 않도록 제한 >>>>  enemyLevel >>> " + enemyLevel);
+        // this.Log("레벨이 최대치를 넘지 않도록 제한 >>>>  enemyLevel >>> " + enemyLevel);
 
 
         //Random.Range(0, 2) = 0, 1 섞임
         int spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
 
-        this.Log($" spawnDataIdx : {spawnDataIdx}  = Random.Range(0, {enemyLevel + 1}) ");
+        // this.Log($" spawnDataIdx : {spawnDataIdx}  = Random.Range(0, {enemyLevel + 1}) ");
 
         //스폰 시간 도달 시 적 생성
         //스테이지가 증가할수록 스폰 시간 5% 감소
@@ -140,7 +137,7 @@ public class Spawner : MonoBehaviour
             isBossSpawned = true;
             enemy.transform.localScale = Vector3.one * 3f; //보스는 1.5배 크기로 설정
 
-            wallSpawner.SpawnFixedWalls(); //보스가 스폰될 때 벽 생성
+            GameManager.instance._wallSpawner.SpawnFixedWalls(); //보스가 스폰될 때 벽 생성
         }
         else
         {

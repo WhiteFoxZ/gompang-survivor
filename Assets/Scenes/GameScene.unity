@@ -3841,6 +3841,7 @@ MonoBehaviour:
     MaxStageReached: 0
     slotItems: []
     buttonItems: []
+  _wallSpawner: {fileID: 912664725}
 --- !u!4 &559569579
 Transform:
   m_ObjectHideFlags: 0
@@ -12141,7 +12142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &912664724
 Transform:
   m_ObjectHideFlags: 0
@@ -12176,6 +12177,7 @@ MonoBehaviour:
   wallGroup: {fileID: 912664723}
   player: {fileID: 703018131}
   range: 5
+  vcam: {fileID: 754502205}
 --- !u!1 &941281308
 GameObject:
   m_ObjectHideFlags: 0
@@ -21714,7 +21716,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   spawnPoint:
   - {fileID: 1958569121}
-  wallSpawner: {fileID: 912664725}
 --- !u!61 &1597902382
 BoxCollider2D:
   m_ObjectHideFlags: 0

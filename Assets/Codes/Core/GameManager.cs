@@ -48,6 +48,9 @@ public class GameManager : MonoBehaviour
 
     public PlayerData playerData;  //플레이어 장비,재능
 
+    [Header("보스출현시 생성되는 벽 스포너")]
+    public WallSpawner _wallSpawner; //벽 스포너 참조
+
 
     /// <summary>
     /// 시작 시 호출 - 싱글톤 설정 및 초기화

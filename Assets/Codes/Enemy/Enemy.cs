@@ -301,6 +301,9 @@ public class Enemy : MonoBehaviour
         GameManager.instance.kill++;
         GameManager.instance.GetExp(1);
 
+        if (boos == 1) //보스가 죽었을 때 벽 제거
+            GameManager.instance._wallSpawner.RemoveWalls();
+
     }
 
 

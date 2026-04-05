@@ -131,8 +131,8 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
 
-        this.Log(" item 다운갯수 : " + rowSize);
-        this.Log(" itemDatas : " + itemDatas.Length);
+        // this.Log(" item 다운갯수 : " + rowSize);
+        // this.Log(" itemDatas : " + itemDatas.Length);
 
         if (itemDatas.Length != rowSize)
         {
@@ -178,8 +178,8 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
 
-        this.Log(" 장비 다운갯수 : " + rowSize);
-        this.Log(" equipmentDatas : " + equipmentDatas.Length);
+        // this.Log(" 장비 다운갯수 : " + rowSize);
+        // this.Log(" equipmentDatas : " + equipmentDatas.Length);
 
 
         if (equipmentDatas.Length != rowSize)
@@ -262,12 +262,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //레벨당 시간 계산
         Spawner.levelTime = GameManager.instance.maxGameTime / Spawner._spawnDatas.Length;
 
-        this.Log(" 게임정보 다운로드 ******* ");
+        // this.Log(" 게임정보 다운로드 ******* ");
 
-        this.Log($" levelTime  : {Spawner.levelTime}  maxGameTime : {GameManager.instance.maxGameTime}  spawnDatasLength : {Spawner._spawnDatas.Length} ");
-        this.Log($" maxHealth  : {GameManager.instance.maxHealth}   ");
-
-
+        // this.Log($" levelTime  : {Spawner.levelTime}  maxGameTime : {GameManager.instance.maxGameTime}  spawnDatasLength : {Spawner._spawnDatas.Length} ");
+        // this.Log($" maxHealth  : {GameManager.instance.maxHealth}   ");
 
     }
 
@@ -319,10 +317,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         }
 
         //itemDatas 에 정보를 로그로 출력 (테스트용)
-        foreach (var item in Spawner._spawnDatas)
-        {
-            Debug.Log($"다운로드 boss: {item.boss}, spriteType: {item.spriteType},health: {item.health},speed: {item.speed}, attack: {item.attack}, spawnTime: {item.spawnTime}");
-        }
+        // foreach (var item in Spawner._spawnDatas)
+        // {
+        //     Debug.Log($"다운로드 boss: {item.boss}, spriteType: {item.spriteType},health: {item.health},speed: {item.speed}, attack: {item.attack}, spawnTime: {item.spawnTime}");
+        // }
 
     }
 
