@@ -130,7 +130,6 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
-        int columnSize = row[0].Split('\t').Length;
 
         this.Log(" item 다운갯수 : " + rowSize);
         this.Log(" itemDatas : " + itemDatas.Length);
@@ -222,7 +221,6 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //item type	item id	이름(name)	item Desc	공격력(base Damage)	Base Count	LevelUp Damage	LevelUp Counts	knockBack	knockBackRate   GAME_TIME	MAX_STAGE	NEXT_EXP	MAX_HEALTH	ENEMY_speedRate	ENENy_healthRate	ENENY_attackRate	ENENY_spawnTimeRate
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
-        int columnSize = row[0].Split('\t').Length;
 
         int maxGameTime = 0, maxGameStage = 0, maxHealth = 0;
 
@@ -250,15 +248,26 @@ public class GoogleSpreadSheetManager : MonoBehaviour
             // Debug.Log($"maxGameTime: {maxGameTime}, maxGameStage: {maxGameStage}, extExp: {string.Join(",", extExp)} maxHealth: {maxHealth}, ENEMY_speedRate: {ENEMY_speedRate}, ENENy_healthRate: {ENENy_healthRate}, ENENY_attackRate: {ENENY_attackRate}, ENENY_spawnTimeRate: {ENENY_spawnTimeRate}");
         }
 
-        GameManager.instance.SetMaxGameTime(maxGameTime);
-        GameManager.instance.SetMaxGameStage(maxGameStage);
-        GameManager.instance.SetExtExp(extExp);
+        GameManager.instance.maxGameTime = maxGameTime;
+        GameManager.instance.maxStage = maxGameStage;
+        GameManager.instance.nextExp = extExp;
         GameManager.instance.maxHealth = maxHealth;
 
         Spawner.speedRate = ENEMY_speedRate;
         Spawner.healthRate = ENENy_healthRate;
         Spawner.attackRate = ENENY_attackRate;
         Spawner.spawnTimeRate = ENENY_spawnTimeRate;
+
+
+        //레벨당 시간 계산
+        Spawner.levelTime = GameManager.instance.maxGameTime / Spawner._spawnDatas.Length;
+
+        this.Log(" 게임정보 다운로드 ******* ");
+
+        this.Log($" levelTime  : {Spawner.levelTime}  maxGameTime : {GameManager.instance.maxGameTime}  spawnDatasLength : {Spawner._spawnDatas.Length} ");
+        this.Log($" maxHealth  : {GameManager.instance.maxHealth}   ");
+
+
 
     }
 
@@ -274,9 +283,8 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //no	spawnTime	spriteType	health	speed	attack
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
-        int columnSize = row[0].Split('\t').Length;
 
-
+        int boss = 0;
         float spawnTime = 0f;
         int spriteType = 0;
         int health = 0;
@@ -291,7 +299,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         {
             string[] column = row[i].Split('\t');
 
-            bool boss = bool.Parse(column[0]);
+            boss = int.Parse(column[0]);
             spawnTime = float.Parse(column[1]);
             spriteType = int.Parse(column[2]);
             health = int.Parse(column[3]);
@@ -313,7 +321,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //itemDatas 에 정보를 로그로 출력 (테스트용)
         foreach (var item in Spawner._spawnDatas)
         {
-            Debug.Log($" spriteType: {item.spriteType},health: {item.health},speed: {item.speed}, attack: {item.attack}, spawnTime: {item.spawnTime}");
+            Debug.Log($" boss: {item.boss}, spriteType: {item.spriteType},health: {item.health},speed: {item.speed}, attack: {item.attack}, spawnTime: {item.spawnTime}");
         }
 
     }

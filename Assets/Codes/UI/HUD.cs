@@ -30,6 +30,13 @@ public class HUD : MonoBehaviour
     /// </summary>
     void LateUpdate()
     {
+        //GameManager의 인스턴스가 존재하지 않으면 업데이트 중지
+        if (GameManager.instance == null)
+        {
+            Debug.LogWarning("GameManager 인스턴스가 존재하지 않습니다. HUD 업데이트를 중지합니다.");
+            return;
+        }
+
         switch (infoType)
         {
 
@@ -66,6 +73,9 @@ public class HUD : MonoBehaviour
                 //체력 슬라이더 업데이트
                 float currHealth = GameManager.instance.health;  //현재 체력
                 float maxHealth = GameManager.instance.maxHealth;  //최대 체력
+
+                this.Log($"Health : {expSlider.value}  = {currHealth}  / {maxHealth} ");
+
                 expSlider.value = currHealth / maxHealth;  //슬라이더 값 
                 break;
 

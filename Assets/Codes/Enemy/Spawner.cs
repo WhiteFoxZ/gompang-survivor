@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
 
 
     [Header("디버그용 변수")]
-    public float levelTime; //레벨당 시간
+    public static float levelTime; //레벨당 시간
     public int enemyLevel = 0; //적 레벨 (0부터 시작)
 
     float timer = 0f; //타이머
@@ -36,22 +36,6 @@ public class Spawner : MonoBehaviour
         spawnPoint = GetComponentsInChildren<Transform>();
     }
 
-    void Start()
-    {
-        StartCoroutine(LoadDataAndStartGame());
-    }
-
-
-    IEnumerator LoadDataAndStartGame()
-    {
-        // 아이템 데이터 다운로드 먼저 실행
-        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.ENEMY));
-
-        //레벨당 시간 계산
-        levelTime = GameManager.instance.maxGameTime / _spawnDatas.Length;
-
-    }
-
 
     /// <summary>
     /// 매 프레임 호출 - 적 스폰 관리
@@ -68,24 +52,26 @@ public class Spawner : MonoBehaviour
         //게임시간에 따라 Enemy 종류변경,레벨 계산
         enemyLevel = Mathf.FloorToInt(GameManager.instance.gameTime / levelTime);
 
-        // this.Log("enemyLevel " + enemyLevel + "  timer " + timer + " levelTime " + levelTime);
+        this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
 
-        //레벨이 최대치를 넘지 않도록 제한
+
+        //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(2,2) -> 2, Mathf.Min(3,2) -> 2
         enemyLevel = Mathf.Min(enemyLevel, _spawnDatas.Length - 1);
 
-        // this.Log("level2 " + enemyLevel);
+        // this.Log("레벨이 최대치를 넘지 않도록 제한 >>>>  enemyLevel >>> " + enemyLevel);
 
 
         //Random.Range(0, 2) = 0, 1 섞임
         int spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
 
-        this.Log("spawnDataIdx " + spawnDataIdx, " enemyLevel " + enemyLevel);
+        // this.Log($" spawnDataIdx : {spawnDataIdx}  = Random.Range(0, {enemyLevel + 1}) ");
 
         //스폰 시간 도달 시 적 생성
         //스테이지가 증가할수록 스폰 시간 5% 감소
         float spawnTime = _spawnDatas[spawnDataIdx].spawnTime * Mathf.Pow((1 - spawnTimeRate), enemyLevel);
 
         // this.Log($" {spawnTime} : {_spawnDatas[spawnDataIdx].spawnTime} * Mathf.Pow((1 - {spawnTimeRate}), {enemyLevel}) ");
+
         float spawnTime2 = spawnTime;
 
         spawnTime = spawnTime * Mathf.Pow((1 - spawnTimeRate), curr_stage); //게임 레벨에 따른 추가 스폰 시간 감소
@@ -94,7 +80,7 @@ public class Spawner : MonoBehaviour
 
         spawnTime = Mathf.Max(spawnTime, 0.3f); //최소 스폰 시간 제한;
 
-        // this.Log($" {spawnTime} : Mathf.Max({spawnTime}, 0.5f) ");
+        // this.Log($" {spawnTime} : Mathf.Max({spawnTime}, 0.3f) ");
 
         if (timer > spawnTime)
         {
@@ -120,6 +106,8 @@ public class Spawner : MonoBehaviour
         //스폰 데이터 설정 - 
         SpawnData spawnData = new SpawnData
         {
+            boss = _spawnDatas[spawnDataIdx].boss,
+
             attack = _spawnDatas[spawnDataIdx].attack,
 
             spriteType = _spawnDatas[spawnDataIdx].spriteType,
@@ -136,9 +124,9 @@ public class Spawner : MonoBehaviour
         enemy.GetComponent<Enemy>().Init(spawnData);
 
         //보스인경우 스케일을 키운다.
-        if (spawnData.boss)
+        if (spawnData.boss == 1)
         {
-            enemy.transform.localScale = Vector3.one * 1.5f; //보스는 1.5배 크기로 설정
+            enemy.transform.localScale = Vector3.one * 3f; //보스는 1.5배 크기로 설정
         }
         else
         {
@@ -168,7 +156,7 @@ public class Spawner : MonoBehaviour
 public class SpawnData
 {
 
-    public bool boss; //스폰 간격
+    public int boss; //보스 여부 (0: 일반, 1: 보스)
     public float spawnTime; //스폰 간격
     public int spriteType;  //적의 애니메이션 유형
     public int health; //체력

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("게임 Control")]
     public bool isLive = false; //게임 진행 중 여부
     public float gameTime;  //게임 시간
-    public float maxGameTime = 2f * 60f;  //최대 게임 시간 (2분)
+    public float maxGameTime;  //최대 게임 시간 (2분)
     //현재스테이지
     public int curr_stage = 1;
 
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [Header("플레이어 정보")]
     public int playerId; //플레이어 ID
     public float health;  //플레이어 체력
-    public float maxHealth = 100;  //플레이어 최대 체력
+    public float maxHealth;  //플레이어 최대 체력
 
 
 
@@ -95,7 +95,14 @@ public class GameManager : MonoBehaviour
         // 아이템 데이터 다운로드 먼저 실행
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Item));
 
+
+        // 아이템 데이터 다운로드 먼저 실행
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.ENEMY));
+
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Exp));
+
+
+
         // 다운로드 완료 후 게임 시작
         GameStart(0);
     }
@@ -135,8 +142,15 @@ public class GameManager : MonoBehaviour
         //장비 적용
         EquipItem equipItem = playerData.GetTotalSlotStats();
 
-
-        maxHealth = maxHealth * (1 + equipItem.level * 0.01f);
+        if (equipItem != null)
+        {
+            //체력 증가량 계산
+            // maxHealth = 100 + equipItem.health; //기본 체력 100에 장비로 증가한 체력 더하기
+        }
+        else
+        {
+            this.Log("장비 데이터가 없습니다.");
+        }
 
         health = maxHealth; //체력 초기화
 
@@ -363,20 +377,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("LobbyScene");
     }
 
-    public void SetMaxGameTime(int time)
-    {
-        maxGameTime = time;
-    }
-
-    public void SetMaxGameStage(int stage)
-    {
-        maxStage = stage;
-    }
-
-    public void SetExtExp(int[] extExp)
-    {
-        nextExp = extExp;
-    }
 
 
 }
