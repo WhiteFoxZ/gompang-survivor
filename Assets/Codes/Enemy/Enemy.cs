@@ -7,6 +7,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
+    public int boos; //보스 여부 (0: 일반, 1: 보스)
     public float attack; //공격력
     public float speed; //이동 속도
     public float health; //현재 체력
@@ -112,9 +113,11 @@ public class Enemy : MonoBehaviour
     {
         //애니메이션 컨트롤러 설정
         animator.runtimeAnimatorController = animatorController[data.spriteType];
+        boos = data.boss;
         speed = data.speed;
         maxHealth = data.health;
         attack = data.attack;
+
         health = maxHealth;
 
     }
@@ -152,7 +155,12 @@ public class Enemy : MonoBehaviour
                     this.Log($"총알 Damage: {damage}, Knockback: {appliedKnockback} ");
                 }
 
-
+                //보스는 넉백이 적용되지 않도록 설정 (보스는 넉백 면역)
+                if (boos == 1)
+                {
+                    appliedKnockback = 0f; //보스는 넉백 면역
+                    this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
+                }
                 //데미지 적용 (넉백 값 포함)
                 TakeDamage(damage, appliedKnockback);
             }
@@ -169,6 +177,11 @@ public class Enemy : MonoBehaviour
 
                     this.Log($"Missile Damage: {damage}, Knockback: {appliedKnockback}");
 
+                    if (boos == 1)
+                    {
+                        appliedKnockback = 0f; //보스는 넉백 면역
+                        this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
+                    }
                     //미사일 데미지 적용
                     TakeDamage(damage, appliedKnockback);
                 }
