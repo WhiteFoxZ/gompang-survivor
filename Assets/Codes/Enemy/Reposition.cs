@@ -57,11 +57,11 @@ public class Reposition : MonoBehaviour
             //거리가 더 큰 방향으로 타일맵 이동
             if (diffX > diffY)
             {
-                transform.Translate(Vector3.right * dirX * 40); // 플레이어가 좌우로 이동 중일 때 리스폰 지역을 수평 방향으로 이동
+                transform.Translate(Vector3.right * dirX * 60); // 플레이어가 좌우로 이동 중일 때 리스폰 지역을 수평 방향으로 이동
             }
             else if (diffX < diffY)
             {
-                transform.Translate(Vector3.up * dirY * 40); // 40*40 타일의 전체 크기
+                transform.Translate(Vector3.up * dirY * 60); // 60*60 타일의 전체 크기
             }
 
         }
