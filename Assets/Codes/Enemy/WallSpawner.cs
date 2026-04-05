@@ -27,14 +27,24 @@ public class WallSpawner : MonoBehaviour
     {
         this.Log("************** 벽생성 *************");
 
-        // 시네머신 Follow 대상을 null로 만들어 그 자리에 멈추게 함
-        vcam.Follow = null;
-
         // 1. 벽 묶음을 활성화
         wallGroup.SetActive(true);
 
         // 2. 현재 플레이어의 위치를 벽 묶음의 위치로 설정 (고정!)
-        wallGroup.transform.position = player.position;
+
+        this.Log($" player : {player.position.x} , {player.position.y} , {player.position.z} ");
+
+        this.Log($" vcam : {vcam.transform.position.x} , {vcam.transform.position.y} , {vcam.transform.position.z} ");
+
+
+        //wallGroup.transform.position = new Vector3(player.position.x, player.position.y, wallGroup.transform.position.z);
+
+        wallGroup.transform.position = new Vector3(vcam.transform.position.x, vcam.transform.position.y, Vector3.zero.z);
+
+
+
+        // 시네머신 Follow 대상을 null로 만들어 그 자리에 멈추게 함
+        vcam.Follow = null;
 
 
     }

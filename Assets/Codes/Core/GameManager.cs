@@ -331,12 +331,12 @@ public class GameManager : MonoBehaviour
         }
 
         // Increase Gold by the current stage value when winning
-        if (playerData != null)
+        if (DataManager.instance.playerInfo != null)
         {
 
-            playerData.Gold += curr_stage * 100;
+            DataManager.instance.playerInfo.Gold += curr_stage * 100;
 
-            this.Log($" playerData.Gold : {playerData.Gold}");
+            this.Log($" playerData.Gold : {DataManager.instance.playerInfo.Gold}");
 
             DataManager.instance.Save();
         }
