@@ -336,7 +336,7 @@ public class GameManager : MonoBehaviour
 
             DataManager.instance.playerInfo.Gold += curr_stage * 100;
 
-            this.Log($" playerData.Gold : {DataManager.instance.playerInfo.Gold}");
+            this.Log($" playerData.Gold : {curr_stage * 100} ->{DataManager.instance.playerInfo.Gold}");
 
             DataManager.instance.Save();
         }

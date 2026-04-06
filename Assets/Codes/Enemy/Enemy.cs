@@ -207,10 +207,6 @@ public class Enemy : MonoBehaviour
             //히트 애니메이션 재생
             animator.SetTrigger("Hit");
             AudioManager.instance.PlaySfx(AudioManager.SFX.Hit);
-
-
-
-
         }
         else //사망
         {
@@ -237,8 +233,16 @@ public class Enemy : MonoBehaviour
     /// <param name="knockback">넉백 세기</param>
     IEnumerator KnockBack(float knockbackDamage)
     {
+
+        if (knockbackDamage <= 0f)
+        {
+            yield break; //넉백 세기가 0이하이면 넉백 효과 없음
+        }
+
         //1프레임 대기
         yield return wait;
+
+
 
         //플레이어 위치에서 적 위치로의 방향
         Vector3 playerPos = GameManager.instance.player.transform.position;

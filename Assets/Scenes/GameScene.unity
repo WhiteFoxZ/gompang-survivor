@@ -341,9 +341,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 321dc577c1161804e89688df2aa4ce34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Result
-  titles:
+  _titles:
   - {fileID: 2022162806}
   - {fileID: 982582823}
+  _text: {fileID: 1602939581}
   pauseBG: {fileID: 2113798019}
 --- !u!1 &35480785
 GameObject:
@@ -31988,7 +31989,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB3CC\uC544\uAC00\uAE30.."
+  m_Text: "\uC7AC\uB3C4\uC804"
 --- !u!222 &1602939582
 CanvasRenderer:
   m_ObjectHideFlags: 0

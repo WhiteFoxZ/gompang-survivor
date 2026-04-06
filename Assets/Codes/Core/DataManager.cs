@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.IO;
 using Newtonsoft.Json; // 네임스페이스 추가
 using System;
-using System.Globalization;
 
 
 // 1.저장할 데이터가 존재
@@ -23,21 +23,46 @@ public class DataManager : MonoBehaviour
     void Awake()
     {
 
-        // 싱글톤 구현: 인스턴스가 이미 존재하면 자신을 파괴
-        if (instance != null && instance != this)
+        if (instance == null)
         {
-            Destroy(gameObject);
-            return;
+            instance = this;
         }
-
-        instance = this;
+        else
+        {
+            Destroy(gameObject); // 이미 존재하면 새로 생긴 건 바로 삭제
+        }
 
         // 씬 전환 시 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
 
+
+    }
+
+    //싱글톤 패턴이고 DontDestroyOnLoad 적용되어 있기 때문에, 씬이 로드될 때마다 초기화 로직을 실행하려면 씬 로드 이벤트를 활용하는 것이 좋습니다.
+
+    private void OnEnable()
+    {
+        // 씬 로드 이벤트 연결
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // 씬 로드 이벤트 해제
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // 씬이 로드될 때마다 호출될 메서드
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"{scene.name} 씬으로 넘어왔습니다!");
+        // 여기서 초기화 로직 실행
+
         LoadData();
         UpdateEnergy();
+
     }
+
 
     private const int EnergyRechargeInterval = 1200; // 20 minutes in seconds
 
@@ -253,10 +278,10 @@ public class PlayerData
     public float MaxLevel = 60;
 
     // 2. 재화 관련
-    public int Gold = 1;
-    public int Gem = 1;
+    public int Gold = 0;
+    public int Gem = 0;
     public int Energy = 20; // 초기 에너지
-    public int MaxEnergy = 100; // 최대 에너지
+    public int MaxEnergy = 60; // 최대 에너지
     public DateTime LastEnergyUpdateTime = System.DateTime.UtcNow;// 에너지 회복 계산용 (UTC 사용)
 
     // 3. 진행도 및 스탯
