@@ -41,7 +41,7 @@ public class CurrentStage : MonoBehaviour
             }
             else
             {
-                nextStage = PlayerPrefs.GetInt("NextStage", 1);
+                nextStage = DataManager.instance.playerInfo.next_stage; // GameManager가 없을 때 DataManager에서 가져오기);
             }
 
             // Debug.Log($"현재 스테이지: {nextStage}");

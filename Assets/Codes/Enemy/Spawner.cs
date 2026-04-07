@@ -55,7 +55,7 @@ public class Spawner : MonoBehaviour
         //게임시간에 따라 Enemy 종류변경,레벨 계산
         enemyLevel = Mathf.FloorToInt(GameManager.instance.gameTime / levelTime);
 
-        this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
+        //        this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
 
 
         //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(2,2) -> 2, Mathf.Min(3,2) -> 2

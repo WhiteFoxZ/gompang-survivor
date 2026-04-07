@@ -60,7 +60,10 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60; //프레임 고정 (60fps)
 
         //저장된 스테이지 정보 불러오기 (기본값 1)
-        next_stage = PlayerPrefs.GetInt("NextStage", 1);
+        if (DataManager.instance != null && DataManager.instance.playerInfo != null)
+        {
+            next_stage = DataManager.instance.playerInfo.next_stage;
+        }
 
         //싱글톤 인스턴스 설정
         if (instance == null) instance = this;
@@ -138,6 +141,12 @@ public class GameManager : MonoBehaviour
         {
             //기본값: 저장된 다음 스테이지 사용
             curr_stage = next_stage;
+        }
+
+        // DataManager에도 curr_stage 저장
+        if (DataManager.instance != null && DataManager.instance.playerInfo != null)
+        {
+            DataManager.instance.playerInfo.curr_stage = curr_stage;
         }
 
         this.playerId = playerId;
@@ -326,8 +335,11 @@ public class GameManager : MonoBehaviour
         if (next_stage < maxStage)
         {
             next_stage++;
-            PlayerPrefs.SetInt("NextStage", next_stage);
-            PlayerPrefs.Save();
+            if (DataManager.instance != null && DataManager.instance.playerInfo != null)
+            {
+                DataManager.instance.playerInfo.next_stage = next_stage;
+                DataManager.instance.Save();
+            }
         }
 
         // Increase Gold by the current stage value when winning
@@ -372,8 +384,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ResetData()
     {
-        PlayerPrefs.DeleteAll();
         next_stage = 1;
+        if (DataManager.instance != null && DataManager.instance.playerInfo != null)
+        {
+            DataManager.instance.playerInfo.curr_stage = 1;
+            DataManager.instance.playerInfo.next_stage = 1;
+        }
     }
 
     /// <summary>
