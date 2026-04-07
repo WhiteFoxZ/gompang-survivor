@@ -9,6 +9,8 @@ public class CurrentStage : MonoBehaviour
     public Text _descLabel;
     public Button _selectButton;
 
+    public GameObject _alertPanel;
+
     private int nextStage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -57,6 +59,11 @@ public class CurrentStage : MonoBehaviour
 
         if (DataManager.instance.playerInfo.Energy <= 0)
         {
+
+            _alertPanel.SetActive(true);
+            //0.5초이후 알림 패널 닫기
+            Invoke("CloseAlertPanel", 1f);
+
             Debug.Log("에너지가 부족합니다!");
             // 에너지 부족 시 게임 시작을 막거나, UI에서 알림을 표시할 수 있습니다.
             return;
@@ -71,8 +78,6 @@ public class CurrentStage : MonoBehaviour
 
         DataManager.instance.Save(); // 에너지 업데이트 및 저장
 
-
-
         // 선택한 스테이지를 PlayerPrefs에 저장
         PlayerPrefs.SetInt("SelectedStage", nextStage);
         PlayerPrefs.Save();
@@ -81,5 +86,10 @@ public class CurrentStage : MonoBehaviour
 
         // 게임 씬으로 이동
         SceneManager.LoadScene("GameScene");
+    }
+
+    void CloseAlertPanel()
+    {
+        _alertPanel.SetActive(false);
     }
 }

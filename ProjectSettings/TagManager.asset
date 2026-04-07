@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - NestedScrollManager
   - AreaEnemy
+  - NoEnergyAlert
   layers:
   - Default
   - TransparentFX

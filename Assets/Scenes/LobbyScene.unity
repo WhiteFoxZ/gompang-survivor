@@ -1653,6 +1653,85 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &280725064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 280725065}
+  - component: {fileID: 280725067}
+  - component: {fileID: 280725066}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &280725065
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280725064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 592465922}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -60, y: -60}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &280725066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280725064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0.005366802, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
+    m_FontSize: 39
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 42
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\uC5D0\uB108\uC9C0\uAC00 \uBD80\uC871\uD569\uB2C8\uB2E4."
+--- !u!222 &280725067
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280725064}
+  m_CullTransparentMesh: 1
 --- !u!1001 &293829557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3036,6 +3115,8 @@ MonoBehaviour:
     PlayerName: 
     Level: 1
     MaxLevel: 1
+    curr_stage: 1
+    next_stage: 1
     Gold: 10
     Gem: 10
     Energy: 20
@@ -3425,6 +3506,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591170483}
+  m_CullTransparentMesh: 1
+--- !u!1 &592465921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 592465922}
+  - component: {fileID: 592465924}
+  - component: {fileID: 592465923}
+  m_Layer: 5
+  m_Name: Alert
+  m_TagString: NoEnergyAlert
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &592465922
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592465921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 280725065}
+  m_Father: {fileID: 1347216610}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 800}
+  m_SizeDelta: {x: -200, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &592465923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592465921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &592465924
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592465921}
   m_CullTransparentMesh: 1
 --- !u!1 &596447598
 GameObject:
@@ -4084,6 +4241,8 @@ MonoBehaviour:
     PlayerName: 
     Level: 1
     MaxLevel: 60
+    curr_stage: 1
+    next_stage: 1
     Gold: 10
     Gem: 10
     Energy: 20
@@ -6656,6 +6815,8 @@ MonoBehaviour:
     PlayerName: 
     Level: 1
     MaxLevel: 1
+    curr_stage: 1
+    next_stage: 1
     Gold: 10
     Gem: 10
     Energy: 20
@@ -7485,6 +7646,8 @@ MonoBehaviour:
     PlayerName: 
     Level: 1
     MaxLevel: 1
+    curr_stage: 1
+    next_stage: 1
     Gold: 10
     Gem: 10
     Energy: 20
@@ -7999,6 +8162,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499a35b43c519e04ea685ed8d907deb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataManager
+  playerInfo:
+    PlayerName: 
+    Level: 1
+    MaxLevel: 60
+    curr_stage: 1
+    next_stage: 1
+    Gold: 1
+    Gem: 1
+    Energy: 20
+    MaxEnergy: 100
+    MaxStageReached: 0
+    slotItems: []
+    buttonItems: []
 --- !u!4 &1157135575
 Transform:
   m_ObjectHideFlags: 0
@@ -9167,6 +9343,7 @@ RectTransform:
   - {fileID: 665763956}
   - {fileID: 732256872}
   - {fileID: 1543002482}
+  - {fileID: 592465922}
   m_Father: {fileID: 434955150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -13336,6 +13513,8 @@ MonoBehaviour:
     PlayerName: 
     Level: 1
     MaxLevel: 1
+    curr_stage: 1
+    next_stage: 1
     Gold: 10
     Gem: 10
     Energy: 20
@@ -13754,6 +13933,8 @@ MonoBehaviour:
     PlayerName: 
     Level: 1
     MaxLevel: 1
+    curr_stage: 1
+    next_stage: 1
     Gold: 10
     Gem: 10
     Energy: 20
@@ -15113,6 +15294,7 @@ MonoBehaviour:
   image: {fileID: 8186629585066063200}
   _descLabel: {fileID: 3897535745161408976}
   _selectButton: {fileID: 4016519119772185671}
+  _alertPanel: {fileID: 592465921}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
