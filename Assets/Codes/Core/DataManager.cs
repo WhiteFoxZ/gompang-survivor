@@ -277,6 +277,9 @@ public class PlayerData
     public float Level = 1;
     public float MaxLevel = 60;
 
+    public int curr_stage = 1;
+    public int next_stage = 1; //다음 스테이지
+
     // 2. 재화 관련
     public int Gold = 0;
     public int Gem = 0;
@@ -329,12 +332,8 @@ public class PlayerData
         return total;
     }
 
-
-
-
-
-
 }
+
 
 [System.Serializable]
 public class EquipItem
