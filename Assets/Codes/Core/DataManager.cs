@@ -179,7 +179,7 @@ public class DataManager : MonoBehaviour
 
     public void Save()
     {
-        path = Application.persistentDataPath + "/";
+        string filePath = Path.Combine(Application.persistentDataPath, filename);
 
         this.Log("SAVE");
 
@@ -197,7 +197,8 @@ public class DataManager : MonoBehaviour
 
     public PlayerData LoadData()
     {
-        string filePath = Application.persistentDataPath + "/" + filename;
+
+        string filePath = Path.Combine(Application.persistentDataPath, filename);
 
         // print(filePath);
 

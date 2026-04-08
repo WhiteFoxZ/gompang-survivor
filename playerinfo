@@ -1,0 +1,16 @@
+{
+  "PlayerName": "",
+  "Level": 1.0,
+  "MaxLevel": 60.0,
+  "curr_stage": 3,
+  "next_stage": 4,
+  "Gold": 601,
+  "Gem": 1,
+  "Energy": 79,
+  "MaxEnergy": 100,
+  "LastEnergyUpdateTime": "2026-04-08T11:11:31.1612027Z",
+  "MaxStageReached": 0,
+  "Talents": {},
+  "slotItems": [],
+  "buttonItems": []
+}

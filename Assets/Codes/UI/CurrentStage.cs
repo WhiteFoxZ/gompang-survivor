@@ -23,6 +23,11 @@ public class CurrentStage : MonoBehaviour
         {
             _selectButton.onClick.AddListener(OnSelectButtonClicked);
         }
+
+        if (_alertPanel != null)
+        {
+            _alertPanel.transform.localScale = Vector3.zero; // 알림 패널의 크기를 원래대로 설정
+        }
     }
 
     // Update is called once per frame
@@ -59,13 +64,13 @@ public class CurrentStage : MonoBehaviour
 
         if (DataManager.instance.playerInfo.Energy <= 0)
         {
-
-            _alertPanel.SetActive(true);
-            //0.5초이후 알림 패널 닫기
-            Invoke("CloseAlertPanel", 1f);
+            if (_alertPanel != null)
+            {
+                _alertPanel.transform.localScale = Vector3.one; // 알림 패널의 크기를 원래대로 설정
+                Invoke("CloseAlertPanel", 1f);
+            }
 
             Debug.Log("에너지가 부족합니다!");
-            // 에너지 부족 시 게임 시작을 막거나, UI에서 알림을 표시할 수 있습니다.
             return;
         }
 
@@ -90,6 +95,9 @@ public class CurrentStage : MonoBehaviour
 
     void CloseAlertPanel()
     {
-        _alertPanel.SetActive(false);
+        if (_alertPanel != null)
+        {
+            _alertPanel.transform.localScale = Vector3.zero; // 알림 패널의 크기를 원래대로 설정
+        }
     }
 }

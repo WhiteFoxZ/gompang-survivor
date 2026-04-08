@@ -34,7 +34,7 @@ public class LobbyHUD : MonoBehaviour
         yield return new WaitUntil(() => lobbyManager != null);
 
         // 인스턴스화된 후 실행할 코드
-        Debug.Log("LobbyManager 준비 완료!");
+        // Debug.Log("LobbyManager 준비 완료!");
         playerInfo = lobbyManager.GetComponent<LobbyManager>().playerData;
 
     }
