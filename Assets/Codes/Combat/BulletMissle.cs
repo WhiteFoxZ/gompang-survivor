@@ -8,6 +8,7 @@ public class BulletMissle : MonoBehaviour
 {
 
     public float damage; //총알 데미지
+    public float per; //총알 관통력
     public float impackDamage; //임팩트 세기
     public float impackRate; //임팩트 확률
     Rigidbody2D rig2d; //물리엔진 컴포넌트
@@ -40,16 +41,25 @@ public class BulletMissle : MonoBehaviour
     /// <param name="target">목표 타겟</param> 
     /// <param name="impackDamage">임팩트 세기</param>
     /// <param name="impackRate">임팩트 확률</param>
-    public void Init(float damage, Transform target, float impackDamage = 3f, float impackRate = 1f)
+    public void Init(float damage, float per, Transform target, float impackDamage = 3f, float impackRate = 1f)
     {
         this.damage = damage;
+        this.per = per;
         this.target = target;
         this.impackDamage = impackDamage;
         this.impackRate = impackRate;
 
+
         //장비적용
         EquipItem equipItemTotal = playerData.GetTotalSlotStats();
         this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
+
+        if (per >= 0)   //원거리무기인경우
+        {
+            //관통력이 있을때 속도 증가
+            speed = speed * 1.5f;
+        }
+
 
     }
 
@@ -79,7 +89,22 @@ public class BulletMissle : MonoBehaviour
         if (!collision.CompareTag("Enemy"))
             return;
 
-        gameObject.SetActive(false);
+
+        // 관통력이 있는 경우(per >= 0)만 관통 처리
+        if (per >= 0)
+        {
+            //관통력 1 감소
+            per--;
+
+            //관통력이 0미만이면 총알 비활성화
+            if (per < 0)
+            {
+                rig2d.linearVelocity = Vector2.zero;
+                //관통력이 0이되면 총알 비활성화
+                gameObject.SetActive(false);
+            }
+        }
+
     }
 
     /// <summary>
