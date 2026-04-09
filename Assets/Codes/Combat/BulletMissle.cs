@@ -7,6 +7,7 @@ using UnityEngine;
 public class BulletMissle : MonoBehaviour
 {
 
+    Player player;
     public float damage; //총알 데미지
     public float per; //총알 관통력
     public float impackDamage; //임팩트 세기
@@ -41,8 +42,9 @@ public class BulletMissle : MonoBehaviour
     /// <param name="target">목표 타겟</param> 
     /// <param name="impackDamage">임팩트 세기</param>
     /// <param name="impackRate">임팩트 확률</param>
-    public void Init(float damage, float per, Transform target, float impackDamage = 3f, float impackRate = 1f)
+    public void Init(Player player, float damage, float per, Transform target, float impackDamage = 3f, float impackRate = 1f)
     {
+        this.player = player;
         this.damage = damage;
         this.per = per;
         this.target = target;
@@ -54,18 +56,20 @@ public class BulletMissle : MonoBehaviour
         EquipItem equipItemTotal = playerData.GetTotalSlotStats();
         this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
 
-        if (per >= 0)   //원거리무기인경우
-        {
-            //관통력이 있을때 속도 증가
-            speed = speed * 1.5f;
-        }
-
 
     }
 
 
     void FixedUpdate()
     {
+        Enemy enemy = target.GetComponent<Enemy>();
+        if (enemy != null && enemy.isLive == false)
+        {
+            this.Log($" enemy.isLive : {enemy.isLive}");
+            rig2d.linearVelocity = transform.up * speed;
+            return;
+        }
+
         Vector2 direction = (Vector2)target.position - rig2d.position;
 
         direction.Normalize();

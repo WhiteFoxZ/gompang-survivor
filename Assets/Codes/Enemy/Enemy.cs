@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D target; //플레이어 리지드바디
 
 
-    bool isLive; //생존 여부
+    public bool isLive; //생존 여부
 
     Rigidbody2D rigid; //적 리지드바디
     Collider2D col; //콜라이더
