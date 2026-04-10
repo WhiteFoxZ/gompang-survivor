@@ -56,9 +56,13 @@ public class Enemy : MonoBehaviour
 
         if (!isLive) return;
 
-        //넉백을 위한 이동 중지
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
-            return;
+        //넉백을 위한 이동 중지 - 히트 애니메이션이 재생 중이면 이동하지 않도록 설정
+        //일반 적은 히트 애니메이션이 재생 중이어도 이동하지 않도록 설정 (보스는 히트 상태에서 멈춤)
+        if (boos == 0)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+                return;
+        }
 
         //플레이어 방향으로 이동
         Vector2 dir = (target.position - rigid.position).normalized;    //이동 방향
@@ -100,6 +104,10 @@ public class Enemy : MonoBehaviour
         if (boos == 1 && !bossPatternStarted)
         {
             float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
+
+            this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} ");
+
+
             if (distanceToPlayer <= bossPatternTriggerDistance)
             {
                 BossPattern bossPattern = GetComponent<BossPattern>();
@@ -176,11 +184,11 @@ public class Enemy : MonoBehaviour
 
                 if (bullet.itemType == ItemData.ItemType.Melee)
                 {
-                    this.Log($"삽 Damage: {damage}, Knockback: {appliedKnockback}  ");
+                    // this.Log($"삽 Damage: {damage}, Knockback: {appliedKnockback}  ");
                 }
                 else if (bullet.itemType == ItemData.ItemType.Range)
                 {
-                    this.Log($"총알 Damage: {damage}, Knockback: {appliedKnockback} ");
+                    // this.Log($"총알 Damage: {damage}, Knockback: {appliedKnockback} ");
                 }
 
                 //보스는 넉백이 적용되지 않도록 설정 (보스는 넉백 면역)

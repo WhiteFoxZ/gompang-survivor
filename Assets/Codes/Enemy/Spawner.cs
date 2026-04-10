@@ -130,7 +130,7 @@ public class Spawner : MonoBehaviour
             speed = _spawnDatas[spawnDataIdx].speed * (1 + (curr_stage * speedRate))
         };
 
-        if (spawnDataIdx == 2)
+        if (_spawnDatas[spawnDataIdx].boss == 1)
         {
             this.Log("보스 스폰 시도 >>>> spawnDataIdx : " + spawnDataIdx);
             spawnData.Print();

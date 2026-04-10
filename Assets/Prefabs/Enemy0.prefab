@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1403674154817347913}
   - component: {fileID: 187658371038981892}
   - component: {fileID: 1551195776719326471}
+  - component: {fileID: 8616831657844000930}
   m_Layer: 6
   m_Name: Enemy0
   m_TagString: Enemy
@@ -195,6 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10e7fff1fa2be64bb212c7b2c746477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  boos: 0
+  attack: 0
   speed: 0
   health: 0
   maxHealth: 0
@@ -202,6 +205,7 @@ MonoBehaviour:
   - {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
   - {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
   target: {fileID: 0}
+  isLive: 0
 --- !u!114 &1551195776719326471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +218,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca283f6004fd8e2449237935ef5de6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reposition
+--- !u!114 &8616831657844000930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910621987619531796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc8d6f18c089754488930fbf4465e53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossPattern
+  _player: {fileID: 0}
+  waitTime: 1.5
+  dashSpeed: 30
+  dashDuration: 0.5
 --- !u!1 &8624089447109978710
 GameObject:
   m_ObjectHideFlags: 0

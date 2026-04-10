@@ -5,10 +5,25 @@ using System.Collections;
 
 public class BossPattern : MonoBehaviour
 {
-    public Transform _player;      // 플레이어 위치
+    Transform _player;      // 플레이어 위치
     public float waitTime = 1.5f;  // 멈춰 있는 시간
     public float dashSpeed = 30f;  // 돌진 속도
     public float dashDuration = 0.5f; // 돌진 지속 시간
+
+    void Start()
+    {
+        if (_player == null)
+        {
+            Debug.LogError("플레이어 Transform이 할당되지 않았습니다. BossPattern 스크립트에 플레이어 Transform을 할당해주세요.");
+        }
+    }
+
+    void OnEnable()
+    {
+        if (GameManager.instance.player != null)
+            _player = GameManager.instance.player.GetComponent<Rigidbody2D>().transform;
+
+    }
 
     public void StartDashPattern()
     {
