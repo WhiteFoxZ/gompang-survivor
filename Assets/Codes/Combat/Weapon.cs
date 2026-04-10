@@ -375,7 +375,7 @@ public class Weapon : MonoBehaviour
         //총알 초기화 - 관통 count 만큼 설정, 넉백 적용
         if (bullet != null)
         {
-            bullet.GetComponent<BulletMissle>().Init(player, damage, count, player.scanner.nearestTarget[2], impackDamage, impackRate);
+            bullet.GetComponent<BulletMissle>().Init(player, damage, count, player.scanner.nearestTarget[0], impackDamage, impackRate);
         }
         else
         {

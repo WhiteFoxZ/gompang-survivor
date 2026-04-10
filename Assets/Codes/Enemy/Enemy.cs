@@ -29,6 +29,10 @@ public class Enemy : MonoBehaviour
 
     WaitForFixedUpdate wait; //물리 업데이트 대기
 
+    // 보스 패턴 관련 변수
+    private bool bossPatternStarted = false; // 보스 패턴이 이미 시작됐는지 추적
+    private float bossPatternTriggerDistance = 5.0f; // 보스 패턴이 시작될 거리 (플레이어와의 거리)
+
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
@@ -82,6 +86,30 @@ public class Enemy : MonoBehaviour
             sprite.flipX = true;
         else
             sprite.flipX = false;
+    }
+
+    /// <summary>
+    /// 프레임 업데이트 - 보스 패턴 트리거 확인
+    /// </summary>
+    void Update()
+    {
+        if (!GameManager.instance.isLive || !isLive)
+            return;
+
+        // 보스가 아직 패턴이 시작되지 않았으며, 플레이어와 거리가 충분히 가까우면 패턴 시작
+        if (boos == 1 && !bossPatternStarted)
+        {
+            float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
+            if (distanceToPlayer <= bossPatternTriggerDistance)
+            {
+                BossPattern bossPattern = GetComponent<BossPattern>();
+                if (bossPattern != null)
+                {
+                    bossPattern.StartDashPattern();
+                    bossPatternStarted = true;
+                }
+            }
+        }
     }
 
     /// <summary>

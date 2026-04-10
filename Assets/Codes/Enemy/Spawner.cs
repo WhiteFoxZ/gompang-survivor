@@ -112,7 +112,7 @@ public class Spawner : MonoBehaviour
         //풀매니저에서 적 오브젝트 가져오기 (프리팹 인덱스 0)
         GameObject enemy = GameManager.instance.poolManager.GetObject(0);
 
-        this.Log("SpawnEnemy curr_stage" + curr_stage + " spawnDataIdx " + spawnDataIdx);
+        // this.Log("SpawnEnemy curr_stage" + curr_stage + " spawnDataIdx " + spawnDataIdx);
 
         //스폰 데이터 설정 - 
         SpawnData spawnData = new SpawnData
