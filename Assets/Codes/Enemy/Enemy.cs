@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class Enemy : MonoBehaviour
 {
+    // 보스가 활성 상태인지 추적하는 정적 변수
+    private static bool isBossActive = false;
 
     public int boos; //보스 여부 (0: 일반, 1: 보스)
     public float attack; //공격력
@@ -128,6 +130,19 @@ public class Enemy : MonoBehaviour
         if (GameManager.instance.player != null)
             target = GameManager.instance.player.GetComponent<Rigidbody2D>();
 
+        // 보스가 활성화되면 일반 적은 생성되지 않도록 함
+        if (boos == 1)
+        {
+            isBossActive = true;
+            // 일반 적들의 생성을 중지 (이미 생성된 적은 유지)
+            // 실제 구현에서는 스폰 매니저에게 알리는 방식이 더 좋음
+        }
+        else if (isBossActive)
+        {
+            // 보스가 활성 상태이면 일반 적은 즉시 비활성화
+            gameObject.SetActive(false);
+            return;
+        }
 
         health = maxHealth;
 
@@ -137,8 +152,6 @@ public class Enemy : MonoBehaviour
         sprite.sortingOrder = 1; //정렬 순서 설정
         animator.SetBool("Dead", false);
         gameObject.SetActive(true);
-
-
     }
 
     /// <summary>
@@ -156,6 +169,11 @@ public class Enemy : MonoBehaviour
 
         health = maxHealth;
 
+        // 일반 적 생성 시 보스가 이미 활성 상태이면 즉시 비활성화
+        if (boos == 0 && isBossActive)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -195,7 +213,7 @@ public class Enemy : MonoBehaviour
                 if (boos == 1)
                 {
                     appliedKnockback = 0f; //보스는 넉백 면역
-                    this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
+                    // this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
                 }
                 //데미지 적용 (넉백 값 포함)
                 TakeDamage(damage, appliedKnockback);
@@ -341,9 +359,12 @@ public class Enemy : MonoBehaviour
         GameManager.instance.kill++;
         GameManager.instance.GetExp(1);
 
-        if (boos == 1) //보스가 죽었을 때 벽 제거
+        if (boos == 1) //보스가 죽었을 때 벽 제거 및 게임 승리
+        {
             GameManager.instance._wallSpawner.RemoveWalls();
-
+            // 보스가 죽었으므로 일반 적들의 생성을 다시 허용
+            isBossActive = false;
+        }
     }
 
 

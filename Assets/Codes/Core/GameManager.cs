@@ -214,8 +214,9 @@ public class GameManager : MonoBehaviour
         //게임 시간 증가
         gameTime += Time.deltaTime;
 
-        //게임 시간 초과 시 승리
-        if (gameTime > maxGameTime)
+        //게임 시간 초과 시 승리 처리 &&  벽 생성 여부 체크 벽이 없으면 승리처리
+
+        if (gameTime > maxGameTime && _wallSpawner.wallGroup.activeSelf == false)
         {
             gameTime = maxGameTime;
             GameVictory();

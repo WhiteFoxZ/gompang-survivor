@@ -35,21 +35,26 @@ public class BossPattern : MonoBehaviour
         // 1. 잠시 멈춤 (기 모으기)
         Debug.Log("보스가 타겟팅 중...");
         // 이때 보스가 플레이어를 쳐다보게 하면 더 위협적입니다.
-        transform.LookAt(_player.position);
+        // 2D 게임에서는 Z축만 회전하거나 스프라이트를 뒤집어야 합니다
+        Vector2 direction = ((Vector2)_player.position - (Vector2)transform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         yield return new WaitForSeconds(waitTime);
 
-        // 2. 돌진 방향 결정 (멈춘 시점의 플레이어 위치로)
-        Vector3 targetDir = (_player.position - transform.position).normalized;
+        // 2. 플레이어를 향해 돌진
+        Debug.Log("보스가 돌진 시작!");
         float elapsed = 0f;
-
-        Debug.Log("보스 돌진!");
-        // 3. 정해진 시간 동안 빠르게 이동
         while (elapsed < dashDuration)
         {
-            // 벽에 부딪히는 처리를 위해 Translate나 Rigidbody를 권장합니다.
-            transform.position += targetDir * dashSpeed * Time.deltaTime;
+            transform.position += (Vector3)(direction * dashSpeed * Time.deltaTime);
             elapsed += Time.deltaTime;
             yield return null;
+
+
         }
+        Debug.Log("보스가 돌진 종료!");
+        // 3. 돌진이 끝난 후 잠시 멈춤 (쿨다운)
+        yield return new WaitForSeconds(1f);
     }
+
 }

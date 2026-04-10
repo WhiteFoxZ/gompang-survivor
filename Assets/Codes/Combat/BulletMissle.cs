@@ -65,7 +65,7 @@ public class BulletMissle : MonoBehaviour
         Enemy enemy = target.GetComponent<Enemy>();
         if (enemy != null && enemy.isLive == false)
         {
-            this.Log($" enemy.isLive : {enemy.isLive}");
+            // this.Log($" enemy.isLive : {enemy.isLive}");
             rig2d.linearVelocity = transform.up * speed;
             return;
         }
