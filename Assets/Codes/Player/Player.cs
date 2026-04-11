@@ -175,7 +175,7 @@ public class Player : MonoBehaviour
         {
             // 정보를 가져오는 예시
             enemyAttack = enemy.attack;
-            this.Log($" 충돌한 오브젝트가 Enemy 컴포넌트를 가지고 있다면 공격력 정보를 가져옴   enemy.attack : {enemy.attack}");
+            // this.Log($" 충돌한 오브젝트가 Enemy 컴포넌트를 가지고 있다면 공격력 정보를 가져옴   enemy.attack : {enemy.attack}");
         }
 
 
@@ -189,7 +189,7 @@ public class Player : MonoBehaviour
 
         float damage = enemyAttack * (100 / (100 + deffence));
 
-        this.Log($" damage : {enemyAttack} {damage}");
+        // this.Log($" damage : {enemyAttack} {damage}");
 
         //체력 감소
         GameManager.instance.health -= Time.deltaTime * damage;
@@ -261,6 +261,44 @@ public class Player : MonoBehaviour
         _fireVFXObject.SetActive(false); //스팀팩 효과 오브젝트 비활성화
 
     }
+
+
+
+    /// <summary>
+    /// 트리거 충돌 처리 - 총알에 맞았을 때
+    /// </summary>
+    /// <param name="collision">충돌한 콜라이더</param>
+    void OnCollisionEnter2D(Collider2D collision)   //Collider 2D에서 Is Trigger 둘 다 체크 해제되어 있으면 OnCollisionEnter2D
+    {
+
+        this.Log("*****************OnCollisionEnter2D player****************");
+
+
+        //총알과 충돌 시
+        if (collision.CompareTag("Wall"))
+        {
+            Rigidbody2D rdWall = collision.GetComponent<Rigidbody2D>();
+
+            // Bullet 컴포넌트가 있으면 일반 총알 처리
+            if (rdWall != null)
+            {
+                //벽과 부디쳐 받는 힘의 방향과 크기 계산
+                Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
+
+                this.Log($" knockbackDirection : {knockbackDirection}");
+
+                //rdWall 속도를 0으로 설정하여 밀림 방지
+                // rdWall.linearVelocity = Vector2.zero;
+
+
+                // float knockbackForce = 5f; //밀리는 힘의 세기 (조정 가능)
+                // rig2d.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+            }
+
+        }
+    }
+
+
 
 
 }
