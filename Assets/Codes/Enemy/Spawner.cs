@@ -67,7 +67,8 @@ public class Spawner : MonoBehaviour
 
         if (isBossSpawned)
         {
-            spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
+            //spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
+            return; //보스가 스폰된 후에는 일반 적도 스폰되지 않도록 설정 (게임 승리 조건 강화)
         }
         else
         {

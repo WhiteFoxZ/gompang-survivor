@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour
     // 보스 패턴 관련 변수
     private bool bossPatternStarted = false; // 보스 패턴이 이미 시작됐는지 추적
     private float bossPatternTriggerDistance = 5.0f; // 보스 패턴이 시작될 거리 (플레이어와의 거리)
+    private Coroutine bossPatternCoroutine; // 현재 실행 중인 보스 패턴 코루틴
 
 
     /// <summary>
@@ -69,6 +70,13 @@ public class Enemy : MonoBehaviour
         //플레이어 방향으로 이동
         Vector2 dir = (target.position - rigid.position).normalized;    //이동 방향
         Vector2 move = dir * speed * Time.fixedDeltaTime;   //다음에 움직일 위치
+
+        //보스패턴 적용시 이동 중지 (보스 패턴이 시작되면 보스는 이동하지 않고 패턴 행동만 수행)
+        if (boos == 1 && bossPatternStarted)
+        {
+            return; //보스 패턴이 시작되면 이동하지 않음
+        }
+
         rigid.MovePosition(rigid.position + move);  //이동
 
         //충돌 시 밀림 방지 물리적 속도 제거
@@ -102,6 +110,31 @@ public class Enemy : MonoBehaviour
         if (!GameManager.instance.isLive || !isLive)
             return;
 
+        // 보스 패턴이 시작되었고, 플레이어가 충분히 멀어졌으면 패턴을 리셋하여 재시작 가능하게 함
+        if (boos == 1 && bossPatternStarted)
+        {
+            float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
+            // 플레이어가 충분히 멀어졌으면 보스 패턴 리셋
+            if (distanceToPlayer > bossPatternTriggerDistance * 2.0f) // 두 배 거리 멀어지면 리셋
+            {
+                this.Log($"플레이어가 멀어짐. 보스 패턴 리셋: {distanceToPlayer}");
+                // 현재 실행 중인 보스 패턴 코루틴 중지
+                if (bossPatternCoroutine != null)
+                {
+                    StopCoroutine(bossPatternCoroutine);
+                    bossPatternCoroutine = null;
+                }
+                // 보스의 물리 속도를 초기화하여 예상치 못한 이동 방지
+                if (rigid != null)
+                {
+                    rigid.linearVelocity = Vector2.zero;
+                }
+                bossPatternStarted = false;
+
+                return;
+            }
+        }
+
         // 보스가 아직 패턴이 시작되지 않았으며, 플레이어와 거리가 충분히 가까우면 패턴 시작
         if (boos == 1 && !bossPatternStarted)
         {
@@ -109,13 +142,17 @@ public class Enemy : MonoBehaviour
 
             this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} ");
 
-
             if (distanceToPlayer <= bossPatternTriggerDistance)
             {
                 BossPattern bossPattern = GetComponent<BossPattern>();
                 if (bossPattern != null)
                 {
-                    bossPattern.StartDashPattern();
+                    // 기존 코루틴이 있으면 중지 후 새로 시작
+                    if (bossPatternCoroutine != null)
+                    {
+                        StopCoroutine(bossPatternCoroutine);
+                    }
+                    bossPatternCoroutine = StartCoroutine(bossPattern.DashRoutine());
                     bossPatternStarted = true;
                 }
             }
@@ -240,6 +277,38 @@ public class Enemy : MonoBehaviour
                     TakeDamage(damage, appliedKnockback);
                 }
             }
+        }
+        else if (collision.CompareTag("Player"))
+        {
+            //플레이어와 충돌 시 돌진을 멈춤 (보스 패턴이 돌진 중일 때만)
+            if (boos == 1 && bossPatternStarted)
+            {
+                BossPattern bossPattern = GetComponent<BossPattern>();
+                if (bossPattern != null)
+                {
+                    // 현재 실행 중인 보스 패턴 코루틴 중지
+                    if (bossPatternCoroutine != null)
+                    {
+                        StopCoroutine(bossPatternCoroutine);
+                        bossPatternCoroutine = null;
+                    }
+                    // 보스의 물리 속도를 초기화하여 예상치 못한 이동 방지
+                    if (rigid != null)
+                    {
+                        this.Log("보스 물리속도 0 ");
+
+                        rigid.linearVelocity = Vector2.zero;
+
+                        GetComponent<BossPattern>().isDashing = false; // 돌진 상태 해제
+                    }
+                    bossPatternStarted = false;
+                }
+            }
+        }
+        else if (collision.CompareTag("Wall"))
+        {
+            //벽과 충돌 시 밀림 방지 위해 물리적 속도 제거
+            rigid.linearVelocity = Vector2.zero;
         }
     }
 

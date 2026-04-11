@@ -11,6 +11,7 @@ TagManager:
   - NestedScrollManager
   - AreaEnemy
   - NoEnergyAlert
+  - Wall
   layers:
   - Default
   - TransparentFX

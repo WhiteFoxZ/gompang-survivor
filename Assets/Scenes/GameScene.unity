@@ -3810,6 +3810,8 @@ MonoBehaviour:
     PlayerName: 
     Level: 1
     MaxLevel: 60
+    curr_stage: 1
+    next_stage: 1
     Gold: 1
     Gem: 1
     Energy: 20
@@ -54547,10 +54549,10 @@ SceneRoots:
   - {fileID: 1096564152}
   - {fileID: 565628393}
   - {fileID: 1900277469}
-  - {fileID: 1680584725}
   - {fileID: 703018131}
   - {fileID: 610038635}
   - {fileID: 1184963887}
   - {fileID: 1746127130}
   - {fileID: 427758766}
   - {fileID: 912664724}
+  - {fileID: 1680584725}
