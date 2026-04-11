@@ -168,13 +168,16 @@ public class Player : MonoBehaviour
             return;
 
 
-        float enemyAttack = 10;
+        float enemyAttack = 0;
 
+        //충돌한 오브젝트가 Enemy 컴포넌트를 가지고 있다면 공격력 정보를 가져옴   
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             // 정보를 가져오는 예시
             enemyAttack = enemy.attack;
+            this.Log($" 충돌한 오브젝트가 Enemy 컴포넌트를 가지고 있다면 공격력 정보를 가져옴   enemy.attack : {enemy.attack}");
         }
+
 
         EquipItem equipItem = playerData.GetTotalSlotStats();
 
@@ -185,6 +188,8 @@ public class Player : MonoBehaviour
         // 방어력 200일 때: 데미지 66 % 감소(1 / 3)
 
         float damage = enemyAttack * (100 / (100 + deffence));
+
+        this.Log($" damage : {enemyAttack} {damage}");
 
         //체력 감소
         GameManager.instance.health -= Time.deltaTime * damage;

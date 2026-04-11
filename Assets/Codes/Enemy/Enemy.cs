@@ -210,9 +210,9 @@ public class Enemy : MonoBehaviour
         //보스면 Rigidbody2D의 질량을 높여서 넉백에 덜 밀리도록 설정
         if (boss == 1)
         {
-            this.Log("보스 초기화 rigid.mass 100f로 설정");
+            this.Log("보스 초기화 rigid.mass 200f로 설정");
 
-            rigid.mass = 100f; //보스의 질량을 높게 설정하여 넉백에 덜 밀리도록 함
+            rigid.mass = 120f; //보스의 질량을 높게 설정하여 넉백에 덜 밀리도록 함
         }
         else
         {
@@ -295,7 +295,7 @@ public class Enemy : MonoBehaviour
                 {
                     rigid.linearVelocity = Vector2.zero;
                 }
-                
+
                 // 돌진 중이었으면 돌진 상태 해제 및 패턴 중지
                 if (isDashing)
                 {
