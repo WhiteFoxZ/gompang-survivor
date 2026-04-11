@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviour
 
             if (distanceToPlayer <= bossPatternTriggerDistance)
             {
-                this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} ");
+                this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} rigid.mass : {rigid.mass}");
 
 
                 if (bossPattern != null)
@@ -205,6 +205,18 @@ public class Enemy : MonoBehaviour
         if (boss == 0 && isBossActive)
         {
             gameObject.SetActive(false);
+        }
+
+        //보스면 Rigidbody2D의 질량을 높여서 넉백에 덜 밀리도록 설정
+        if (boss == 1)
+        {
+            this.Log("보스 초기화 rigid.mass 100f로 설정");
+
+            rigid.mass = 100f; //보스의 질량을 높게 설정하여 넉백에 덜 밀리도록 함
+        }
+        else
+        {
+            rigid.mass = 1f; //일반 적은 기본 질량
         }
     }
 
