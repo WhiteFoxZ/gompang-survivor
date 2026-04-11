@@ -10,9 +10,11 @@ public class BossPattern : MonoBehaviour
     Transform _player;
 
     // 보스 패턴 타이밍 변수
-    public float waitTime = 2f;  // 돌진 전 준비 시간 (기 모으기)
+    public float waitTime = 1f;  // 돌진 전 준비 시간 (기 모으기)
     public float dashSpeed = 10f;  // 돌진 속도
     public float dashDuration = 0.2f; // 돌진 지속 시간
+    public float waitEndTime = 3f;  // 돌진 전 준비 시간 (기 모으기)
+
 
     // 물리 컴포넌트 참조
     private Rigidbody2D rb;
@@ -135,7 +137,7 @@ public class BossPattern : MonoBehaviour
         }
 
         // 3. 돌진이 끝난 후 잠시 멈춤 (쿨다운) 2초 대기
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(waitEndTime);
 
         isDashing = false; // 돌진 상태 해제 (보스 패턴이 완전히 종료됨)
 
