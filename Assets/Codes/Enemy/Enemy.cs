@@ -287,30 +287,40 @@ public class Enemy : MonoBehaviour
         }
         else if (collision.CompareTag("Player"))
         {
-            //플레이어와 충돌 시 돌진을 멈춤 (보스 패턴이 돌진 중일 때만)
-            if (boss == 1 && isDashing)
+            //플레이어와 충돌 시 보스가 밀리지 않도록 처리
+            if (boss == 1)
             {
-                this.Log("플레이어와 충돌 시 돌진을 멈춤 (보스 패턴이 돌진 중일 때만)");
-
-                if (bossPattern != null)
+                // 보스가 플레이어와 충돌 시Velocity를 0으로 설정하여 밀림 방지
+                if (rigid != null)
                 {
-                    // 현재 실행 중인 보스 패턴 코루틴 중지
-                    if (bossPatternCoroutine != null)
+                    rigid.linearVelocity = Vector2.zero;
+                }
+                
+                // 돌진 중이었으면 돌진 상태 해제 및 패턴 중지
+                if (isDashing)
+                {
+                    this.Log("플레이어와 충돌 시 돌진을 멈춤 (보스 패턴이 돌진 중일 때만)");
+
+                    if (bossPattern != null)
                     {
-                        StopCoroutine(bossPatternCoroutine);
-                        this.Log("******************StopCoroutine(bossPatternCoroutine);");
-                        bossPatternCoroutine = null;
-                    }
-                    // 보스의 물리 속도를 초기화하여 예상치 못한 이동 방지
-                    if (rigid != null)
-                    {
-                        this.Log("보스 물리속도 0 ");
+                        // 현재 실행 중인 보스 패턴 코루틴 중지
+                        if (bossPatternCoroutine != null)
+                        {
+                            StopCoroutine(bossPatternCoroutine);
+                            this.Log("******************StopCoroutine(bossPatternCoroutine);");
+                            bossPatternCoroutine = null;
+                        }
+                        // 보스의 물리 속도를 초기화하여 예상치 못한 이동 방지
+                        if (rigid != null)
+                        {
+                            this.Log("보스 물리속도 0 ");
 
-                        rigid.linearVelocity = Vector2.zero;
+                            rigid.linearVelocity = Vector2.zero;
 
-                        GetComponent<BossPattern>().isDashing = false; // 돌진 상태 해제
+                            GetComponent<BossPattern>().isDashing = false; // 돌진 상태 해제
 
-                        this.Log("*******************충돌해서 돌진 상태 해제 >().isDashing = false");
+                            this.Log("*******************충돌해서 돌진 상태 해제 >().isDashing = false");
+                        }
                     }
                 }
             }

@@ -89,8 +89,7 @@ public class BossPattern : MonoBehaviour
         _Square.SetActive(false); // 준비가 끝나면 시각 효과 비활성화
 
         float elapsed = 0f;
-
-        // 돌진 지속 시간 동안 또는 돌진이 중지될 때까지 반복
+         // 돌진 지속 시간 동안 또는 돌진이 중지될 때까지 반복
         while (elapsed < dashDuration && rb != null && isDashing)
         {
             // 물리 기반 이동 - Rigidbody를 사용하여 위치 업데이트 (충돌 감지 가능)
@@ -106,15 +105,24 @@ public class BossPattern : MonoBehaviour
             {
                 this.Log($" 보스와 플레이어 간의 방향 dot : {dot} < 0f, 돌진 중지 조건 충족 ");
                 isDashing = false; // 돌진 중지
+                // 즉시 속도 0으로 설정하여 밀림 방지
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                }
                 break; // 루프 탈출
             }
-
 
 
             // 외부에서 돌진 중지 신호가 왔으면 루프 즉시 탈출 (플레이어 충돌 등)
             if (isDashing == false)
             {
                 this.Log("보스가 돌진을 멈췄습니다. 충돌 감지됨. 루프 탈출.");
+                // 즉시 속도 0으로 설정하여 밀림 방지
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                }
                 break;
             }
 
