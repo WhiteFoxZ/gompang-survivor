@@ -6,37 +6,38 @@ using UnityEngine;
 /// </summary>
 public class Enemy : MonoBehaviour
 {
-    // 보스가 활성 상태인지 추적하는 정적 변수
+    // 보스가 활성 상태인지 추적하는 정적 변수 (한 번에 하나의 보스만 존재하도록 함)
     private static bool isBossActive = false;
 
-    public int boos; //보스 여부 (0: 일반, 1: 보스)
+    public int boss; //보스 여부 (0: 일반 적, 1: 보스)
     public float attack; //공격력
     public float speed; //이동 속도
     public float health; //현재 체력
     public float maxHealth; //최대 체력
 
-    public RuntimeAnimatorController[] animatorController; //애니메이션 컨트롤러 배열
+    public RuntimeAnimatorController[] animatorController; //스프라이트 타입별 애니메이션 컨트롤러 배열
 
     [Header("Target 참고용")]
-    public Rigidbody2D target; //플레이어 리지드바디
+    public Rigidbody2D target; //플레이어의 Rigidbody2D (추적 대상)
 
+    public bool isLive; //적의 생존 상태 (true: 생존, false: 사망)
 
-    public bool isLive; //생존 여부
+    Rigidbody2D rigid; //적의 Rigidbody2D 컴포넌트
+    Collider2D col; //적의 Collider2D 컴포넌트
+    SpriteRenderer sprite; //적의 SpriteRenderer 컴포넌트
 
-    Rigidbody2D rigid; //적 리지드바디
-    Collider2D col; //콜라이더
-    SpriteRenderer sprite; //스프라이트 렌더러
+    Animator animator; //적의 Animator 컴포넌트
 
-    Animator animator; //애니메이터
-
-    WaitForFixedUpdate wait; //물리 업데이트 대기
+    WaitForFixedUpdate wait; //물리 업데이트를 기다리는 명령어 (FixedUpdate 동기화용)
 
     // 보스 패턴 관련 변수
-    private bool bossPatternStarted = false; // 보스 패턴이 이미 시작됐는지 추적
-    private float bossPatternTriggerDistance = 5.0f; // 보스 패턴이 시작될 거리 (플레이어와의 거리)
-    private Coroutine bossPatternCoroutine; // 현재 실행 중인 보스 패턴 코루틴
 
-    bool isDashing; // 보스가 돌진 중인지 여부 (보스 패턴에서 사용)
+    private float bossPatternTriggerDistance = 5.0f; // 보스 패턴이 시작되는 트리거 거리 (플레이어와의 거리)
+    private Coroutine bossPatternCoroutine; // 현재 실행 중인 보스 패턴 코루틴 참조
+
+    bool isDashing; // 보스가 현재 돌진 중인지 여부 (BossPattern 클래스에서 설정)
+
+    BossPattern bossPattern; // 보스 패턴 컴포넌트 참조 (보스에게만 적용)
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
@@ -48,7 +49,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         wait = new WaitForFixedUpdate();
         col = GetComponent<Collider2D>();
-
+        bossPattern = GetComponent<BossPattern>();
     }
 
     /// <summary>
@@ -57,7 +58,6 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
 
-
         if (!GameManager.instance.isLive)
             return;
 
@@ -65,24 +65,26 @@ public class Enemy : MonoBehaviour
 
         //넉백을 위한 이동 중지 - 히트 애니메이션이 재생 중이면 이동하지 않도록 설정
         //일반 적은 히트 애니메이션이 재생 중이어도 이동하지 않도록 설정 (보스는 히트 상태에서 멈춤)
-        if (boos == 0)
+        if (boss == 0)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
                 return;
         }
 
         //보스패턴 적용시 이동 중지 (보스 패턴이 시작되면 보스는 이동하지 않고 패턴 행동만 수행)
-        if (boos == 1)
+        if (boss == 1)
         {
-            this.Log($" bossPatternStarted : {bossPatternStarted} {isDashing} ");
+            //this.Log($" FixedUpdate  :{isDashing} ");
 
-            if (bossPatternStarted && isDashing)
+            if (isDashing)
             {
+                // this.Log($" 보스 패턴이 시작되면 이동 중지 ");
+
                 return; // 보스 패턴이 시작되면 이동 중지
             }
             else
             {
-                this.Log($" bossPatternStarted 이동 가능 상태 ");
+                // this.Log($" boss 이동 가능 상태 ");
             }
 
         }
@@ -126,33 +128,8 @@ public class Enemy : MonoBehaviour
         if (!GameManager.instance.isLive || !isLive)
             return;
 
-        // 보스 패턴이 시작되었고, 플레이어가 충분히 멀어졌으면 패턴을 리셋하여 재시작 가능하게 함
-        if (boos == 1 && bossPatternStarted && isDashing != false)
-        {
-            float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
-            // 플레이어가 충분히 멀어졌으면 보스 패턴 리셋
-            if (distanceToPlayer > bossPatternTriggerDistance * 2.0f) // 두 배 거리 멀어지면 리셋
-            {
-                this.Log($"플레이어가 멀어짐. 보스 패턴 리셋: {distanceToPlayer}");
-                // 현재 실행 중인 보스 패턴 코루틴 중지
-                if (bossPatternCoroutine != null)
-                {
-                    StopCoroutine(bossPatternCoroutine);
-                    bossPatternCoroutine = null;
-                }
-                // 보스의 물리 속도를 초기화하여 예상치 못한 이동 방지
-                if (rigid != null)
-                {
-                    rigid.linearVelocity = Vector2.zero;
-                }
-                bossPatternStarted = false;
-
-                return;
-            }
-        }
-
         // 보스가 아직 패턴이 시작되지 않았으며, 플레이어와 거리가 충분히 가까우면 패턴 시작
-        if (boos == 1 && !bossPatternStarted)
+        if (boss == 1 && !isDashing)
         {
             float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
 
@@ -160,7 +137,7 @@ public class Enemy : MonoBehaviour
             {
                 this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} ");
 
-                BossPattern bossPattern = GetComponent<BossPattern>();
+
                 if (bossPattern != null)
                 {
                     // 기존 코루틴이 있으면 중지 후 새로 시작
@@ -172,7 +149,6 @@ public class Enemy : MonoBehaviour
                     this.Log("보스루틴 시작");
 
                     bossPatternCoroutine = StartCoroutine(bossPattern.DashRoutine());
-                    bossPatternStarted = true;
                 }
             }
         }
@@ -187,7 +163,7 @@ public class Enemy : MonoBehaviour
             target = GameManager.instance.player.GetComponent<Rigidbody2D>();
 
         // 보스가 활성화되면 일반 적은 생성되지 않도록 함
-        if (boos == 1)
+        if (boss == 1)
         {
             isBossActive = true;
             // 일반 적들의 생성을 중지 (이미 생성된 적은 유지)
@@ -218,7 +194,7 @@ public class Enemy : MonoBehaviour
     {
         //애니메이션 컨트롤러 설정
         animator.runtimeAnimatorController = animatorController[data.spriteType];
-        boos = data.boss;
+        boss = data.boss;
         speed = data.speed;
         maxHealth = data.health;
         attack = data.attack;
@@ -226,7 +202,7 @@ public class Enemy : MonoBehaviour
         health = maxHealth;
 
         // 일반 적 생성 시 보스가 이미 활성 상태이면 즉시 비활성화
-        if (boos == 0 && isBossActive)
+        if (boss == 0 && isBossActive)
         {
             gameObject.SetActive(false);
         }
@@ -266,7 +242,7 @@ public class Enemy : MonoBehaviour
                 }
 
                 //보스는 넉백이 적용되지 않도록 설정 (보스는 넉백 면역)
-                if (boos == 1)
+                if (boss == 1)
                 {
                     appliedKnockback = 0f; //보스는 넉백 면역
                     // this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
@@ -287,7 +263,7 @@ public class Enemy : MonoBehaviour
 
                     this.Log($"Missile Damage: {damage}, Knockback: {appliedKnockback}");
 
-                    if (boos == 1)
+                    if (boss == 1)
                     {
                         appliedKnockback = 0f; //보스는 넉백 면역
                         this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
@@ -300,15 +276,17 @@ public class Enemy : MonoBehaviour
         else if (collision.CompareTag("Player"))
         {
             //플레이어와 충돌 시 돌진을 멈춤 (보스 패턴이 돌진 중일 때만)
-            if (boos == 1 && bossPatternStarted)
+            if (boss == 1 && isDashing)
             {
-                BossPattern bossPattern = GetComponent<BossPattern>();
+                this.Log("플레이어와 충돌 시 돌진을 멈춤 (보스 패턴이 돌진 중일 때만)");
+
                 if (bossPattern != null)
                 {
                     // 현재 실행 중인 보스 패턴 코루틴 중지
                     if (bossPatternCoroutine != null)
                     {
                         StopCoroutine(bossPatternCoroutine);
+                        this.Log("******************StopCoroutine(bossPatternCoroutine);");
                         bossPatternCoroutine = null;
                     }
                     // 보스의 물리 속도를 초기화하여 예상치 못한 이동 방지
@@ -320,17 +298,10 @@ public class Enemy : MonoBehaviour
 
                         GetComponent<BossPattern>().isDashing = false; // 돌진 상태 해제
 
-                        this.Log("충돌해서 돌진 상태 해제");
-
+                        this.Log("*******************충돌해서 돌진 상태 해제 >().isDashing = false");
                     }
-                    bossPatternStarted = false;
                 }
             }
-        }
-        else if (collision.CompareTag("Wall"))
-        {
-            //벽과 충돌 시 밀림 방지 위해 물리적 속도 제거
-            rigid.linearVelocity = Vector2.zero;
         }
     }
 
@@ -450,7 +421,7 @@ public class Enemy : MonoBehaviour
         GameManager.instance.kill++;
         GameManager.instance.GetExp(1);
 
-        if (boos == 1) //보스가 죽었을 때 벽 제거 및 게임 승리
+        if (boss == 1) //보스가 죽었을 때 벽 제거 및 게임 승리
         {
             GameManager.instance._wallSpawner.RemoveWalls();
             // 보스가 죽었으므로 일반 적들의 생성을 다시 허용

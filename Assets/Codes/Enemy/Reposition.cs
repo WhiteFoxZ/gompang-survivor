@@ -67,7 +67,7 @@ public class Reposition : MonoBehaviour
         }
 
 
-        if (transform.tag == "Enemy" && collision.CompareTag("AreaEnemy"))
+        if (transform.tag == "Enemy" && collision.CompareTag("AreaEnemy") && transform.GetComponent<Enemy>().boss == 0)
         {
             if (col.enabled)
             {
