@@ -36,6 +36,7 @@ public class Enemy : MonoBehaviour
     private float bossPatternTriggerDistance = 5.0f; // 보스 패턴이 시작될 거리 (플레이어와의 거리)
     private Coroutine bossPatternCoroutine; // 현재 실행 중인 보스 패턴 코루틴
 
+    bool isDashing; // 보스가 돌진 중인지 여부 (보스 패턴에서 사용)
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
@@ -47,6 +48,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         wait = new WaitForFixedUpdate();
         col = GetComponent<Collider2D>();
+
     }
 
     /// <summary>
@@ -54,6 +56,8 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+
+
         if (!GameManager.instance.isLive)
             return;
 
@@ -67,15 +71,25 @@ public class Enemy : MonoBehaviour
                 return;
         }
 
+        //보스패턴 적용시 이동 중지 (보스 패턴이 시작되면 보스는 이동하지 않고 패턴 행동만 수행)
+        if (boos == 1)
+        {
+            this.Log($" bossPatternStarted : {bossPatternStarted} {isDashing} ");
+
+            if (bossPatternStarted && isDashing)
+            {
+                return; // 보스 패턴이 시작되면 이동 중지
+            }
+            else
+            {
+                this.Log($" bossPatternStarted 이동 가능 상태 ");
+            }
+
+        }
+
         //플레이어 방향으로 이동
         Vector2 dir = (target.position - rigid.position).normalized;    //이동 방향
         Vector2 move = dir * speed * Time.fixedDeltaTime;   //다음에 움직일 위치
-
-        //보스패턴 적용시 이동 중지 (보스 패턴이 시작되면 보스는 이동하지 않고 패턴 행동만 수행)
-        if (boos == 1 && bossPatternStarted)
-        {
-            return; //보스 패턴이 시작되면 이동하지 않음
-        }
 
         rigid.MovePosition(rigid.position + move);  //이동
 
@@ -107,11 +121,13 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void Update()
     {
+        isDashing = GetComponent<BossPattern>().isDashing;
+
         if (!GameManager.instance.isLive || !isLive)
             return;
 
         // 보스 패턴이 시작되었고, 플레이어가 충분히 멀어졌으면 패턴을 리셋하여 재시작 가능하게 함
-        if (boos == 1 && bossPatternStarted)
+        if (boos == 1 && bossPatternStarted && isDashing != false)
         {
             float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
             // 플레이어가 충분히 멀어졌으면 보스 패턴 리셋
@@ -140,10 +156,10 @@ public class Enemy : MonoBehaviour
         {
             float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
 
-            this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} ");
-
             if (distanceToPlayer <= bossPatternTriggerDistance)
             {
+                this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} ");
+
                 BossPattern bossPattern = GetComponent<BossPattern>();
                 if (bossPattern != null)
                 {
@@ -152,6 +168,9 @@ public class Enemy : MonoBehaviour
                     {
                         StopCoroutine(bossPatternCoroutine);
                     }
+
+                    this.Log("보스루틴 시작");
+
                     bossPatternCoroutine = StartCoroutine(bossPattern.DashRoutine());
                     bossPatternStarted = true;
                 }
@@ -300,6 +319,9 @@ public class Enemy : MonoBehaviour
                         rigid.linearVelocity = Vector2.zero;
 
                         GetComponent<BossPattern>().isDashing = false; // 돌진 상태 해제
+
+                        this.Log("충돌해서 돌진 상태 해제");
+
                     }
                     bossPatternStarted = false;
                 }

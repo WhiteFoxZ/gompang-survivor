@@ -6,9 +6,9 @@ using System.Collections;
 public class BossPattern : MonoBehaviour
 {
     Transform _player;      // 플레이어 위치
-    public float waitTime = 3f;  // 멈춰 있는 시간
+    public float waitTime = 2f;  // 멈춰 있는 시간
     public float dashSpeed = 10f;  // 돌진 속도
-    public float dashDuration = 0.5f; // 돌진 지속 시간
+    public float dashDuration = 0.2f; // 돌진 지속 시간
     private Rigidbody2D rb;
     public bool isDashing = false; // 돌진 중인지 여부
 
@@ -34,29 +34,16 @@ public class BossPattern : MonoBehaviour
         if (GameManager.instance.player != null)
             _player = GameManager.instance.player.GetComponent<Rigidbody2D>().transform;
 
-
         _Square.SetActive(false);
-    }
-
-    public void StartDashPattern()
-    {
-        if (_player == null)
-        {
-            Debug.LogError("플레이어 Transform이 할당되지 않았습니다. BossPattern 스크립트에 플레이어 Transform을 할당해주세요.");
-        }
-
-
-        StartCoroutine(DashRoutine());
     }
 
     public IEnumerator DashRoutine()
     {
+        isDashing = true;
         // 1. 잠시 멈춤 (기 모으기)
         Debug.Log("보스가 타겟팅 중...");
 
         _Square.SetActive(true);
-
-        isDashing = true; // 돌진 상태 시작
 
         //direction 계산
         Vector2 direction = (_player.position - transform.position).normalized;
@@ -68,8 +55,15 @@ public class BossPattern : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < dashDuration && rb != null && isDashing)
         {
-            // 물리 기반 이동 사용 (충돌 처리됨)
-            rb.MovePosition(rb.position + (Vector2)(direction * dashSpeed * Time.fixedDeltaTime));
+            // 물리 기반 이동 - 충돌 감지 후 돌진 멈춤
+            rb.MovePosition(rb.position + (Vector2)(direction * dashSpeed * Time.fixedDeltaTime)); // 위치 이동
+
+            if (isDashing == false) // 돌진이 멈췄다면 루프 탈출
+            {
+                this.Log("보스가 돌진을 멈췄습니다. 충돌 감지됨. 루프 탈출.");
+                break;
+            }
+
             elapsed += Time.deltaTime;
             yield return new WaitForFixedUpdate();
         }
@@ -82,10 +76,10 @@ public class BossPattern : MonoBehaviour
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
+            isDashing = false;
         }
-        isDashing = false; // 돌진 상태 해제
 
         // 3. 돌진이 끝난 후 잠시 멈춤 (쿨다운)
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.5f);
     }
 }
