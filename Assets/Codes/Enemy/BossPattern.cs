@@ -20,7 +20,6 @@ public class BossPattern : MonoBehaviour
     // 보스 상태 변수
     public bool isDashing = false; // 보스가 현재 돌진 중인지 여부 (다른 클래스에서 참조)
 
-
     // 시각 효과 오브젝트 (돌진 지시자)
     public GameObject _Square;
 
@@ -64,6 +63,11 @@ public class BossPattern : MonoBehaviour
         // 1. 잠시 멈춤 (기 모으기) - 플레이어를 타겟팅
         Debug.Log("보스가 타겟팅 중...");
 
+        //_Square 방향은 플레이어방향으로 회전시키기
+        Vector2 toPlayer = _player.position - transform.position;
+        float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
+        _Square.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // 90도 보정 (스프라이트 방향에 따라 조정
+
         // 돌진 지시자 시각 효과 활성화
         _Square.SetActive(true);
 
@@ -75,6 +79,9 @@ public class BossPattern : MonoBehaviour
 
         // 2. 플레이어를 향해 돌진 (물리 기반 이동) - 플레이어와 충돌 시 돌진 중단
         Debug.Log("보스가 돌진 시작!");
+
+        _Square.SetActive(false); // 준비가 끝나면 시각 효과 비활성화
+
         float elapsed = 0f;
 
         // 돌진 지속 시간 동안 또는 돌진이 중지될 때까지 반복
