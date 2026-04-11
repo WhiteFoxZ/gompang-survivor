@@ -63,10 +63,14 @@ public class BossPattern : MonoBehaviour
         // 1. 잠시 멈춤 (기 모으기) - 플레이어를 타겟팅
         Debug.Log("보스가 타겟팅 중...");
 
+
         //_Square 방향은 플레이어방향으로 회전시키기
-        Vector2 toPlayer = _player.position - transform.position;
+        Vector2 toPlayer = _player.position - _Square.transform.position;
         float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
-        _Square.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // 90도 보정 (스프라이트 방향에 따라 조정
+
+        this.Log($" angle : {angle}");
+
+        _Square.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         // 돌진 지시자 시각 효과 활성화
         _Square.SetActive(true);
