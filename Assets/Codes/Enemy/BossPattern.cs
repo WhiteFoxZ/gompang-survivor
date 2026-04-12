@@ -23,7 +23,7 @@ public class BossPattern : MonoBehaviour
     public bool isDashing = false; // 보스가 현재 돌진 중인지 여부 (다른 클래스에서 참조)
 
     // 시각 효과 오브젝트 (돌진 지시자)
-    public GameObject _Square;
+    public GameObject _LaserPivot;
 
     /// <summary>
     /// 초기화 - Rigidbody2D 컴포넌트 가져오기
@@ -50,7 +50,7 @@ public class BossPattern : MonoBehaviour
             _player = GameManager.instance.player.GetComponent<Rigidbody2D>().transform;
 
         // 시각 효과 오브젝트 inicialmente 비활성화
-        _Square.SetActive(false);
+        _LaserPivot.SetActive(false);
     }
 
     /// <summary>
@@ -65,25 +65,14 @@ public class BossPattern : MonoBehaviour
         // 1. 잠시 멈춤 (기 모으기) - 플레이어를 타겟팅
         Debug.Log("보스가 타겟팅 중...");
 
-
-        //_Square 방향은 플레이어방향으로 회전시키기
-        Vector2 toPlayer = _player.position - _Square.transform.position;
+        //_LaserPivot 방향은 플레이어방향으로 회전시키기
+        Vector2 toPlayer = _player.position - _LaserPivot.transform.position;
         float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
 
-        this.Log($" angle : {angle}");
-
-        _Square.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        //각도에 따른 _Square 위치보정
-        // X, Y 좌표 계산식
-        float x = -0.139f * Mathf.Cos(angle * Mathf.Deg2Rad) + 0.105f;
-        float y = -0.116f * Mathf.Sin(angle * Mathf.Deg2Rad) + 0.123f;
-
-        _Square.transform.localPosition = new Vector3(x, y, 0);
-
+        _LaserPivot.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         // 돌진 지시자 시각 효과 활성화
-        _Square.SetActive(true);
+        _LaserPivot.SetActive(true);
 
         // 돌진 방향 계산 (플레이어 방향으로 정규화된 벡터)
         Vector2 direction = (_player.position - transform.position).normalized;
@@ -94,7 +83,7 @@ public class BossPattern : MonoBehaviour
         // 2. 플레이어를 향해 돌진 (물리 기반 이동) - 플레이어와 충돌 시 돌진 중단
         Debug.Log("보스가 돌진 시작!");
 
-        _Square.SetActive(false); // 준비가 끝나면 시각 효과 비활성화
+        _LaserPivot.SetActive(false); // 준비가 끝나면 시각 효과 비활성화
 
         float elapsed = 0f;
         // 돌진 지속 시간 동안 또는 돌진이 중지될 때까지 반복

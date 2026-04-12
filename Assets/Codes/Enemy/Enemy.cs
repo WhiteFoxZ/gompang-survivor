@@ -113,9 +113,13 @@ public class Enemy : MonoBehaviour
 
         //적 스프라이트 방향 전환
         if (target.position.x < enemyRigid.position.x)
+        {
             enemySprite.flipX = true;
+        }
         else
+        {
             enemySprite.flipX = false;
+        }
     }
 
     /// <summary>
@@ -268,7 +272,7 @@ public class Enemy : MonoBehaviour
                 if (boss == 1)
                 {
                     appliedKnockback = 0f; //보스는 넉백 면역
-                    // this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
+                                           // this.Log($"보스는 넉백 면역! Knockback이 0으로 적용됩니다.");
                 }
                 //데미지 적용 (넉백 값 포함)
                 TakeDamage(damage, appliedKnockback);
@@ -403,7 +407,7 @@ public class Enemy : MonoBehaviour
     {
         //근처 적 탐지 범위
         float knockbackRange = 2.0f; //2유닛 이내의 적들에게 넉백 적용
-        //근처 적에게 전달되는 넉백 세기 (원래 넉백의 50%)
+                                     //근처 적에게 전달되는 넉백 세기 (원래 넉백의 50%)
         float knockbackTransferRate = 0.5f;
 
         //레이어 마스크: Enemy 레이어만 탐지

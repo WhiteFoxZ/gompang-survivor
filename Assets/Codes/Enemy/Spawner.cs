@@ -55,7 +55,7 @@ public class Spawner : MonoBehaviour
         //게임시간에 따라 Enemy 종류변경,레벨 계산
         enemyLevel = Mathf.FloorToInt(GameManager.instance.gameTime / levelTime);
 
-        //        this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
+        //this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
 
 
         //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(2,2) -> 2, Mathf.Min(3,2) -> 2
@@ -67,8 +67,8 @@ public class Spawner : MonoBehaviour
 
         if (isBossSpawned)
         {
-            //spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
-            return; //보스가 스폰된 후에는 일반 적도 스폰되지 않도록 설정 (게임 승리 조건 강화)
+            spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
+            // return; //보스가 스폰된 후에는 일반 적도 스폰되지 않도록 설정 (게임 승리 조건 강화)
         }
         else
         {
