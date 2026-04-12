@@ -74,6 +74,14 @@ public class BossPattern : MonoBehaviour
 
         _Square.transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        //각도에 따른 _Square 위치보정
+        // X, Y 좌표 계산식
+        float x = -0.139f * Mathf.Cos(angle * Mathf.Deg2Rad) + 0.105f;
+        float y = -0.116f * Mathf.Sin(angle * Mathf.Deg2Rad) + 0.123f;
+
+        _Square.transform.localPosition = new Vector3(x, y, 0);
+
+
         // 돌진 지시자 시각 효과 활성화
         _Square.SetActive(true);
 
