@@ -22,9 +22,9 @@ public class Enemy : MonoBehaviour
 
     public bool isLive; //적의 생존 상태 (true: 생존, false: 사망)
 
-    Rigidbody2D rigid; //적의 Rigidbody2D 컴포넌트
-    Collider2D col; //적의 Collider2D 컴포넌트
-    SpriteRenderer sprite; //적의 SpriteRenderer 컴포넌트
+    Rigidbody2D enemyRigid; //적의 Rigidbody2D 컴포넌트
+    Collider2D enemyCollider; //적의 Collider2D 컴포넌트
+    SpriteRenderer enemySprite; //적의 SpriteRenderer 컴포넌트
 
     Animator animator; //적의 Animator 컴포넌트
 
@@ -44,11 +44,11 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        enemyRigid = GetComponent<Rigidbody2D>();
+        enemySprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         wait = new WaitForFixedUpdate();
-        col = GetComponent<Collider2D>();
+        enemyCollider = GetComponent<Collider2D>();
         bossPattern = GetComponent<BossPattern>();
     }
 
@@ -90,13 +90,13 @@ public class Enemy : MonoBehaviour
         }
 
         //플레이어 방향으로 이동
-        Vector2 dir = (target.position - rigid.position).normalized;    //이동 방향
+        Vector2 dir = (target.position - enemyRigid.position).normalized;    //이동 방향
         Vector2 move = dir * speed * Time.fixedDeltaTime;   //다음에 움직일 위치
 
-        rigid.MovePosition(rigid.position + move);  //이동
+        enemyRigid.MovePosition(enemyRigid.position + move);  //이동
 
         //충돌 시 밀림 방지 물리적 속도 제거
-        rigid.linearVelocity = Vector2.zero;
+        enemyRigid.linearVelocity = Vector2.zero;
 
 
     }
@@ -112,10 +112,10 @@ public class Enemy : MonoBehaviour
         if (!isLive) return;
 
         //적 스프라이트 방향 전환
-        if (target.position.x < rigid.position.x)
-            sprite.flipX = true;
+        if (target.position.x < enemyRigid.position.x)
+            enemySprite.flipX = true;
         else
-            sprite.flipX = false;
+            enemySprite.flipX = false;
     }
 
     /// <summary>
@@ -131,11 +131,11 @@ public class Enemy : MonoBehaviour
         // 보스가 아직 패턴이 시작되지 않았으며, 플레이어와 거리가 충분히 가까우면 패턴 시작
         if (boss == 1 && !isDashing)
         {
-            float distanceToPlayer = Vector2.Distance(rigid.position, target.position);
+            float distanceToPlayer = Vector2.Distance(enemyRigid.position, target.position);
 
             if (distanceToPlayer <= bossPatternTriggerDistance)
             {
-                this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} rigid.mass : {rigid.mass}");
+                this.Log($" distanceToPlayer <= bossPatternTriggerDistance : {distanceToPlayer} <= {bossPatternTriggerDistance} enemyRigid.mass : {enemyRigid.mass}");
 
 
                 if (bossPattern != null)
@@ -152,6 +152,17 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+
+
+        //this.Log($" 보스 속도 힘 : {enemyRigid.linearVelocity}, {enemyRigid.linearVelocity.magnitude}  ");
+
+        if (boss == 1 && enemyRigid.linearVelocity.magnitude >= 1f)
+        {
+            enemyRigid.linearVelocity = enemyRigid.linearVelocity * 0.7f;
+            this.Log($" 보스와 플레이어가 충돌시 반사되는 힘 30% 줄임 : {enemyRigid.linearVelocity}  ");
+        }
+
+
     }
 
     /// <summary>
@@ -179,9 +190,9 @@ public class Enemy : MonoBehaviour
         health = maxHealth;
 
         isLive = true;
-        col.enabled = true; //충돌 활성화
-        rigid.simulated = true; //물리엔진 활성화
-        sprite.sortingOrder = 1; //정렬 순서 설정
+        enemyCollider.enabled = true; //충돌 활성화
+        enemyRigid.simulated = true; //물리엔진 활성화
+        enemySprite.sortingOrder = 1; //정렬 순서 설정
         animator.SetBool("Dead", false);
         gameObject.SetActive(true);
     }
@@ -210,13 +221,13 @@ public class Enemy : MonoBehaviour
         //보스면 Rigidbody2D의 질량을 높여서 넉백에 덜 밀리도록 설정
         if (boss == 1)
         {
-            this.Log("보스 초기화 rigid.mass 200f로 설정");
+            this.Log("보스 초기화 enemyRigid.mass 200f로 설정");
 
-            rigid.mass = 120f; //보스의 질량을 높게 설정하여 넉백에 덜 밀리도록 함
+            enemyRigid.mass = 120f; //보스의 질량을 높게 설정하여 넉백에 덜 밀리도록 함
         }
         else
         {
-            rigid.mass = 1f; //일반 적은 기본 질량
+            enemyRigid.mass = 1f; //일반 적은 기본 질량
         }
     }
 
@@ -285,47 +296,36 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-        else if (collision.CompareTag("Player"))
+
+    }
+
+
+
+    /// <summary>
+    /// 트리거 충돌 처리 - 적이 플레이어와 부딪혔을 때
+    /// </summary>
+    /// <param name="collision">충돌한 콜라이더</param>
+    void OnCollisionEnter2D(Collision2D collision)   // Collider2D → Collision2D로 수정
+    {
+        this.Log("*****************Enemy OnCollisionEnter2D ****************");
+
+        //총알과 충돌 시
+        if (collision.gameObject.CompareTag("Player"))
         {
-            //플레이어와 충돌 시 보스가 밀리지 않도록 처리
-            if (boss == 1)
-            {
-                // 보스가 플레이어와 충돌 시Velocity를 0으로 설정하여 밀림 방지
-                if (rigid != null)
-                {
-                    rigid.linearVelocity = Vector2.zero;
-                }
+            //반대 방향 벡터: 나의 위치 - 충돌체의 위치를 계산했으므로, 충돌 지점에서 나를 향해 밀어내는 척력(반발) 방향을 구한 것입니다.
+            //음수면 외쪽으로 밀어내는 방향, 양수면 오른쪽으로 밀어내는 방향이 됩니다.
 
-                // 돌진 중이었으면 돌진 상태 해제 및 패턴 중지
-                if (isDashing)
-                {
-                    this.Log("플레이어와 충돌 시 돌진을 멈춤 (보스 패턴이 돌진 중일 때만)");
+            Vector2 Direction = (transform.position - collision.transform.position).normalized;
 
-                    if (bossPattern != null)
-                    {
-                        // 현재 실행 중인 보스 패턴 코루틴 중지
-                        if (bossPatternCoroutine != null)
-                        {
-                            StopCoroutine(bossPatternCoroutine);
-                            this.Log("******************StopCoroutine(bossPatternCoroutine);");
-                            bossPatternCoroutine = null;
-                        }
-                        // 보스의 물리 속도를 초기화하여 예상치 못한 이동 방지
-                        if (rigid != null)
-                        {
-                            this.Log("보스 물리속도 0 ");
+            this.Log($" Enemy Direction : {Direction}");
 
-                            rigid.linearVelocity = Vector2.zero;
+            //적이 밀려나가지 않도록 즉시 속도를 0으로 설정
+            enemyRigid.linearVelocity = Vector2.zero;
+            this.Log($" 적이 플레이어와 충돌한다면 튕기지 않도록 즉시 속도를 0으로 설정 : {enemyRigid.linearVelocity}  ");
 
-                            GetComponent<BossPattern>().isDashing = false; // 돌진 상태 해제
-
-                            this.Log("*******************충돌해서 돌진 상태 해제 >().isDashing = false");
-                        }
-                    }
-                }
-            }
         }
     }
+
 
     /// <summary>
     /// 데미지 적용 - 적 체력 감소 및死亡 처리
@@ -349,9 +349,9 @@ public class Enemy : MonoBehaviour
         else //사망
         {
             isLive = false;
-            col.enabled = false; //충돌 비활성화
-            rigid.simulated = false; //물리엔진 비활성화
-            sprite.sortingOrder = 1;
+            enemyCollider.enabled = false; //충돌 비활성화
+            enemyRigid.simulated = false; //물리엔진 비활성화
+            enemySprite.sortingOrder = 1;
             animator.SetBool("Dead", true);
             GameManager.instance.kill++; //처치 수 증가
             GameManager.instance.GetExp(1); //경험치 획득
@@ -388,7 +388,7 @@ public class Enemy : MonoBehaviour
         Vector3 knockDir = (enemyPos - playerPos).normalized; //넉백 방향
 
         //넉백 힘 가하기
-        rigid.AddForce(knockDir * knockbackDamage, ForceMode2D.Impulse);
+        enemyRigid.AddForce(knockDir * knockbackDamage, ForceMode2D.Impulse);
 
         //근처 적들에게도 넉백 적용 (Enemy-to-Enemy Knockback)
         ApplyKnockbackToNearbyEnemies(knockDir, knockbackDamage);

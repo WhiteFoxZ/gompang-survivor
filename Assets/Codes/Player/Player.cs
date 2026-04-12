@@ -265,35 +265,20 @@ public class Player : MonoBehaviour
 
 
     /// <summary>
-    /// 트리거 충돌 처리 - 총알에 맞았을 때
+    /// 트리거 충돌 처리 - 플레이어가 벽과 부딪혔을 때
     /// </summary>
     /// <param name="collision">충돌한 콜라이더</param>
-    void OnCollisionEnter2D(Collider2D collision)   //Collider 2D에서 Is Trigger 둘 다 체크 해제되어 있으면 OnCollisionEnter2D
+    void OnCollisionEnter2D(Collision2D collision)   // Collider2D → Collision2D로 수정
     {
-
-        this.Log("*****************OnCollisionEnter2D player****************");
-
+        //his.Log("*****************Player OnCollisionEnter2D ****************");
 
         //총알과 충돌 시
-        if (collision.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            Rigidbody2D rdWall = collision.GetComponent<Rigidbody2D>();
 
-            // Bullet 컴포넌트가 있으면 일반 총알 처리
-            if (rdWall != null)
-            {
-                //벽과 부디쳐 받는 힘의 방향과 크기 계산
-                Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
-
-                this.Log($" knockbackDirection : {knockbackDirection}");
-
-                //rdWall 속도를 0으로 설정하여 밀림 방지
-                // rdWall.linearVelocity = Vector2.zero;
-
-
-                // float knockbackForce = 5f; //밀리는 힘의 세기 (조정 가능)
-                // rig2d.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
-            }
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
 
         }
     }
