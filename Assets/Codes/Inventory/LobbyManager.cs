@@ -17,7 +17,7 @@ public class LobbyManager : MonoBehaviour
         // 장비 데이터 다운로드 먼저 실행
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
 
-        // this.Log("LobbyManager playerData 다운로드 시작");
+        this.Log("LobbyManager playerData 다운로드 시작");
 
         playerData = DataManager.instance.LoadData();
 

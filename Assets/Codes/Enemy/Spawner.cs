@@ -65,34 +65,38 @@ public class Spawner : MonoBehaviour
 
         int spawnDataIdx = 0;
 
+        this.Log($" isBossSpawned : {isBossSpawned}");
+
         if (isBossSpawned)
         {
+
             spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
             // return; //보스가 스폰된 후에는 일반 적도 스폰되지 않도록 설정 (게임 승리 조건 강화)
+
+            this.Log($" spawnDataIdx Random.Range(0, enemyLevel + 1) : {Random.Range(0, enemyLevel)}");
         }
         else
         {
-            //Random.Range(0, 2) = 0, 1 섞임
+            this.Log($" isBossSpawned : {isBossSpawned}");
             spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
+            this.Log($" spawnDataIdx Random.Range(0, enemyLevel + 1) : {Random.Range(0, enemyLevel + 1)}");
         }
-
-        // this.Log($" spawnDataIdx : {spawnDataIdx}  = Random.Range(0, {enemyLevel + 1}) ");
 
         //스폰 시간 도달 시 적 생성
         //스테이지가 증가할수록 스폰 시간 5% 감소
         float spawnTime = _spawnDatas[spawnDataIdx].spawnTime * Mathf.Pow((1 - spawnTimeRate), enemyLevel);
 
-        // this.Log($" {spawnTime} : {_spawnDatas[spawnDataIdx].spawnTime} * Mathf.Pow((1 - {spawnTimeRate}), {enemyLevel}) ");
+        this.Log($" {spawnTime} : {_spawnDatas[spawnDataIdx].spawnTime} * Mathf.Pow((1 - {spawnTimeRate}), {enemyLevel}) ");
 
         float spawnTime2 = spawnTime;
 
         spawnTime = spawnTime * Mathf.Pow((1 - spawnTimeRate), curr_stage); //게임 레벨에 따른 추가 스폰 시간 감소
 
-        // this.Log($" {spawnTime} : {spawnTime2} * Mathf.Pow((1 - {spawnTimeRate}), {curr_stage}) ");
+        this.Log($" {spawnTime} : {spawnTime2} * Mathf.Pow((1 - {spawnTimeRate}), {curr_stage}) ");
 
         spawnTime = Mathf.Max(spawnTime, 0.3f); //최소 스폰 시간 제한;
 
-        // this.Log($" {spawnTime} : Mathf.Max({spawnTime}, 0.3f) ");
+        this.Log($" {spawnTime} : Mathf.Max({spawnTime}, 0.3f) ");
 
         if (timer > spawnTime)
         {
@@ -113,7 +117,7 @@ public class Spawner : MonoBehaviour
         //풀매니저에서 적 오브젝트 가져오기 (프리팹 인덱스 0)
         GameObject enemy = GameManager.instance.poolManager.GetObject(0);
 
-        // this.Log("SpawnEnemy curr_stage" + curr_stage + " spawnDataIdx " + spawnDataIdx);
+        this.Log("SpawnEnemy curr_stage" + curr_stage + " spawnDataIdx " + spawnDataIdx);
 
         //스폰 데이터 설정 - 
         SpawnData spawnData = new SpawnData

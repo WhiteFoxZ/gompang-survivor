@@ -181,15 +181,14 @@ public class DataManager : MonoBehaviour
     {
         string filePath = Path.Combine(Application.persistentDataPath, filename);
 
-        this.Log("SAVE");
-
+        this.Log($" SAVE filePath : {filePath}");
 
         // string data = JsonUtility.ToJson(playerInfo);
 
         string data = JsonConvert.SerializeObject(playerInfo, Formatting.Indented);
 
 
-        File.WriteAllText(path + filename, data);
+        File.WriteAllText(filePath, data);
 
     }
 
@@ -215,8 +214,7 @@ public class DataManager : MonoBehaviour
 
             playerInfo = saveData; // 로드한 데이터를 playerInfo에 할당
 
-
-            // Debug.Log("데이터 로드 및 에셋 연결 완료!");
+            Debug.Log("데이터 로드 및 에셋 연결 완료!");
 
             return saveData;
         }
