@@ -19,7 +19,6 @@ public class BulletMissle : MonoBehaviour
     public float speed = 5f;
     public float rotateSpeed = 150f;    //회전 속도 값이 클수록 꺽이는 각도가 커짐
 
-    PlayerData playerData;
 
 
     /// <summary>
@@ -30,8 +29,6 @@ public class BulletMissle : MonoBehaviour
         //Rigidbody2D 컴포넌트 가져오기
         rig2d = GetComponent<Rigidbody2D>();
 
-        //장비적용
-        playerData = GameManager.instance.playerData;
     }
 
 
@@ -53,7 +50,7 @@ public class BulletMissle : MonoBehaviour
 
 
         //장비적용
-        EquipItem equipItemTotal = playerData.GetTotalSlotStats();
+        EquipItem equipItemTotal = DataManager.instance.playerInfo.GetTotalSlotStats();
         this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
 
 

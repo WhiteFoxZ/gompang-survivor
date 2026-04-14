@@ -5,16 +5,12 @@ using UnityEngine;
 /// </summary>
 public class Bullet : MonoBehaviour
 {
-
-    public string name; //무기이름
     public ItemData.ItemType itemType;
     public float damage; //총알 데미지
     public float per; //총알 관통력
     public float knockback; //넉백 세기
     public float knockbackRate; //넉백 확률
     Rigidbody2D rig2d; //물리엔진 
-
-    PlayerData playerData;
 
     /// <summary>
     /// 초기화 메서드 - 총알의 속성을 설정합니다.
@@ -24,8 +20,6 @@ public class Bullet : MonoBehaviour
         //Rigidbody2D 컴포넌트 가져오기
         rig2d = GetComponent<Rigidbody2D>();
 
-        //장비적용
-        playerData = GameManager.instance.playerData;
     }
 
 
@@ -47,7 +41,7 @@ public class Bullet : MonoBehaviour
         this.knockbackRate = knockbackRate;
 
         //장비적용
-        EquipItem equipItemTotal = playerData.GetTotalSlotStats();
+        EquipItem equipItemTotal = DataManager.instance.playerInfo.GetTotalSlotStats();
         this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
 
         if (per >= 0)   //원거리무기인경우

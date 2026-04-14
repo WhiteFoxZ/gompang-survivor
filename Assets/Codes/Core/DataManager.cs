@@ -55,7 +55,7 @@ public class DataManager : MonoBehaviour
     // 씬이 로드될 때마다 호출될 메서드
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"{scene.name} 씬으로 넘어왔습니다!");
+        Debug.Log($"{scene.name} 씬으로 넘어왔습니다! 씬이 로드될 때마다 호출될 메서드 LoadData(),UpdateEnergy() 호출");
         // 여기서 초기화 로직 실행
 
         LoadData();

@@ -18,8 +18,6 @@ public class Weapon : MonoBehaviour
 
     private Player player; //플레이어 참조
 
-    private PlayerData playerData;  //플레이어 장비,재능
-
     /// <summary>
     /// 시작 시 호출 - 플레이어 참조 가져오기
     /// </summary>
@@ -34,7 +32,7 @@ public class Weapon : MonoBehaviour
         else
         {
             player = GameManager.instance.player;
-            playerData = GameManager.instance.playerData;
+
 
             // 플레이어 및 플레이어 데이터 확인
             if (player == null)
@@ -42,9 +40,9 @@ public class Weapon : MonoBehaviour
                 Debug.LogError("GameManager.instance.player is null in Weapon.Awake()");
             }
 
-            if (playerData == null)
+            if (DataManager.instance.playerInfo == null)
             {
-                Debug.LogError("GameManager.instance.playerData is null in Weapon.Awake()");
+                Debug.LogError("DataManager.instance.playerInfo is null in Weapon.Awake()");
             }
         }
     }
@@ -104,12 +102,12 @@ public class Weapon : MonoBehaviour
     public void Init(ItemData itemData)
     {
         // 플레이어와 플레이어 데이터가 없으면 게임 매니저에서 다시 가져오려 시도
-        if (player == null || playerData == null)
+        if (player == null || DataManager.instance.playerInfo == null)
         {
             if (GameManager.instance != null)
             {
                 player = GameManager.instance.player;
-                playerData = GameManager.instance.playerData;
+
             }
 
             if (player == null)
@@ -118,11 +116,7 @@ public class Weapon : MonoBehaviour
                 return;
             }
 
-            if (playerData == null)
-            {
-                Debug.LogError("GameManager.instance.playerData is null in Weapon.Init()");
-                return;
-            }
+
         }
 
         //이름 설정
@@ -152,7 +146,7 @@ public class Weapon : MonoBehaviour
         Hand hand = null; //손 참조
 
         //장비 적용
-        EquipItem equipItem = playerData.GetTotalSlotStats();
+        EquipItem equipItem = DataManager.instance.playerInfo.GetTotalSlotStats();
 
         //무기 유형에 따른 초기화
         switch (itemData.itemID)

@@ -44,9 +44,7 @@ public class GameManager : MonoBehaviour
 
     public Transform _uiJoy; //조이스틱
 
-    public GameObject enemyCleaner; //적 정리기
-
-    public PlayerData playerData;  //플레이어 장비,재능
+    public GameObject enemyCleaner; //적 정리기    
 
     [Header("보스출현시 생성되는 벽 스포너")]
     public WallSpawner _wallSpawner; //벽 스포너 참조
@@ -69,16 +67,16 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        //장비적용
-        if (DataManager.instance != null)
-        {
-            playerData = DataManager.instance.LoadData();
-        }
-        else
-        {
-            Debug.LogError("DataManager 인스턴스를 찾을 수 없습니다. 로비씬에서 시작하세요.");
-            return;
-        }
+        // //장비적용
+        // if (DataManager.instance != null)
+        // {
+        //     playerData = DataManager.instance.LoadData();
+        // }
+        // else
+        // {
+        //     Debug.LogError("DataManager 인스턴스를 찾을 수 없습니다. 로비씬에서 시작하세요.");
+        //     return;
+        // }
     }
 
     /// <summary>
@@ -152,7 +150,7 @@ public class GameManager : MonoBehaviour
         this.playerId = playerId;
 
         //장비 적용
-        EquipItem equipItem = playerData.GetTotalSlotStats();
+        EquipItem equipItem = DataManager.instance.playerInfo.GetTotalSlotStats();
 
         if (equipItem != null)
         {
@@ -173,13 +171,11 @@ public class GameManager : MonoBehaviour
         uiLevelup.Select(6);
 
         // Energy decreases by 1 when starting a game
-        if (playerData != null)
+        if (DataManager.instance.playerInfo != null)
         {
-
-
-            playerData.Energy -= 1;
-            if (playerData.Energy < 0)
-                playerData.Energy = 0;
+            DataManager.instance.playerInfo.Energy -= 1;
+            if (DataManager.instance.playerInfo.Energy < 0)
+                DataManager.instance.playerInfo.Energy = 0;
             DataManager.instance.Save();
         }
 

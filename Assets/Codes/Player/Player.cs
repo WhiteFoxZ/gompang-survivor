@@ -40,8 +40,6 @@ public class Player : MonoBehaviour
 
     public GameObject _fireVFXObject; //(스팀팩 효과 추적용)
 
-    PlayerData playerData;  //플레이어 장비,재능
-
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 초기화
@@ -54,8 +52,7 @@ public class Player : MonoBehaviour
         scanner = GetComponent<Scanner>();
         //비활성화된 자식을 가져올때는 GetComponentsInChildren<Hand>(true) 사용
         hands = GetComponentsInChildren<Hand>(true);
-        //장비적용
-        playerData = GameManager.instance.playerData;
+
     }
 
     /// <summary>
@@ -67,7 +64,7 @@ public class Player : MonoBehaviour
         speed = defaultSpeed * Character.Speed;
 
         //장비 적용
-        EquipItem equipItem = playerData.GetTotalSlotStats();
+        EquipItem equipItem = DataManager.instance.playerInfo.GetTotalSlotStats();
         speed = speed * (1 + equipItem.moveSpeed * 0.01f);
 
 
@@ -179,7 +176,7 @@ public class Player : MonoBehaviour
         }
 
 
-        EquipItem equipItem = playerData.GetTotalSlotStats();
+        EquipItem equipItem = DataManager.instance.playerInfo.GetTotalSlotStats();
 
         float deffence = equipItem.defence;
 

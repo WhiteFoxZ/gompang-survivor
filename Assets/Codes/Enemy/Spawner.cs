@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
 
 
     [Header("디버그용 변수")]
-    public static float levelTime; //레벨당 시간
+    public static float levelTime; //레벨당 시간 
 
 
     int enemyLevel = 0; //적 레벨 (0부터 시작)
@@ -55,13 +55,16 @@ public class Spawner : MonoBehaviour
         //게임시간에 따라 Enemy 종류변경,레벨 계산
         enemyLevel = Mathf.FloorToInt(GameManager.instance.gameTime / levelTime);
 
-        //this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
+        this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
 
 
-        //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(2,2) -> 2, Mathf.Min(3,2) -> 2
+        //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(1,2) -> 1, Mathf.Min(2,2) -> 
+
+        this.Log($" Mathf.Min( {enemyLevel} ,{_spawnDatas.Length} -1 ) --> {Mathf.Min(enemyLevel, _spawnDatas.Length - 1)} ");
+
         enemyLevel = Mathf.Min(enemyLevel, _spawnDatas.Length - 1);
 
-        // this.Log("레벨이 최대치를 넘지 않도록 제한 >>>>  enemyLevel >>> " + enemyLevel);
+
 
         int spawnDataIdx = 0;
 
@@ -69,34 +72,33 @@ public class Spawner : MonoBehaviour
 
         if (isBossSpawned)
         {
-
             spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
             // return; //보스가 스폰된 후에는 일반 적도 스폰되지 않도록 설정 (게임 승리 조건 강화)
 
-            this.Log($" spawnDataIdx Random.Range(0, enemyLevel + 1) : {Random.Range(0, enemyLevel)}");
+            this.Log($" {spawnDataIdx} = Random.Range(0, {enemyLevel}) ");
         }
         else
         {
             this.Log($" isBossSpawned : {isBossSpawned}");
             spawnDataIdx = Random.Range(0, enemyLevel + 1); //레벨+1까지 적 유형 증가
-            this.Log($" spawnDataIdx Random.Range(0, enemyLevel + 1) : {Random.Range(0, enemyLevel + 1)}");
+            this.Log($" {spawnDataIdx} = Random.Range(0, {enemyLevel} + 1) ");
         }
 
         //스폰 시간 도달 시 적 생성
         //스테이지가 증가할수록 스폰 시간 5% 감소
-        float spawnTime = _spawnDatas[spawnDataIdx].spawnTime * Mathf.Pow((1 - spawnTimeRate), enemyLevel);
+        float spawnTime = _spawnDatas[spawnDataIdx].spawnTime;
 
-        this.Log($" {spawnTime} : {_spawnDatas[spawnDataIdx].spawnTime} * Mathf.Pow((1 - {spawnTimeRate}), {enemyLevel}) ");
-
-        float spawnTime2 = spawnTime;
+        float spawnTimeTmp = spawnTime;
 
         spawnTime = spawnTime * Mathf.Pow((1 - spawnTimeRate), curr_stage); //게임 레벨에 따른 추가 스폰 시간 감소
 
-        this.Log($" {spawnTime} : {spawnTime2} * Mathf.Pow((1 - {spawnTimeRate}), {curr_stage}) ");
+        this.Log($" {spawnTime} = {spawnTimeTmp} * Mathf.Pow((1 - {spawnTimeRate}), {curr_stage}) ");
+
+        //최소 스폰시간 제한
+
+        this.Log($" 최소 스폰시간 제한 {Mathf.Max(spawnTime, 0.3f)} = Mathf.Max({spawnTime}, 0.3f) ");
 
         spawnTime = Mathf.Max(spawnTime, 0.3f); //최소 스폰 시간 제한;
-
-        this.Log($" {spawnTime} : Mathf.Max({spawnTime}, 0.3f) ");
 
         if (timer > spawnTime)
         {
