@@ -15317,7 +15317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   inputVector: {x: 0, y: 0}
-  defaultSpeed: 8
+  defaultSpeed: 2
   speed: 0
   isFloat: 1
   scanner: {fileID: 0}
