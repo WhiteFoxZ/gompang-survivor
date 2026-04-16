@@ -67,16 +67,6 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        // //장비적용
-        // if (DataManager.instance != null)
-        // {
-        //     playerData = DataManager.instance.LoadData();
-        // }
-        // else
-        // {
-        //     Debug.LogError("DataManager 인스턴스를 찾을 수 없습니다. 로비씬에서 시작하세요.");
-        //     return;
-        // }
     }
 
     /// <summary>
@@ -335,20 +325,13 @@ public class GameManager : MonoBehaviour
             if (DataManager.instance != null && DataManager.instance.playerInfo != null)
             {
                 DataManager.instance.playerInfo.next_stage = next_stage;
+                DataManager.instance.playerInfo.Gold += curr_stage * 100;
+
                 DataManager.instance.Save();
             }
         }
 
-        // Increase Gold by the current stage value when winning
-        if (DataManager.instance.playerInfo != null)
-        {
 
-            DataManager.instance.playerInfo.Gold += curr_stage * 100;
-
-            this.Log($" playerData.Gold : {curr_stage * 100} ->{DataManager.instance.playerInfo.Gold}");
-
-            DataManager.instance.Save();
-        }
 
         //결과 UI 표시
         uiResult.gameObject.SetActive(true);
