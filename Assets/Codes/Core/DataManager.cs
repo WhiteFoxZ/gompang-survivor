@@ -216,13 +216,17 @@ public class DataManager : MonoBehaviour
 
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
 
-            return saveData;
+            this.Log($" LoadData playerInfo : {playerInfo.ToString()}");
+
+            return playerInfo;
         }
 
         return playerInfo;
     }
 
-
+    /**
+    아이템 장착 UI 업데이트
+    **/
     public void UpdateUI(PlayerData saveData)
     {
         // Load all EquipmentSO and create a lookup dictionary
@@ -237,6 +241,7 @@ public class DataManager : MonoBehaviour
             }
         }
 
+        //장착된 아이템 업데이트            
         foreach (EquipItem item in saveData.slotItems)
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
@@ -250,7 +255,7 @@ public class DataManager : MonoBehaviour
             }
         }
 
-        //버튼
+        //box 아이템 업데이트
         foreach (EquipItem item in saveData.buttonItems)
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))

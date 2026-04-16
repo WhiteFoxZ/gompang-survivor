@@ -13,7 +13,7 @@ public class LobbyHUD : MonoBehaviour
 
     public LobbyManager lobbyManager;  //로비 매니저 참조
 
-    public PlayerData playerInfo;
+
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 가져오기
@@ -24,27 +24,14 @@ public class LobbyHUD : MonoBehaviour
         expSlider = GetComponent<Slider>();
     }
 
-    void Start()
-    {
-        StartCoroutine(WaitForLobbyManager());
-    }
 
-    IEnumerator WaitForLobbyManager()
-    {
-        yield return new WaitUntil(() => lobbyManager != null);
-
-        // 인스턴스화된 후 실행할 코드
-        // Debug.Log("LobbyManager 준비 완료!");
-        playerInfo = lobbyManager.GetComponent<LobbyManager>().playerData;
-
-    }
 
     /// <summary>
     /// 프레임 후 처리 - 게임 정보 업데이트
     /// </summary>
     void LateUpdate()
     {
-        if (playerInfo == null)
+        if (DataManager.instance.playerInfo == null)
         {
             Debug.LogWarning("PlayerData가 아직 로드되지 않았습니다.");
             return;
@@ -54,8 +41,8 @@ public class LobbyHUD : MonoBehaviour
         {
             case InfoType.LEVEL:
                 //스테이지 텍스트 업데이트
-                float playerinfoLV = playerInfo.Level;  //현재 체력
-                float playerinfoMaxLV = playerInfo.MaxLevel;  //최대 체력
+                float playerinfoLV = DataManager.instance.playerInfo.Level;  //현재 체력
+                float playerinfoMaxLV = DataManager.instance.playerInfo.MaxLevel;  //최대 체력
 
                 if (infoText != null)
                     infoText.text = playerinfoLV.ToString();  //골드 텍스트 업데이트
@@ -65,13 +52,13 @@ public class LobbyHUD : MonoBehaviour
                 break;
 
             case InfoType.GOLD:
-                infoText.text = playerInfo.Gold.ToString();  //골드 텍스트 업데이트
+                infoText.text = DataManager.instance.playerInfo.Gold.ToString();  //골드 텍스트 업데이트
                 break;
             case InfoType.GEM:
-                infoText.text = playerInfo.Gem.ToString();  //젬 텍스트 업데이트
+                infoText.text = DataManager.instance.playerInfo.Gem.ToString();  //젬 텍스트 업데이트
                 break;
             case InfoType.ENERGY:
-                infoText.text = playerInfo.Energy.ToString();  //에너지 텍스트 업데이트
+                infoText.text = DataManager.instance.playerInfo.Energy.ToString();  //에너지 텍스트 업데이트
                 break;
         }
     }
