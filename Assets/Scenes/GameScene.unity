@@ -3806,19 +3806,6 @@ MonoBehaviour:
   uiResult: {fileID: 28438387}
   _uiJoy: {fileID: 1486296962}
   enemyCleaner: {fileID: 565628390}
-  playerData:
-    PlayerName: 
-    Level: 1
-    MaxLevel: 60
-    curr_stage: 1
-    next_stage: 1
-    Gold: 1
-    Gem: 1
-    Energy: 20
-    MaxEnergy: 100
-    MaxStageReached: 0
-    slotItems: []
-    buttonItems: []
   _wallSpawner: {fileID: 912664725}
 --- !u!4 &559569579
 Transform:
@@ -4106,7 +4093,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6284cc960829fca4cb2dc83d55b019aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
-  name: 
   itemType: 0
   damage: 10000
   per: 0
@@ -15474,7 +15460,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 30, y: 40}
+  m_Size: {x: 30, y: 30}
   m_EdgeRadius: 0
 --- !u!1 &714430605
 GameObject:
