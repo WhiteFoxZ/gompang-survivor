@@ -244,8 +244,8 @@ GameObject:
   - component: {fileID: 706230326212337414}
   - component: {fileID: 1452715978202353073}
   - component: {fileID: 2387028633865244776}
-  - component: {fileID: 7126700284709670222}
   - component: {fileID: 5198995339442928075}
+  - component: {fileID: 7126700284709670222}
   m_Layer: 5
   m_Name: ItemBoxAdEnegy
   m_TagString: Untagged
@@ -313,6 +313,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5198995339442928075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6112932507890949734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703d826471b556444aec46fae55a0233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemBoxUi
+  _shopItem: {fileID: 11400000, guid: ccf93c9e31c81c548bedb675e253ef35, type: 2}
 --- !u!114 &7126700284709670222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,19 +382,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5198995339442928075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6112932507890949734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 703d826471b556444aec46fae55a0233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemBoxUi
-  _shopItem: {fileID: 11400000, guid: ccf93c9e31c81c548bedb675e253ef35, type: 2}
 --- !u!1 &6161156638773717528
 GameObject:
   m_ObjectHideFlags: 0

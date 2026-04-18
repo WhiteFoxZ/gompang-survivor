@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class LobbyHUD : MonoBehaviour
 {
     //정보 유형 열거형
-    public enum InfoType { LEVEL, GOLD, GEM, ENERGY }
+    public enum InfoType { LEVEL, GOLD, DIAMOND, ENERGY }
     public InfoType infoType;  //정보 유형
 
     Text infoText;  //정보 텍스트
@@ -51,14 +51,16 @@ public class LobbyHUD : MonoBehaviour
                     expSlider.value = playerinfoLV / playerinfoMaxLV;  //슬라이더 값 
                 break;
 
+            case InfoType.ENERGY:
+                infoText.text = DataManager.instance.playerInfo.Energy.ToString();  //에너지 텍스트 업데이트
+                break;
+
             case InfoType.GOLD:
                 infoText.text = DataManager.instance.playerInfo.Gold.ToString();  //골드 텍스트 업데이트
                 break;
-            case InfoType.GEM:
-                infoText.text = DataManager.instance.playerInfo.Gem.ToString();  //젬 텍스트 업데이트
-                break;
-            case InfoType.ENERGY:
-                infoText.text = DataManager.instance.playerInfo.Energy.ToString();  //에너지 텍스트 업데이트
+
+            case InfoType.DIAMOND:
+                infoText.text = DataManager.instance.playerInfo.Diamond.ToString();  //다이아 텍스트 업데이트
                 break;
         }
     }

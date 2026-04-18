@@ -286,7 +286,8 @@ public class PlayerData
 
     // 2. 재화 관련
     public int Gold = 0;
-    public int Gem = 0;
+    public int Diamond = 0;
+
     public int Energy = 20; // 초기 에너지
     public int MaxEnergy = 60; // 최대 에너지
     public DateTime LastEnergyUpdateTime = System.DateTime.UtcNow;// 에너지 회복 계산용 (UTC 사용)

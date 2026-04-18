@@ -30,14 +30,6 @@ public class InventoryManager : MonoBehaviour
     public Text _priceTxt;
 
 
-
-    [Header("코인")]
-    public int coin = 0;
-    public int diamond = 0;
-    public int energy = 0;
-    public int maxEnergy = 0;
-
-
     ShopItemSO shopItem;
 
     [Header("장비아이템_스크롤뷰")]
@@ -137,6 +129,11 @@ public class InventoryManager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// 상점 아이템을 클릭했을 때 호출됩니다.
+    /// 클릭한 shopItem 팝업창으로 보여준다. 
+    /// </summary>
+    /// <param name="shopItem">클릭한 상점 아이템 데이터</param>
     public void ShopItemClick(ShopItemSO shopItem)
     {
 
@@ -147,30 +144,35 @@ public class InventoryManager : MonoBehaviour
         this._priceICon.sprite = shopItem.ImageAd;
         this._priceTxt.text = shopItem.price.ToString();
 
+        Transform contentPanel = _shopItemPopUp.transform.Find("Panel/ContentPanel");
+        contentPanel.gameObject.SetActive(true);
+
+        Transform textMsg = _shopItemPopUp.transform.Find("Panel/TextMsg");
+        textMsg.gameObject.SetActive(false);
+
 
         switch (shopItem.payType)
         {
+            //광고클릭시 에너지,코인 은 바로충전되고, ItemBoxCommon 경우 _scrollView(램덤아이템 팝업이) 띠워진다. 
+            //레어박스,에픽박스,레전드박스 선택시 _shopItemPopUp 띠워진다.
             case PayType.AD:
                 switch (shopItem.shopItemType)
                 {
                     case ShopItemType.Coin:
-                        this.coin += shopItem.itemCnt;
+                        DataManager.instance.playerInfo.Gold += shopItem.itemCnt;
                         this.Log($" 비용 : {shopItem.price} coin 구매갯수 itemCnt : {shopItem.itemCnt}");
-                        this.Log($" coin : {this.coin} ");
-
+                        this.Log($" Gold : {DataManager.instance.playerInfo.Gold} ");
 
                         break;
 
                     case ShopItemType.Energy:
-                        this.energy += shopItem.itemCnt;
+                        DataManager.instance.playerInfo.Energy += shopItem.itemCnt;
                         this.Log($" 비용 : {shopItem.price} Energy 구매갯수 itemCnt : {shopItem.itemCnt}");
-                        this.Log($" Energy : {this.energy} / {this.maxEnergy}");
+                        this.Log($" Energy : {DataManager.instance.playerInfo.Energy} / {DataManager.instance.playerInfo.MaxEnergy}");
 
                         break;
 
                     case ShopItemType.ItemBoxCommon:
-
-                        this.Log($" 비용 : {shopItem.price} ItemBoxSmall 구매갯수 itemCnt : {shopItem.itemCnt}");
 
                         _scrollView.SetActive(true);
 
@@ -183,6 +185,8 @@ public class InventoryManager : MonoBehaviour
 
                         nowShopItemType = ShopItemType.ItemBoxCommon;
 
+                        _shopItemPopUp.SetActive(true);
+
                         break;
 
                     default:
@@ -192,37 +196,75 @@ public class InventoryManager : MonoBehaviour
 
             default:
 
+                this.Log($" objname : {shopItem.shopItemType}");
+
+
+                switch (shopItem.shopItemType)
+                {
+                    case ShopItemType.ItemBoxRare:
+                    case ShopItemType.ItemBoxEpic:
+
+                        //playerInfo 머니가 게임아이템 금액보다 적을경우 itemBoxBtn 비활성화                
+                        if (DataManager.instance.playerInfo.Gold < shopItem.price)
+                        {
+                            textMsg.GetComponent<Text>().text = "골드가 부족합니다.";
+                            textMsg.gameObject.SetActive(true);
+                            contentPanel.gameObject.SetActive(false);
+                        }
+
+                        break;
+
+                    case ShopItemType.ItemBoxLegendary:
+
+                        //playerInfo 다이아가 게임아이템 다이아보다 적을경우 itemBoxBtn 비활성화                
+                        if (DataManager.instance.playerInfo.Diamond < shopItem.price)
+                        {
+                            textMsg.GetComponent<Text>().text = "다이아가 부족합니다.";
+                            textMsg.gameObject.SetActive(true);
+                            contentPanel.gameObject.SetActive(false);
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
+
                 _shopItemPopUp.SetActive(true);
                 break;
 
         }
+
+
+
     }
 
     //구매팝업창 클릭시 램덤박스를 호출해서 램덤한 아이템이 나온다.
     public void ConfirmOK()
     {
+
         this.Log($" confirmOK shopItem.payType  {shopItem.payType} 구매 : {shopItem.shopItemType}");
 
         List<EquipmentSO> items;
 
         switch (shopItem.payType)
         {
-            case PayType.PAY:   //코인,다이아
+            case PayType.PAY:   //현질을 해서 코인,다이아 구매
 
                 switch (shopItem.shopItemType)
                 {
                     case ShopItemType.Coin:
-                        this.coin += shopItem.itemCnt;
+                        DataManager.instance.playerInfo.Gold += shopItem.itemCnt;
 
                         this.Log($"현질 비용 : {shopItem.price} Coin 구매갯수 itemCnt : {shopItem.itemCnt}");
-                        this.Log($" coin : {this.coin} ");
+                        this.Log($" coin : {DataManager.instance.playerInfo.Gold} ");
 
                         break;
 
                     case ShopItemType.Diamond:
-                        this.diamond += shopItem.itemCnt;
+                        DataManager.instance.playerInfo.Diamond += shopItem.itemCnt;
                         this.Log($"현질 비용 : {shopItem.price} Diamond 구매갯수 itemCnt : {shopItem.itemCnt}");
-                        this.Log($" Diamond : {this.diamond} ");
+                        this.Log($" Diamond : {DataManager.instance.playerInfo.Diamond} ");
 
                         break;
 
@@ -232,14 +274,18 @@ public class InventoryManager : MonoBehaviour
 
                 break;
 
-
             case PayType.COIN:
+
+                if (!lackGold())
+                {
+                    return;
+                }
 
                 switch (shopItem.shopItemType)
                 {
                     case ShopItemType.ItemBoxRare:
-                        this.coin -= shopItem.itemCnt;
-                        this.Log($" COIN  ItemBoxRare : {this.coin}");
+                        DataManager.instance.playerInfo.Gold -= shopItem.price;
+                        this.Log($" COIN  ItemBoxRare : {DataManager.instance.playerInfo.Gold}");
 
                         _scrollView.SetActive(true);
 
@@ -252,11 +298,17 @@ public class InventoryManager : MonoBehaviour
 
                         nowShopItemType = ShopItemType.ItemBoxRare;
 
+                        if (DataManager.instance.playerInfo.Gold < shopItem.price)
+                        {
+                            Transform itemBoxBtn = _shopItemPopUp.transform.Find("Panel/ContentPanel/ItemBoxBtn");
+                            itemBoxBtn.gameObject.SetActive(false);
+                        }
+
                         break;
 
                     case ShopItemType.ItemBoxEpic:
-                        this.coin -= shopItem.itemCnt;
-                        this.Log($" COIN  ItemBoxEpic : {this.coin}");
+                        DataManager.instance.playerInfo.Gold -= shopItem.price;
+                        this.Log($" COIN  ItemBoxEpic : {DataManager.instance.playerInfo.Gold}");
 
                         _scrollView.SetActive(true);
 
@@ -269,19 +321,32 @@ public class InventoryManager : MonoBehaviour
 
                         nowShopItemType = ShopItemType.ItemBoxEpic;
 
+                        if (DataManager.instance.playerInfo.Gold < shopItem.price)
+                        {
+                            Transform itemBoxBtn = _shopItemPopUp.transform.Find("Panel/ContentPanel/ItemBoxBtn");
+                            itemBoxBtn.gameObject.SetActive(false);
+                        }
+
                         break;
                     default:
                         break;
                 }
+
+
                 break;
 
             case PayType.DIAMOND:
 
+                if (!lackDiamond())
+                {
+                    return;
+                }
+
                 switch (shopItem.shopItemType)
                 {
                     case ShopItemType.ItemBoxLegendary:
-                        this.diamond -= shopItem.itemCnt;
-                        this.Log($" DIAMOND  ItemBoxLegendary : {this.diamond}");
+                        DataManager.instance.playerInfo.Diamond -= shopItem.price;
+                        this.Log($" DIAMOND  ItemBoxLegendary : {DataManager.instance.playerInfo.Diamond}");
 
                         _scrollView.SetActive(true);
 
@@ -294,18 +359,66 @@ public class InventoryManager : MonoBehaviour
 
                         nowShopItemType = ShopItemType.ItemBoxLegendary;
 
+                        if (DataManager.instance.playerInfo.Diamond < shopItem.price)
+                        {
+                            Transform itemBoxBtn = _shopItemPopUp.transform.Find("Panel/ContentPanel/ItemBoxBtn");
+                            itemBoxBtn.gameObject.SetActive(false);
+                        }
+
                         break;
                     default:
                         break;
                 }
-                break;
 
+                break;
 
             default:
                 break;
 
         }
+
+        DataManager.instance.Save();
     }
+
+
+    bool lackGold()
+    {
+        Transform contentPanel = _shopItemPopUp.transform.Find("Panel/ContentPanel");
+        contentPanel.gameObject.SetActive(true);
+
+        Transform textMsg = _shopItemPopUp.transform.Find("Panel/TextMsg");
+        textMsg.gameObject.SetActive(false);
+
+        if (DataManager.instance.playerInfo.Gold < shopItem.price)
+        {
+            textMsg.GetComponent<Text>().text = "골드가 부족합니다.";
+            textMsg.gameObject.SetActive(true);
+            contentPanel.gameObject.SetActive(false);
+            return false;
+        }
+
+        return true;
+    }
+
+    bool lackDiamond()
+    {
+        Transform contentPanel = _shopItemPopUp.transform.Find("Panel/ContentPanel");
+        contentPanel.gameObject.SetActive(true);
+
+        Transform textMsg = _shopItemPopUp.transform.Find("Panel/TextMsg");
+        textMsg.gameObject.SetActive(false);
+
+        if (DataManager.instance.playerInfo.Diamond < shopItem.price)
+        {
+            textMsg.GetComponent<Text>().text = "다이아가 부족합니다.";
+            textMsg.gameObject.SetActive(true);
+            contentPanel.gameObject.SetActive(false);
+            return false;
+        }
+
+        return true;
+    }
+
 
     /**
     장비아이템 구매 확인 팝업창에서 스크롤뷰를 초기화 한다. RandomSelect 로부턴 아이템박스 종류별로 가져온다.

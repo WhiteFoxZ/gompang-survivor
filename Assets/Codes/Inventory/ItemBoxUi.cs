@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+_shopItem 정보를 읽어와 ShowItemBox UI를 표현해준다.
+**/
+
 public class ItemBoxUi : MonoBehaviour
 {
 
