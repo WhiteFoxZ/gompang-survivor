@@ -70,10 +70,8 @@ public class AutoHorizontalStop : MonoBehaviour
         //인벤토리 비어있는 버튼덱에 뽑힌 아이템 추가
         InventoryManager.instance.AddButtonDeck(gameItem);
 
-        //파일로 저장
-        DataManager.instance.GearItemButton();
-        DataManager.instance.Save();
-
+        //DataManager PlayerData에 장비 업데이트
+        InventoryManager.instance.GearItemButton();
 
     }
 

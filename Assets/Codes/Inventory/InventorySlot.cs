@@ -33,7 +33,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             Destroy(inventoryItem.gameObject);
 
-            DataManager.instance.InventorySlots();
+            InventoryManager.instance.InventorySlots();
             DataManager.instance.Save();
 
             return;

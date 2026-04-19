@@ -17,6 +17,16 @@ public class LobbyManager : MonoBehaviour
 
         this.Log("LobbyManager playerData 장비 데이터 다운로드 먼저 실행 시작");
 
+
+        PlayerData playerData = DataManager.instance.LoadData();
+
+
+        if (playerData != null)
+        {
+            DataManager.instance.UpdateUI(playerData);
+        }
+       
+
     }
 
 }

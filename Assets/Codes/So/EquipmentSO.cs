@@ -36,9 +36,9 @@ public class EquipmentSO : ScriptableObject
 
 
     [Header("설명")]
-    public int desc;  //가중치
+    public int desc;
 
-
+    public int count = 1;   //중복갯수
 
 
     public EquipmentSO(EquipmentSO gameItem)
@@ -54,6 +54,7 @@ public class EquipmentSO : ScriptableObject
         this.image = gameItem.image;
         this.weight = gameItem.weight;
         this.desc = gameItem.desc;
+        this.count = gameItem.count;
     }
 
 

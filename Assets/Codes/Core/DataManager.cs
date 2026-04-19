@@ -114,67 +114,6 @@ public class DataManager : MonoBehaviour
     }
 
 
-    //장비덱 있는 아이템 저장
-    public void InventorySlots()
-    {
-        InventorySlot[] _inventorySlots = InventoryManager.instance._inventorySlots;    //장착한아이템
-
-        InventoryItem itemSlot;
-
-        EquipmentSO equipmentSO;
-
-        playerInfo.slotItems.Clear();
-
-        foreach (InventorySlot slot in _inventorySlots)
-        {
-            itemSlot = slot.GetComponentInChildren<InventoryItem>();
-            if (itemSlot != null)
-            {
-                equipmentSO = itemSlot.gameItem;
-                if (equipmentSO != null)
-                {
-                    EquipItem item = new EquipItem(equipmentSO);
-                    playerInfo.slotItems.Add(item);
-                }
-                else
-                    print("******InventorySlots is null ****");
-
-            }
-        }
-
-
-
-    }
-
-    //장바구니 버튼에 있는 아이템 저장
-    public void GearItemButton()
-    {
-        GameObject[] _gearItemButton = InventoryManager.instance._gearItemButton;    //장착한아이템
-
-        EquipmentSO equipmentItem;
-
-        playerInfo.buttonItems.Clear();
-
-        foreach (GameObject button in _gearItemButton)
-        {
-            InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
-
-            if (!inventoryButton.deckFree)
-            {
-                equipmentItem = inventoryButton._equipmentItem;
-
-
-                if (equipmentItem != null)
-                {
-                    EquipItem item = new EquipItem(equipmentItem);
-                    playerInfo.buttonItems.Add(item);
-                }
-                else
-                    print("******buttonItems is null ****");
-            }
-        }
-    }
-
 
 
     public void Save()
@@ -216,7 +155,7 @@ public class DataManager : MonoBehaviour
 
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
 
-            this.Log($" LoadData playerInfo : {playerInfo.ToString()}");
+            this.Log($" LoadData playerInfo : {playerInfo}    ");
 
             return playerInfo;
         }
@@ -246,7 +185,7 @@ public class DataManager : MonoBehaviour
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
             {
-                // this.Log($" InventoryManager.instance.AddItem : {equipmentToAdd}");
+                this.Log($"장착된 아이템 InventoryManager.instance.AddItem : {equipmentToAdd.gearType} , {equipmentToAdd.count} ");
                 InventoryManager.instance.AddItem(equipmentToAdd);
             }
             else
@@ -337,6 +276,8 @@ public class PlayerData
         return total;
     }
 
+
+
 }
 
 
@@ -352,13 +293,14 @@ public class EquipItem
     public float atack;  //공격력
     public float defence;    //방어력
     public float moveSpeed;    //움직임
-
     public float atkSpeed;     //공격스피드
+
+    public int count = 1;
 
     public EquipItem()
     {
-
     }
+
 
     public EquipItem(EquipmentSO gameItem)
     {
@@ -370,6 +312,7 @@ public class EquipItem
         this.defence = gameItem.defence;
         this.moveSpeed = gameItem.moveSpeed;
         this.atkSpeed = gameItem.atkSpeed;
+        this.count = gameItem.count;
 
     }
 

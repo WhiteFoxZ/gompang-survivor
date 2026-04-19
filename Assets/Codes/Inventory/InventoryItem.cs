@@ -15,8 +15,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector]
     public EquipmentSO gameItem; //게임 아이템 데이터
 
-    [HideInInspector]
-    public int count = 1; //아이템 개수
 
     [HideInInspector]
     public Transform parentAfterDrag; //드래그 후 부모 설정 (원래 위치로 복귀용)
@@ -30,6 +28,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         gameItem = newitem;
         itemImage.sprite = newitem.image;
+
         reflushCount();
     }
 
@@ -38,13 +37,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// </summary>
     public void reflushCount()
     {
+        this.Log($" reflushCount  gearType : {gameItem.gearType} , count : {gameItem.count}");
         //개수가 1보다 크면 텍스트 표시
-        bool textActive = count > 1;
+        bool textActive = gameItem.count > 1;
         _countText.gameObject.SetActive(textActive);
 
-        if (count > 1)
+        if (gameItem.count > 1)
         {
-            _countText.text = count.ToString();
+            _countText.text = gameItem.count.ToString();
         }
         else
         {
