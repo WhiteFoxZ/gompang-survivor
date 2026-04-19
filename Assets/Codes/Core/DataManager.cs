@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using Newtonsoft.Json; // 네임스페이스 추가
 using System;
-
+using System.Linq;
+using System.Collections;
 
 // 1.저장할 데이터가 존재
 // 2.데이터를 제이슨으로 변환
@@ -18,10 +19,13 @@ public class DataManager : MonoBehaviour
     public PlayerData playerInfo = new PlayerData();
 
     string path;
+
     string filename = "playerinfo";
 
     void Awake()
     {
+
+        this.Log("********** Awake **********");
 
         if (instance == null)
         {
@@ -35,8 +39,28 @@ public class DataManager : MonoBehaviour
         // 씬 전환 시 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
 
+    }
+
+
+    void Start()
+    {
+        this.Log("********** Start **********");
+        // this.Log("LobbyManager Start 장비정보 다운로드  시작");
+        StartCoroutine(LoadDataAndStartGame());
+    }
+
+
+    IEnumerator LoadDataAndStartGame()
+    {
+        this.Log("LobbyManager playerData 장비 데이터 다운로드 먼저 실행 시작");
+        // 장비 데이터 다운로드 먼저 실행
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
+
+        this.Log("LobbyManager playerData 장비 데이터 다운로드 먼저 실행 완료");
 
     }
+
+
 
     //싱글톤 패턴이고 DontDestroyOnLoad 적용되어 있기 때문에, 씬이 로드될 때마다 초기화 로직을 실행하려면 씬 로드 이벤트를 활용하는 것이 좋습니다.
 
@@ -55,11 +79,12 @@ public class DataManager : MonoBehaviour
     // 씬이 로드될 때마다 호출될 메서드
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"{scene.name} 씬으로 넘어왔습니다! 씬이 로드될 때마다 호출될 메서드 LoadData(),UpdateEnergy() 호출");
+        Debug.Log($"{scene.name} 씬으로 넘어왔습니다! 씬이 로드될 때마다 호출될 메서드 LoadData(),UpdateEnergy(),UpdateUI() 호출");
         // 여기서 초기화 로직 실행
 
         LoadData();
         UpdateEnergy();
+        UpdateUI();
 
     }
 
@@ -103,6 +128,9 @@ public class DataManager : MonoBehaviour
             // Energy is already at max, so we set the last update time to now to avoid storing old time
             playerInfo.LastEnergyUpdateTime = DateTime.UtcNow;
         }
+
+        this.Log("********** UpdateEnergy 완료 *******");
+
     }
 
     private void OnApplicationPause(bool pauseStatus)
@@ -149,15 +177,11 @@ public class DataManager : MonoBehaviour
             // print(json);
 
             // 2. 저장용 클래스로 역직렬화
-            PlayerData saveData = JsonConvert.DeserializeObject<PlayerData>(json);
-
-            playerInfo = saveData; // 로드한 데이터를 playerInfo에 할당
+            playerInfo = JsonConvert.DeserializeObject<PlayerData>(json);
 
             Debug.Log("데이터 로드 및 에셋 연결 완료!");
 
-            this.Log($" LoadData playerInfo : {playerInfo}    ");
-
-            return playerInfo;
+            this.Log($" LoadData playerInfo : {playerInfo} ");
         }
 
         return playerInfo;
@@ -166,8 +190,10 @@ public class DataManager : MonoBehaviour
     /**
     아이템 장착 UI 업데이트
     **/
-    public void UpdateUI(PlayerData saveData)
+    public void UpdateUI()
     {
+        this.Log("************ UpdateUI *******");
+
         // Load all EquipmentSO and create a lookup dictionary
         EquipmentSO[] allEquipment = Resources.FindObjectsOfTypeAll<EquipmentSO>();
         Dictionary<string, EquipmentSO> equipmentDict = new Dictionary<string, EquipmentSO>();
@@ -181,12 +207,15 @@ public class DataManager : MonoBehaviour
         }
 
         //장착된 아이템 업데이트            
-        foreach (EquipItem item in saveData.slotItems)
+        foreach (EquipItem item in playerInfo.slotItems)
         {
-            if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
+            if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentSO))
             {
-                this.Log($"장착된 아이템 InventoryManager.instance.AddItem : {equipmentToAdd.gearType} , {equipmentToAdd.count} ");
-                InventoryManager.instance.AddItem(equipmentToAdd);
+                this.Log($"장착된 아이템 InventoryManager.instance.AddItem : {equipmentSO} ");
+
+                if (item.count > 0) equipmentSO.count = item.count;
+
+                InventoryManager.instance.AddItem(equipmentSO);
             }
             else
             {
@@ -195,12 +224,12 @@ public class DataManager : MonoBehaviour
         }
 
         //box 아이템 업데이트
-        foreach (EquipItem item in saveData.buttonItems)
+        foreach (EquipItem item in playerInfo.buttonItems)
         {
-            if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentToAdd))
+            if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentSO))
             {
-                // this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentToAdd}");
-                InventoryManager.instance.AddButtonDeck(equipmentToAdd);
+                // this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentSO}");
+                InventoryManager.instance.AddButtonDeck(equipmentSO);
             }
             else
             {
@@ -253,14 +282,14 @@ public class PlayerData
             if (item == null) continue;
 
             // 아이벨 보정치 (예: 아이템 10레벨 = 1.1배)
-            float itemLevelModifier = 1f + (item.level * 0.01f);
+            float itemLevelModifier = 1f + (item.count * 0.01f);
 
             total.atack += item.atack * itemLevelModifier;
             total.defence += item.defence * itemLevelModifier;
             total.moveSpeed += item.moveSpeed * itemLevelModifier;
             total.atkSpeed += item.atkSpeed * itemLevelModifier;
 
-            // this.Log(total.atack + "   " + itemLevelModifier);
+            this.Log($"item id : {item.id} ,itemRarity : {item.itemRarity}, total.atack : {total.atack} = item.atack * {itemLevelModifier} ");
 
         }
 
@@ -277,6 +306,14 @@ public class PlayerData
     }
 
 
+    public override string ToString()
+    {
+        if (slotItems == null || slotItems.Count == 0)
+            return "슬롯이 비어 있습니다.";
+
+        return string.Join("\n", slotItems);
+
+    }
 
 }
 
@@ -307,7 +344,6 @@ public class EquipItem
         this.id = gameItem.id;
         this.itemRarity = gameItem.itemRarity;
         this.gearType = gameItem.gearType;
-        this.level = gameItem.level;
         this.atack = gameItem.atack;
         this.defence = gameItem.defence;
         this.moveSpeed = gameItem.moveSpeed;
@@ -315,6 +351,14 @@ public class EquipItem
         this.count = gameItem.count;
 
     }
+
+    // EquipItem의 정보를 문자열로 반환
+    public override string ToString()
+    {
+        return $"[itemRarity: {itemRarity}, gearType :{gearType}, count: {count}]";
+    }
+
+
 
 }
 

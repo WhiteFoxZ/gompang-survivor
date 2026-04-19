@@ -3108,7 +3108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
   infoType: 0
-  lobbyManager: {fileID: 2058237764}
+  lobbyManager: {fileID: 0}
 --- !u!1001 &520684723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4145,7 +4145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
   infoType: 0
-  lobbyManager: {fileID: 2058237764}
+  lobbyManager: {fileID: 0}
 --- !u!1 &658516070
 GameObject:
   m_ObjectHideFlags: 0
@@ -6714,7 +6714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
   infoType: 3
-  lobbyManager: {fileID: 2058237764}
+  lobbyManager: {fileID: 0}
 --- !u!1 &963219090
 GameObject:
   m_ObjectHideFlags: 0
@@ -7610,7 +7610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
   infoType: 1
-  lobbyManager: {fileID: 2058237764}
+  lobbyManager: {fileID: 0}
 --- !u!1 &1092607936
 GameObject:
   m_ObjectHideFlags: 0
@@ -13463,7 +13463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyHUD
   infoType: 2
-  lobbyManager: {fileID: 2058237764}
+  lobbyManager: {fileID: 0}
 --- !u!1 &1896814752 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 969461134448215909, guid: 4ced5273c52fe0149ba33b01c3e390c9, type: 3}
@@ -13842,50 +13842,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ced5273c52fe0149ba33b01c3e390c9, type: 3}
---- !u!1 &2058237763
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2058237765}
-  - component: {fileID: 2058237764}
-  m_Layer: 0
-  m_Name: LobbyManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2058237764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2058237763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0479161ca12baf44abe3d93e5f0a9cb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
---- !u!4 &2058237765
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2058237763}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2312.9177, y: 1866.8368, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2060705934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 969461134448215909, guid: 4ced5273c52fe0149ba33b01c3e390c9, type: 3}
@@ -15232,7 +15188,6 @@ SceneRoots:
   - {fileID: 671021414}
   - {fileID: 1217294396}
   - {fileID: 1157135575}
-  - {fileID: 2058237765}
   - {fileID: 755320247}
   - {fileID: 434955150}
   - {fileID: 1092607939}

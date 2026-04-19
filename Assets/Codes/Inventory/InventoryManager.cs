@@ -10,7 +10,7 @@ public class InventoryManager : MonoBehaviour
 
     public static InventoryManager instance;  //싱글톤 인스턴스
 
-    const int maxStackItems = 5; //최대 스택 개수
+    const int maxStackItems = 60; //최대 스택 개수
 
     [Header("장비장착정보")]
     public InventorySlot[] _inventorySlots; //인벤토리 슬롯 배열
@@ -123,7 +123,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="slot">생성할 슬롯</param>
     void SpawnNewItem(EquipmentSO item, InventorySlot slot)
     {
-        //프리팹からインスタンス生成
+        //프리팹
         GameObject newItemGameObj = Instantiate(_inventoryItemPrefabs, slot.transform);
         InventoryItem inventoryItem = newItemGameObj.GetComponent<InventoryItem>();
         inventoryItem.InitialiseItem(item);

@@ -11,9 +11,6 @@ public class LobbyHUD : MonoBehaviour
     Text infoText;  //정보 텍스트
     Slider expSlider;  //경험치 슬라이더
 
-    public LobbyManager lobbyManager;  //로비 매니저 참조
-
-
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 가져오기

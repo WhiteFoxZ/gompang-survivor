@@ -18,8 +18,6 @@ public class EquipmentSO : ScriptableObject
     public ItemRarity itemRarity; //등급
     public GearType gearType; //착용아이템 유형
 
-    public int level = 1;
-
     [Header("%증가")]
     public float atack;  //공격력
     public float defence;    //방어력
@@ -46,7 +44,6 @@ public class EquipmentSO : ScriptableObject
         this.id = gameItem.id;
         this.itemRarity = gameItem.itemRarity;
         this.gearType = gameItem.gearType;
-        this.level = gameItem.level;
         this.atack = gameItem.atack;
         this.defence = gameItem.defence;
         this.moveSpeed = gameItem.moveSpeed;
