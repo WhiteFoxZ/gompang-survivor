@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using Newtonsoft.Json; // 네임스페이스 추가
 using System;
-using System.Linq;
 using System.Collections;
+
 
 // 1.저장할 데이터가 존재
 // 2.데이터를 제이슨으로 변환
@@ -22,6 +22,8 @@ public class DataManager : MonoBehaviour
 
     string filename = "playerinfo";
 
+    private bool isEquipmentDataReady = false;
+
     void Awake()
     {
 
@@ -30,6 +32,10 @@ public class DataManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+
+            this.Log("LobbyManager 장비정보 다운로드 시작");
+            StartCoroutine(LoadDataAndStartGame());
+
         }
         else
         {
@@ -42,21 +48,16 @@ public class DataManager : MonoBehaviour
     }
 
 
-    void Start()
-    {
-        this.Log("********** Start **********");
-        // this.Log("LobbyManager Start 장비정보 다운로드  시작");
-        StartCoroutine(LoadDataAndStartGame());
-    }
-
-
     IEnumerator LoadDataAndStartGame()
     {
-        this.Log("LobbyManager playerData 장비 데이터 다운로드 먼저 실행 시작");
+        this.Log("ㅇ EquipmentSO 장비 데이터 다운로드 먼저 실행 시작");
         // 장비 데이터 다운로드 먼저 실행
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
 
-        this.Log("LobbyManager playerData 장비 데이터 다운로드 먼저 실행 완료");
+        this.Log("LobbyManager EquipmentSO 장비 데이터 다운로드 먼저 실행 완료");
+
+        isEquipmentDataReady = true; // Set flag when data is ready
+
 
     }
 
@@ -79,14 +80,34 @@ public class DataManager : MonoBehaviour
     // 씬이 로드될 때마다 호출될 메서드
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"{scene.name} 씬으로 넘어왔습니다! 씬이 로드될 때마다 호출될 메서드 LoadData(),UpdateEnergy(),UpdateUI() 호출");
-        // 여기서 초기화 로직 실행
+        if (scene.name == "LobbyScene")
+        {
+            if (!isEquipmentDataReady)
+            {
+                StartCoroutine(WaitForEquipmentDataThenInitialize(scene));
+                return;
+            }
 
+        }
+
+    }
+
+    private IEnumerator WaitForEquipmentDataThenInitialize(Scene scene)
+    {
+        while (!isEquipmentDataReady)
+        {
+            yield return null; // Wait one frame
+        }
+
+        // Now data is ready, initialize
+        Debug.Log($"{scene.name} 씬으로 넘어왔습니다! 2222씬이 로드될 때마다 호출될 메서드 LoadData(),UpdateEnergy(),UpdateUI() 호출");
+        // 여기서 초기화 로직 실행
         LoadData();
         UpdateEnergy();
         UpdateUI();
-
     }
+
+
 
 
     private const int EnergyRechargeInterval = 1200; // 20 minutes in seconds
@@ -269,7 +290,7 @@ public class PlayerData
     public List<EquipItem> buttonItems = new List<EquipItem>();
 
 
-    //합산된 장비정보
+    //합산된 장비정보 - 게임씬에서 사용
 
     public EquipItem GetTotalSlotStats()
     {
@@ -279,17 +300,12 @@ public class PlayerData
         // 1. 모든 장착 아이템의 능력치를 각 아이템 레벨 보정(1%당)을 적용해 합산
         foreach (var item in slotItems)
         {
-            if (item == null) continue;
+            total.atack += item.atack * item.count;
+            total.defence += item.defence * item.count;
+            total.moveSpeed += item.moveSpeed * item.count;
+            total.atkSpeed += item.atkSpeed * item.count;
 
-            // 아이벨 보정치 (예: 아이템 10레벨 = 1.1배)
-            float itemLevelModifier = 1f + (item.count * 0.01f);
-
-            total.atack += item.atack * itemLevelModifier;
-            total.defence += item.defence * itemLevelModifier;
-            total.moveSpeed += item.moveSpeed * itemLevelModifier;
-            total.atkSpeed += item.atkSpeed * itemLevelModifier;
-
-            this.Log($"item id : {item.id} ,itemRarity : {item.itemRarity}, total.atack : {total.atack} = item.atack * {itemLevelModifier} ");
+            this.Log($"item id : {item.id} ,itemRarity : {item.itemRarity}, total.atack : {total.atack} = {item.atack} * {item.count} ");
 
         }
 
