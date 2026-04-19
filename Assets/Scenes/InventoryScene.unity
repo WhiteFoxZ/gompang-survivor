@@ -1376,6 +1376,16 @@ MonoBehaviour:
   - {fileID: 2034454566}
   - {fileID: 2026296049}
   _inventoryItemPrefabs: {fileID: 2195778712710251881, guid: d0f4ed9183f65d146a3c68d4ff109226, type: 3}
+  _gearItemButton: []
+  _shopItemPopUp: {fileID: 0}
+  _itemName: {fileID: 0}
+  _itemImge: {fileID: 0}
+  _priceICon: {fileID: 0}
+  _priceTxt: {fileID: 0}
+  _scrollView: {fileID: 0}
+  _scrollViewContent: {fileID: 0}
+  _randomSelect: {fileID: 0}
+  _scrollViewItemImagePrefab: {fileID: 0}
 --- !u!4 &404784313
 Transform:
   m_ObjectHideFlags: 0
