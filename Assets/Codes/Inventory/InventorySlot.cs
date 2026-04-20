@@ -39,6 +39,29 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             return;
         }
 
+        // 이미 슬롯에 아이템이 있는지 확인
+        InventoryItem existingItem = transform.GetComponentInChildren<InventoryItem>();
+
+        // 같은 아이템이고 스택이 가능한지 확인 (최대 60개까지 스택 가능)
+        if (existingItem != null &&
+            existingItem.gameItem == inventoryItem.gameItem &&
+            inventoryItem.gameItem.count < InventoryManager.maxStackItems) // maxStackItems from InventoryManager
+        {
+            //개수 증가
+            inventoryItem.gameItem.count++;
+            //표시 갱신
+            existingItem.reflushCount();
+
+            // 드롭된 아이템 객체 파괴 (이미 카운트에 반영되었으므로)
+            Destroy(inventoryItem.gameObject);
+
+            // 저장 및 업데이트
+            InventoryManager.instance.EquipSlotsUpdate();
+            DataManager.instance.Save();
+
+            return;
+        }
+
         // 휴지통이 아닌 슬롯에만 빈 공간이 있으면 아이템을 이동
         if (slotType != SlotType.Trash && transform.childCount == 0)
         {

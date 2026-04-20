@@ -10,7 +10,7 @@ public class InventoryManager : MonoBehaviour
 
     public static InventoryManager instance;  //싱글톤 인스턴스
 
-    const int maxStackItems = 60; //최대 스택 개수
+    public const int maxStackItems = 60; //최대 스택 개수
 
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
 
