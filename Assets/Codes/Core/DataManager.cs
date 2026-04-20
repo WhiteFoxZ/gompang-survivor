@@ -100,7 +100,7 @@ public class DataManager : MonoBehaviour
         }
 
         // Now data is ready, initialize
-        Debug.Log($"{scene.name} 씬으로 넘어왔습니다! 2222씬이 로드될 때마다 호출될 메서드 LoadData(),UpdateEnergy(),UpdateUI() 호출");
+        Debug.Log($"{scene.name} 씬으로 넘어왔습니다! 씬이 로드될 때마다 호출될 메서드 LoadData(),UpdateEnergy(),UpdateUI() 호출");
         // 여기서 초기화 로직 실행
         LoadData();
         UpdateEnergy();
@@ -228,7 +228,7 @@ public class DataManager : MonoBehaviour
         }
 
         //장착된 아이템 업데이트            
-        foreach (EquipItem item in playerInfo.slotItems)
+        foreach (EquipItem item in playerInfo.equipItems)
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentSO))
             {
@@ -236,7 +236,7 @@ public class DataManager : MonoBehaviour
 
                 if (item.count > 0) equipmentSO.count = item.count;
 
-                InventoryManager.instance.AddItem(equipmentSO);
+                InventoryManager.instance.AddEquipItem(equipmentSO);
             }
             else
             {
@@ -245,12 +245,12 @@ public class DataManager : MonoBehaviour
         }
 
         //box 아이템 업데이트
-        foreach (EquipItem item in playerInfo.buttonItems)
+        foreach (EquipItem item in playerInfo.inventoryItems)
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentSO))
             {
                 // this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentSO}");
-                InventoryManager.instance.AddButtonDeck(equipmentSO);
+                InventoryManager.instance.AddInventoryItem(equipmentSO);
             }
             else
             {
@@ -286,8 +286,8 @@ public class PlayerData
     public Dictionary<string, int> Talents = new Dictionary<string, int>(); // 특성 ID와 강화 레벨
 
     // 4. 장비 , 인벤토리,SO 객체 대신 ID(이름) 리스트를 저장합니다.
-    public List<EquipItem> slotItems = new List<EquipItem>();
-    public List<EquipItem> buttonItems = new List<EquipItem>();
+    public List<EquipItem> equipItems = new List<EquipItem>();
+    public List<EquipItem> inventoryItems = new List<EquipItem>();
 
 
     //합산된 장비정보 - 게임씬에서 사용
@@ -298,7 +298,7 @@ public class PlayerData
         total.id = "TotalCombinedStats";
 
         // 1. 모든 장착 아이템의 능력치를 각 아이템 레벨 보정(1%당)을 적용해 합산
-        foreach (var item in slotItems)
+        foreach (var item in equipItems)
         {
             total.atack += item.atack * item.count;
             total.defence += item.defence * item.count;
@@ -324,10 +324,10 @@ public class PlayerData
 
     public override string ToString()
     {
-        if (slotItems == null || slotItems.Count == 0)
+        if (equipItems == null || equipItems.Count == 0)
             return "슬롯이 비어 있습니다.";
 
-        return string.Join("\n", slotItems);
+        return string.Join("\n", equipItems);
 
     }
 

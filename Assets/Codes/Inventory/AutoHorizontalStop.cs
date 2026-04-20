@@ -68,13 +68,12 @@ public class AutoHorizontalStop : MonoBehaviour
         _itemBoxBtn.GetComponent<Button>().interactable = false;
 
         //인벤토리 비어있는 버튼덱에 뽑힌 아이템 추가
-        InventoryManager.instance.AddButtonDeck(gameItem);
+        InventoryManager.instance.AddInventoryItem(gameItem);
 
         //DataManager PlayerData에 장비 업데이트
-        InventoryManager.instance.GearItemButton();
+        InventoryManager.instance.InventorySlotsUpdate();
 
     }
-
 
 
     void OnDisable()

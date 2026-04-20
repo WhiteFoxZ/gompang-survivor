@@ -12,15 +12,15 @@ public class InventoryManager : MonoBehaviour
 
     const int maxStackItems = 60; //최대 스택 개수
 
-    [Header("장비장착정보")]
-    public InventorySlot[] _inventorySlots; //인벤토리 슬롯 배열
-
     public GameObject _inventoryItemPrefabs; //인벤토리 아이템 프리팹
 
+    [Header("장비장착정보")]
+    public InventorySlot[] _equipSlots; //인벤토리 슬롯 배열
+
     [Header("구매한 장비아이템 버튼들")]
-    public GameObject[] _gearItemButton; //구매한 장비아이템 버튼들
+    public InventorySlot[] _inventorySlots; //구매한 장비아이템 버튼들
 
-
+    public int currentEmptyCount = 0;
 
     [Header("아이템구매팝업창")]
     public GameObject _shopItemPopUp;
@@ -62,6 +62,8 @@ public class InventoryManager : MonoBehaviour
 
         instance = this;
 
+        currentEmptyCount = _inventorySlots.Length;
+
     }
 
 
@@ -70,12 +72,12 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="newItem">추가할 아이템</param>
     /// <returns>추가 성공 여부</returns>
-    public bool AddItem(EquipmentSO newItem)
+    public bool AddEquipItem(EquipmentSO newItem)
     {
         //먼저 기존 아이템과 스택 가능한지 확인
-        for (int i = 0; i < _inventorySlots.Length; i++)
+        for (int i = 0; i < _equipSlots.Length; i++)
         {
-            InventorySlot slot = _inventorySlots[i];
+            InventorySlot slot = _equipSlots[i];
             InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
 
             //같은 아이템이고 스택 공간이 있으면
@@ -95,6 +97,36 @@ public class InventoryManager : MonoBehaviour
 
 
         //빈 슬롯에 새로운 아이템 추가
+        for (int i = 0; i < _equipSlots.Length; i++)
+        {
+            InventorySlot slot = _equipSlots[i];
+            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
+
+            //빈 슬롯이면
+            if (itemSlot == null)
+            {
+                //새 아이템 생성
+                SpawnNewItem(newItem, slot);
+                this.Log($"Equip 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
+                return true;
+            }
+        }
+
+        //인벤토리가 가득 찼음
+        this.Log("***** 인벤토리가 가득 찼음 ****");
+
+        return false;
+    }
+
+
+    /// <summary>
+    /// 아이템 추가 - 인벤토리에 아이템을 추가합니다.(AutoHorizontalStop 호출,DataManager.Load 호출)
+    /// </summary>
+    /// <param name="newItem">추가할 아이템</param>
+    /// <returns>추가 성공 여부</returns>
+    public bool AddInventoryItem(EquipmentSO newItem)
+    {
+        //빈 슬롯에 새로운 아이템 추가
         for (int i = 0; i < _inventorySlots.Length; i++)
         {
             InventorySlot slot = _inventorySlots[i];
@@ -105,7 +137,8 @@ public class InventoryManager : MonoBehaviour
             {
                 //새 아이템 생성
                 SpawnNewItem(newItem, slot);
-                this.Log($" 새 아이템 생성 : {newItem.gearType} ");
+                currentEmptyCount--;
+                this.Log($" Inventory 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
                 return true;
             }
         }
@@ -115,6 +148,7 @@ public class InventoryManager : MonoBehaviour
 
         return false;
     }
+
 
     /// <summary>
     /// 새 아이템 생성 - 지정된 슬롯에 아이템을 생성합니다.
@@ -412,16 +446,7 @@ public class InventoryManager : MonoBehaviour
     int deckFreeCnt()
     {
         int deckFree = 0;
-        //_gearItemButton
-        for (int i = 0; i < _gearItemButton.Length; i++)
-        {
-            if (_gearItemButton[i].GetComponent<InventoryButton>().deckFree)
-            {
-                deckFree++;
-                break;
-            }
 
-        }
 
         return deckFree;
     }
@@ -448,39 +473,43 @@ public class InventoryManager : MonoBehaviour
 
 
 
-
-    //인벤토리 비어있는 버튼덱에 뽑힌 아이템 추가(AutoHorizontalStop 호출,DataManager.Load 호출)
-
-    public void AddButtonDeck(EquipmentSO gameItem)
+    //장비덱 있는 아이템 저장
+    public void EquipSlotsUpdate()
     {
+        InventoryItem itemSlot;
 
-        //비어있는 장바구니 버튼 아이템추가
-        foreach (GameObject button in _gearItemButton)
+        EquipmentSO equipmentSO;
+
+        DataManager.instance.playerInfo.equipItems.Clear();
+
+        foreach (InventorySlot slot in _equipSlots)
         {
-            InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
-
-            // this.Log($" 버튼덱에 버튼에 추가 : {inventoryButton.deckFree}");
-            if (inventoryButton.deckFree)
+            itemSlot = slot.GetComponentInChildren<InventoryItem>();
+            if (itemSlot != null)
             {
-                inventoryButton.Init(gameItem);
-                break;
+                equipmentSO = itemSlot.gameItem;
+                if (equipmentSO != null)
+                {
+                    EquipItem item = new EquipItem(equipmentSO);
+                    DataManager.instance.playerInfo.equipItems.Add(item);
+                }
+                else
+                {
+                    this.Log("******EquipSlots is null ****");
+                }
             }
-
         }
     }
 
-
-
-    //장비덱 있는 아이템 저장
-    public void InventorySlots()
+    //장바구니 버튼에 있는 아이템 저장
+    public void InventorySlotsUpdate()
     {
-        InventorySlot[] _inventorySlots = InventoryManager.instance._inventorySlots;    //장착한아이템
 
         InventoryItem itemSlot;
 
         EquipmentSO equipmentSO;
 
-        DataManager.instance.playerInfo.slotItems.Clear();
+        DataManager.instance.playerInfo.inventoryItems.Clear();
 
         foreach (InventorySlot slot in _inventorySlots)
         {
@@ -491,42 +520,17 @@ public class InventoryManager : MonoBehaviour
                 if (equipmentSO != null)
                 {
                     EquipItem item = new EquipItem(equipmentSO);
-                    DataManager.instance.playerInfo.slotItems.Add(item);
+                    DataManager.instance.playerInfo.inventoryItems.Add(item);
                 }
                 else
-                    print("******InventorySlots is null ****");
-
-            }
-        }
-    }
-
-    //장바구니 버튼에 있는 아이템 저장
-    public void GearItemButton()
-    {
-        GameObject[] _gearItemButton = InventoryManager.instance._gearItemButton;    //장착한아이템
-
-        EquipmentSO equipmentItem;
-
-        DataManager.instance.playerInfo.buttonItems.Clear();
-
-        foreach (GameObject button in _gearItemButton)
-        {
-            InventoryButton inventoryButton = button.GetComponent<InventoryButton>();
-
-            if (!inventoryButton.deckFree)
-            {
-                equipmentItem = inventoryButton._equipmentItem;
-
-
-                if (equipmentItem != null)
                 {
-                    EquipItem item = new EquipItem(equipmentItem);
-                    DataManager.instance.playerInfo.buttonItems.Add(item);
+                    this.Log("******InventorySlots is null ****");
                 }
-                else
-                    print("******buttonItems is null ****");
+
+
             }
         }
+
     }
 
 

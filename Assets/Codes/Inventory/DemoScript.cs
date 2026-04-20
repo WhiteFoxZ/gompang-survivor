@@ -18,7 +18,7 @@ public class DemoScript : MonoBehaviour
     public void pickupItem(int id)
     {
         //인벤토리에 아이템 추가 시도
-        bool result = _inventoryManager.AddItem(_gameItemsToPickup[id]);
+        bool result = _inventoryManager.AddEquipItem(_gameItemsToPickup[id]);
 
         if (result)
         {
