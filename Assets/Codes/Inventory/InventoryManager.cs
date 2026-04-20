@@ -20,7 +20,26 @@ public class InventoryManager : MonoBehaviour
     [Header("구매한 장비아이템 버튼들")]
     public InventorySlot[] _inventorySlots; //구매한 장비아이템 버튼들
 
-    public int currentEmptyCount = 0;
+    // public int currentEmptyCount = 0;
+
+    //항상 최신정보를 가질수 있도록 computed property
+    public int currentEmptyCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (InventorySlot slot in _inventorySlots)
+            {
+                if (slot.GetComponentInChildren<InventoryItem>() == null)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
+
+
 
     [Header("아이템구매팝업창")]
     public GameObject _shopItemPopUp;
@@ -61,8 +80,6 @@ public class InventoryManager : MonoBehaviour
         }
 
         instance = this;
-
-        currentEmptyCount = _inventorySlots.Length;
 
     }
 
@@ -137,7 +154,7 @@ public class InventoryManager : MonoBehaviour
             {
                 //새 아이템 생성
                 SpawnNewItem(newItem, slot);
-                currentEmptyCount--;
+
                 this.Log($" Inventory 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
                 return true;
             }
@@ -180,9 +197,9 @@ public class InventoryManager : MonoBehaviour
         this._priceICon.sprite = shopItem.ImageAd;
         this._priceTxt.text = shopItem.price.ToString();
 
-        if (deckFreeCnt() == 0)
+        if (currentEmptyCount == 0)
         {
-            lackDeck();
+            lackInventorySlot();
             return;
         }
 
@@ -425,7 +442,7 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
-    void lackDeck()
+    void lackInventorySlot()
     {
         Transform contentPanel = _shopItemPopUp.transform.Find("Panel/ContentPanel");
         contentPanel.gameObject.SetActive(true);
@@ -441,15 +458,6 @@ public class InventoryManager : MonoBehaviour
 
     }
 
-
-    //비어있는 덱이 잇는 갯수 리턴
-    int deckFreeCnt()
-    {
-        int deckFree = 0;
-
-
-        return deckFree;
-    }
 
 
     /**
