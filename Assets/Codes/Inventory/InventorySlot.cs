@@ -48,7 +48,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             inventoryItem.gameItem.count < InventoryManager.maxStackItems) // maxStackItems from InventoryManager
         {
             //개수 증가
-            inventoryItem.gameItem.count++;
+            existingItem.gameItem.count++;
             //표시 갱신
             existingItem.reflushCount();
 
