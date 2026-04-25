@@ -84,109 +84,6 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// 아이템 추가 - 장비덱에 아이템을 추가합니다.
-    /// </summary>
-    /// <param name="newItem">추가할 아이템</param>
-    /// <returns>추가 성공 여부</returns>
-    public bool AddEquipItem(EquipmentSO newItem)
-    {
-        //먼저 기존 아이템과 스택 가능한지 확인
-        for (int i = 0; i < _equipSlots.Length; i++)
-        {
-            InventorySlot slot = _equipSlots[i];
-            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
-
-            //같은 아이템이고 스택 공간이 있으면
-            if (inventoryItem != null
-            && inventoryItem.gameItem == newItem
-            && inventoryItem.count < maxStackItems
-            )
-            {
-                this.Log($" 갯수증가 : {newItem.gearType}");
-                //개수 증가
-                inventoryItem.count++;
-                //표시 갱신
-                inventoryItem.reflushCount();
-                return true;
-            }
-        }
-
-
-        //빈 슬롯에 새로운 아이템 추가
-        for (int i = 0; i < _equipSlots.Length; i++)
-        {
-            InventorySlot slot = _equipSlots[i];
-            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
-
-            //빈 슬롯이면
-            if (inventoryItem == null)
-            {
-                //새 아이템 생성
-                SpawnNewItem(newItem, slot);
-                this.Log($"Equip 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
-                return true;
-            }
-        }
-
-        //인벤토리가 가득 찼음
-        this.Log("***** 인벤토리가 가득 찼음 ****");
-
-        return false;
-    }
-
-
-    /// <summary>
-    /// 아이템 추가 - 인벤토리에 아이템을 추가합니다.(AutoHorizontalStop 호출,DataManager.Load 호출)
-    /// </summary>
-    /// <param name="newItem">추가할 아이템</param>
-    /// <returns>추가 성공 여부</returns>
-    public bool AddInventoryItem(EquipmentSO newItem)
-    {
-        //먼저 기존 아이템과 스택 가능한지 확인
-        for (int i = 0; i < _inventorySlots.Length; i++)
-        {
-            InventorySlot slot = _inventorySlots[i];
-            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
-
-            //같은 아이템이고 스택 공간이 있으면
-            if (inventoryItem != null
-            && inventoryItem.gameItem == newItem
-            && inventoryItem.count < maxStackItems
-            )
-            {
-                this.Log($" 갯수증가 : {newItem.gearType}");
-                //개수 증가
-                inventoryItem.count++;
-                //표시 갱신
-                inventoryItem.reflushCount();
-                return true;
-            }
-        }
-
-
-        //빈 슬롯에 새로운 아이템 추가
-        for (int i = 0; i < _inventorySlots.Length; i++)
-        {
-            InventorySlot slot = _inventorySlots[i];
-            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
-
-            //빈 슬롯이면
-            if (inventoryItem == null)
-            {
-                //새 아이템 생성
-                SpawnNewItem(newItem, slot);
-                this.Log($"Equip 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
-                return true;
-            }
-        }
-
-        //인벤토리가 가득 찼음
-        this.Log("***** 인벤토리가 가득 찼음 ****");
-
-        return false;
-    }
-
 
     /// <summary>
     /// 새 아이템 생성 - 지정된 슬롯에 아이템을 생성합니다.
@@ -502,89 +399,179 @@ public class InventoryManager : MonoBehaviour
 
 
 
+
+    /// <summary>
+    /// 아이템 추가 - 장비덱에 아이템을 추가합니다.
+    /// </summary>
+    /// <param name="newItem">추가할 아이템</param>
+    /// <returns>추가 성공 여부</returns>
+    public bool AddEquipItem(EquipmentSO newItem)
+    {
+        //먼저 기존 아이템과 스택 가능한지 확인
+        for (int i = 0; i < _equipSlots.Length; i++)
+        {
+            InventorySlot slot = _equipSlots[i];
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+
+            //같은 아이템이고 스택 공간이 있으면
+            if (inventoryItem != null
+            && inventoryItem.gameItem == newItem
+            && inventoryItem.count < maxStackItems
+            )
+            {
+                this.Log($" 갯수증가 : {newItem.gearType}");
+                //개수 증가
+                inventoryItem.count++;
+                //표시 갱신
+                inventoryItem.reflushCount();
+                return true;
+            }
+        }
+
+
+        //빈 슬롯에 새로운 아이템 추가
+        for (int i = 0; i < _equipSlots.Length; i++)
+        {
+            InventorySlot slot = _equipSlots[i];
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+
+            //빈 슬롯이면
+            if (inventoryItem == null)
+            {
+                //새 아이템 생성
+                SpawnNewItem(newItem, slot);
+                this.Log($"Equip 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
+                return true;
+            }
+        }
+
+        //인벤토리가 가득 찼음
+        this.Log("***** 인벤토리가 가득 찼음 ****");
+
+        return false;
+    }
+
+
+    /// <summary>
+    /// 아이템 추가 - 인벤토리에 아이템을 추가합니다.(AutoHorizontalStop 호출,DataManager.Load 호출)
+    /// </summary>
+    /// <param name="newItem">추가할 아이템</param>
+    /// <returns>추가 성공 여부</returns>
+    public bool AddInventoryItem(EquipmentSO newItem)
+    {
+        //먼저 기존 아이템과 스택 가능한지 확인
+        for (int i = 0; i < _inventorySlots.Length; i++)
+        {
+            InventorySlot slot = _inventorySlots[i];
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+
+            //같은 아이템이고 스택 공간이 있으면
+            if (inventoryItem != null
+            && inventoryItem.gameItem == newItem
+            && inventoryItem.count < maxStackItems
+            )
+            {
+                this.Log($" 갯수증가 : {newItem.gearType}");
+                //개수 증가
+                inventoryItem.count++;
+                //표시 갱신
+                inventoryItem.reflushCount();
+                return true;
+            }
+        }
+
+
+        //빈 슬롯에 새로운 아이템 추가
+        for (int i = 0; i < _inventorySlots.Length; i++)
+        {
+            InventorySlot slot = _inventorySlots[i];
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+
+            //빈 슬롯이면
+            if (inventoryItem == null)
+            {
+                //새 아이템 생성
+                SpawnNewItem(newItem, slot);
+                this.Log($"Equip 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
+                return true;
+            }
+        }
+
+        //인벤토리가 가득 찼음
+        this.Log("***** 인벤토리가 가득 찼음 ****");
+
+        return false;
+    }
+
+
+
     //장비덱 있는 아이템 저장
-    public void EquipSlotsUpdate()
+    public void EquipSlotsUpdatePlayerInfo()
     {
         this.Log("EquipSlotsUpdate");
 
+        InventorySlot slot;
         InventoryItem inventoryItem;
-
         EquipmentSO equipmentSO;
 
         //장비덱인지, 인벤토리인지 체크해서 update
 
         DataManager.instance.playerInfo.equipItems.Clear();
 
-        foreach (InventorySlot slot in _equipSlots)
-        {
-            this.Log("slot : " + slot);
+        this.Log($" _equipSlots.size : {_equipSlots.Length} ");
 
+        for (int i = 0; i < _equipSlots.Length; i++)
+        {
+            slot = _equipSlots[i];
             inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+
             if (inventoryItem != null)
             {
-                this.Log(" inventoryItem " + inventoryItem);
-
                 equipmentSO = inventoryItem.gameItem;
                 if (equipmentSO != null)
                 {
-                    this.Log(" EquipItem.count " + inventoryItem.count);
+                    this.Log($" {slot} gearType: {equipmentSO.gearType} {inventoryItem.count} ");
 
                     EquipItem item = new EquipItem(equipmentSO, inventoryItem.count);
                     DataManager.instance.playerInfo.equipItems.Add(item);
                 }
-                else
-                {
-                    this.Log("******EquipSlots is null ****");
-                }
             }
-            else
-            {
-                this.Log("Equip inventoryItem null ");
-            }
+
         }
+
+
     }
 
     //장바구니 버튼에 있는 아이템 저장
-    public void InventorySlotsUpdate()
+    public void InventorySlotsUpdatePlayerInfo()
     {
         this.Log("InventorySlotsUpdate");
 
+        InventorySlot slot;
         InventoryItem inventoryItem;
-
         EquipmentSO equipmentSO;
 
         DataManager.instance.playerInfo.inventoryItems.Clear();
 
-        foreach (InventorySlot slot in _inventorySlots)
+        for (int i = 0; i < _inventorySlots.Length; i++)
         {
-            this.Log(" slot " + slot);
-
+            slot = _equipSlots[i];
             inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+
             if (inventoryItem != null)
             {
-                this.Log("inventoryItem " + inventoryItem);
-
                 equipmentSO = inventoryItem.gameItem;
                 if (equipmentSO != null)
                 {
-
-                    this.Log(" inventoryItem.count " + inventoryItem.count);
+                    this.Log($" {slot} gearType: {equipmentSO.gearType} {inventoryItem.count} ");
 
                     EquipItem item = new EquipItem(equipmentSO, inventoryItem.count);
-                    DataManager.instance.playerInfo.inventoryItems.Add(item);
+                    DataManager.instance.playerInfo.equipItems.Add(item);
                 }
-                else
-                {
-                    this.Log("******InventorySlots is null ****");
-                }
-
-
             }
-            else
-            {
-                this.Log("inventoryItem null ");
-            }
+
         }
+
 
     }
 

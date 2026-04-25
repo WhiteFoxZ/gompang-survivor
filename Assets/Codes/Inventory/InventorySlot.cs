@@ -37,18 +37,18 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
             Destroy(inventoryItem.gameObject);
 
-            // if (inventoryItem.parentAfterDrag.gameObject.name.StartsWith("equipSlot"))  //장비덱에서 휴지통이동
-            // {
-            //     this.Log($" 휴지통 : EquipSlotsUpdate ");
-            //     InventoryManager.instance.EquipSlotsUpdate();
-            // }
-            // else
-            // {
-            //     this.Log($" 휴지통 : InventorySlotsUpdate ");
-            //     InventoryManager.instance.InventorySlotsUpdate();
-            // }
+            if (inventoryItem.parentAfterDrag.gameObject.name.StartsWith("equipSlot"))  //장비덱에서 휴지통이동
+            {
+                this.Log($" 휴지통 : EquipSlotsUpdate ");
+                InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
+            }
+            else
+            {
+                this.Log($" 휴지통 : InventorySlotsUpdate ");
+                InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
+            }
 
-            // DataManager.instance.Save();
+            DataManager.instance.Save();
 
             return;
         }
@@ -80,9 +80,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             Destroy(inventoryItem.gameObject);
 
             // 저장 및 업데이트
-            // InventoryManager.instance.EquipSlotsUpdate();
-            // InventoryManager.instance.InventorySlotsUpdate();
-            // DataManager.instance.Save();
+            InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
+            InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
+            DataManager.instance.Save();
 
             return;
         }
@@ -95,9 +95,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             inventoryItem.parentAfterDrag = transform;
 
             // 저장 및 업데이트
-            // InventoryManager.instance.EquipSlotsUpdate();
-            // InventoryManager.instance.InventorySlotsUpdate();
-            // DataManager.instance.Save();
+            InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
+            InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
+            DataManager.instance.Save();
         }
 
     }
