@@ -98,6 +98,9 @@ public class Spawner : MonoBehaviour
 
         this.Log($" 최소 스폰시간 제한 {Mathf.Max(spawnTime, 0.3f)} = Mathf.Max({spawnTime}, 0.3f) ");
 
+        this.Log($" {timer} > {spawnTime} ? {timer > spawnTime} ");
+
+
         spawnTime = Mathf.Max(spawnTime, 0.3f); //최소 스폰 시간 제한;
 
         if (timer > spawnTime)

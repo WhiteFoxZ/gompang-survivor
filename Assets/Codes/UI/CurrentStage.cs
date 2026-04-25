@@ -16,8 +16,6 @@ public class CurrentStage : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UpdateStageDisplay();
-
         // 버튼 클릭 이벤트 등록
         if (_selectButton != null)
         {
@@ -30,18 +28,20 @@ public class CurrentStage : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // 제거: 매 프레임마다 호출하던 코드
-    }
 
-    void UpdateStageDisplay()
+    public void UpdateStageDisplay()
     {
         if (_titleLabel != null)
         {
             nextStage = DataManager.instance.playerInfo.next_stage;
             _titleLabel.text = "STAGE " + nextStage;
+            this.Log("***********************DataManager.instance.playerInfo.next_stage " + DataManager.instance.playerInfo.next_stage);
+
+
+        }
+        else
+        {
+            this.Log($" _titleLabel null");
         }
     }
 

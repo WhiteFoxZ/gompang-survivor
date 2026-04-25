@@ -24,6 +24,8 @@ public class DataManager : MonoBehaviour
 
     private bool isEquipmentDataReady = false;
 
+    public CurrentStage _currentStage;
+
     void Awake()
     {
 
@@ -105,6 +107,8 @@ public class DataManager : MonoBehaviour
         LoadData();
         UpdateEnergy();
         UpdateUI();
+
+        _currentStage.UpdateStageDisplay();
     }
 
 
