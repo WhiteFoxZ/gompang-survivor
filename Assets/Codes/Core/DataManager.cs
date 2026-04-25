@@ -26,6 +26,8 @@ public class DataManager : MonoBehaviour
 
     public CurrentStage _currentStage;
 
+    private string lastDownloadDateKey = "LastDownloadDate";
+
     void Awake()
     {
 
@@ -35,13 +37,24 @@ public class DataManager : MonoBehaviour
         {
             instance = this;
 
-            this.Log("LobbyManager 장비정보 다운로드 시작");
-            StartCoroutine(LoadDataAndStartGame());
-
         }
         else
         {
             Destroy(gameObject); // 이미 존재하면 새로 생긴 건 바로 삭제
+        }
+
+
+        if (CanDownloadToday())
+        {
+            // 다운로드 실행 로직
+            Debug.Log("다운로드를 시작합니다.");
+
+            this.Log("LobbyManager 장비정보 다운로드 시작");
+            StartCoroutine(LoadDataAndStartGame());
+        }
+        else
+        {
+            Debug.Log("오늘은 이미 다운로드했습니다. 내일 다시 시도하세요.");
         }
 
         // 씬 전환 시 파괴되지 않도록 설정
@@ -60,6 +73,8 @@ public class DataManager : MonoBehaviour
 
         isEquipmentDataReady = true; // Set flag when data is ready
 
+        // 다운로드 성공 후 현재 날짜 저장
+        SaveCurrentDate();
 
     }
 
@@ -84,6 +99,8 @@ public class DataManager : MonoBehaviour
     {
         if (scene.name == "LobbyScene")
         {
+            this.Log("씬이 로드될 때마다 호출");
+
             if (!isEquipmentDataReady)
             {
                 StartCoroutine(WaitForEquipmentDataThenInitialize(scene));
@@ -269,6 +286,34 @@ public class DataManager : MonoBehaviour
             }
         }
     }
+
+
+    bool CanDownloadToday()
+    {
+        // 1. 저장된 날짜 문자열 가져오기
+        string lastDateStr = PlayerPrefs.GetString(lastDownloadDateKey, "");
+
+        // 2. 기록이 없다면 한 번도 안 한 것이므로 true
+        if (string.IsNullOrEmpty(lastDateStr)) return true;
+
+        // 3. 현재 날짜와 저장된 날짜 비교 (yyyy-MM-dd 형식)
+        string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
+
+        // return !currentDateStr.Equals(lastDateStr);
+
+        return true;
+    }
+
+    void SaveCurrentDate()
+    {
+        // 현재 날짜를 "2024-05-20" 같은 형식으로 저장
+        string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
+        PlayerPrefs.SetString(lastDownloadDateKey, currentDateStr);
+        PlayerPrefs.Save();
+    }
+
+
+
 
 
 }

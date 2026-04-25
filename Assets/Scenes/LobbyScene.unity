@@ -10199,6 +10199,7 @@ MonoBehaviour:
     MaxStageReached: 0
     equipItems: []
     inventoryItems: []
+  _currentStage: {fileID: 9139633550683623751}
 --- !u!4 &1157135575
 Transform:
   m_ObjectHideFlags: 0
