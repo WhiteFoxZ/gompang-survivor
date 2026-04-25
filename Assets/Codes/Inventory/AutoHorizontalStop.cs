@@ -71,9 +71,12 @@ public class AutoHorizontalStop : MonoBehaviour
         InventoryManager.instance.AddInventoryItem(gameItem);
 
         //DataManager PlayerData에 장비 업데이트
-        InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
+        this.Log(" InventorySlotsUpdatePlayerInfo 호출");
 
-        DataManager.instance.Save();
+        InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
+        InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
+
+        DataManager.instance.Save("아이템획득");
 
     }
 

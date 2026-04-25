@@ -57,7 +57,7 @@ public class StageCell : MonoBehaviour, ICell
             DataManager.instance.playerInfo.Energy = 0;
         }
 
-        DataManager.instance.Save(); // 에너지 업데이트 및 저장
+        DataManager.instance.Save("에너지저장"); // 에너지 업데이트 및 저장
 
         // Save selected stage (1-based for display)
         int selectedStage = _cellIndex + 1;

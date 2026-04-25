@@ -96,5 +96,12 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             transform.localPosition = Vector3.zero; //위치 초기화
         }
 
+
+        // 저장 및 업데이트
+        InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
+        InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
+        DataManager.instance.Save("OnEndDrag");
+
+
     }
 }

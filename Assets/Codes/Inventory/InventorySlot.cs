@@ -30,26 +30,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             return;
         }
 
-        this.Log($" 원래위치 : {inventoryItem.parentAfterDrag.gameObject.name}");
-
         // 휴지통 슬롯에 드롭되면 아이템 파괴
         if (slotType == SlotType.Trash)
         {
+            inventoryItem.parentAfterDrag = transform;
 
             Destroy(inventoryItem.gameObject);
-
-            if (inventoryItem.parentAfterDrag.gameObject.name.StartsWith("equipSlot"))  //장비덱에서 휴지통이동
-            {
-                this.Log($" 휴지통 : EquipSlotsUpdate ");
-                InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
-            }
-            else
-            {
-                this.Log($" 휴지통 : InventorySlotsUpdate ");
-                InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
-            }
-
-            DataManager.instance.Save();
 
             return;
         }
@@ -80,11 +66,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             // 드롭된 아이템 객체 파괴 (이미 카운트에 반영되었으므로)
             Destroy(inventoryItem.gameObject);
 
-            // 저장 및 업데이트
-            InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
-            InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
-            DataManager.instance.Save();
-
             return;
         }
 
@@ -94,30 +75,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             this.Log("휴지통이 아닌 슬롯에만 빈 공간이 있으면 아이템을 이동");
 
             inventoryItem.parentAfterDrag = transform;
-
-            // inventoryItem.transform.SetParent(transform);
-
-
-            // 저장 및 업데이트
-            InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
-            InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
-
-
-            StartCoroutine(ExecuteAfterTime(1f));
-
-
         }
 
     }
 
-    IEnumerator ExecuteAfterTime(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        // 1분 뒤 실행할 코드 작성
-        Debug.Log("1초뒤 저장합니다.");
-
-        DataManager.instance.Save();
-    }
 
 }

@@ -165,11 +165,11 @@ public class DataManager : MonoBehaviour
 
 
 
-    public void Save()
+    public void Save(String msg)
     {
         string filePath = Path.Combine(Application.persistentDataPath, filename);
 
-        this.Log($" SAVE filePath : {filePath}");
+        this.Log($"{msg} SAVE filePath : {filePath}");
 
         // string data = JsonUtility.ToJson(playerInfo);
 

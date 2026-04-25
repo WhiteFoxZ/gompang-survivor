@@ -68,7 +68,7 @@ public class CurrentStage : MonoBehaviour
             DataManager.instance.playerInfo.Energy = 0;
         }
 
-        DataManager.instance.Save(); // 에너지 업데이트 및 저장
+        DataManager.instance.Save("에너지저장"); // 에너지 업데이트 및 저장
 
         // 선택한 스테이지를 PlayerPrefs에 저장
         PlayerPrefs.SetInt("SelectedStage", nextStage);

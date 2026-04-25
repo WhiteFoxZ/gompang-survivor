@@ -209,8 +209,8 @@ public class InventoryManager : MonoBehaviour
                 break;
 
         }
-
-        DataManager.instance.Save();
+        //중복저장으로 임시 주석처리    
+        DataManager.instance.Save("비용저장");
 
     }
 
@@ -318,7 +318,7 @@ public class InventoryManager : MonoBehaviour
 
         }
 
-        DataManager.instance.Save();
+        DataManager.instance.Save("비용저장");
     }
 
 
