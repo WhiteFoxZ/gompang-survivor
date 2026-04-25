@@ -35,6 +35,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             inventoryItem.parentAfterDrag = transform;
 
+            // OnEndDrag 로직을 먼저 실행 (UI 상태 초기화 및 데이터 저장)
+            PointerEventData endDragData = new PointerEventData(EventSystem.current)
+            {
+                position = eventData.position,
+                pointerDrag = inventoryItem.gameObject
+            };
+            inventoryItem.OnEndDrag(endDragData);
+
             Destroy(inventoryItem.gameObject);
 
             return;
