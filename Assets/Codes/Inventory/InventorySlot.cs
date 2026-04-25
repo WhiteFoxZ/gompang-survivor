@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 /// <summary>
 /// 인벤토리 슬롯 클래스 - 아이템을 놓을 수 있는 슬롯을 나타냅니다.
@@ -94,13 +95,29 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
             inventoryItem.parentAfterDrag = transform;
 
+            // inventoryItem.transform.SetParent(transform);
+
+
             // 저장 및 업데이트
             InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
             InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
-            DataManager.instance.Save();
+
+
+            StartCoroutine(ExecuteAfterTime(1f));
+
+
         }
 
     }
 
+    IEnumerator ExecuteAfterTime(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // 1분 뒤 실행할 코드 작성
+        Debug.Log("1초뒤 저장합니다.");
+
+        DataManager.instance.Save();
+    }
 
 }

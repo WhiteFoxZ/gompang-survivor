@@ -555,7 +555,7 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < _inventorySlots.Length; i++)
         {
-            slot = _equipSlots[i];
+            slot = _inventorySlots[i];
             inventoryItem = slot.GetComponentInChildren<InventoryItem>();
 
             if (inventoryItem != null)
@@ -566,7 +566,7 @@ public class InventoryManager : MonoBehaviour
                     this.Log($" {slot} gearType: {equipmentSO.gearType} {inventoryItem.count} ");
 
                     EquipItem item = new EquipItem(equipmentSO, inventoryItem.count);
-                    DataManager.instance.playerInfo.equipItems.Add(item);
+                    DataManager.instance.playerInfo.inventoryItems.Add(item);
                 }
             }
 
