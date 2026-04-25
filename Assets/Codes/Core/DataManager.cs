@@ -175,7 +175,6 @@ public class DataManager : MonoBehaviour
 
         string data = JsonConvert.SerializeObject(playerInfo, Formatting.Indented);
 
-
         File.WriteAllText(filePath, data);
 
     }
@@ -234,9 +233,12 @@ public class DataManager : MonoBehaviour
             {
                 this.Log($"장착된 아이템 InventoryManager.instance.AddItem : {equipmentSO} ");
 
-                if (item.count > 0) equipmentSO.count = item.count;
+                // if (item.count > 0) equipmentSO.count = item.count;
 
-                InventoryManager.instance.AddEquipItem(equipmentSO);
+                for (int i = 0; i < item.count; i++)
+                {
+                    InventoryManager.instance.AddEquipItem(equipmentSO);
+                }
             }
             else
             {
@@ -249,8 +251,13 @@ public class DataManager : MonoBehaviour
         {
             if (equipmentDict.TryGetValue(item.id, out EquipmentSO equipmentSO))
             {
-                // this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentSO}");
-                InventoryManager.instance.AddInventoryItem(equipmentSO);
+                // this.Log($" InventoryManager.instance.AddButtonDeck : {equipmentSO}");                
+
+                for (int i = 0; i < item.count; i++)
+                {
+                    InventoryManager.instance.AddInventoryItem(equipmentSO);
+                }
+
             }
             else
             {
@@ -272,6 +279,7 @@ public class PlayerData
 
     public int curr_stage = 1;
     public int next_stage = 1; //다음 스테이지
+
 
     // 2. 재화 관련
     public int Gold = 0;
@@ -334,48 +342,5 @@ public class PlayerData
 }
 
 
-[System.Serializable]
-public class EquipItem
-{
-    public string id;
-    public ItemRarity itemRarity; //등급
-    public GearType gearType; //착용아이템 유형
-
-    public int level = 1;
-
-    public float atack;  //공격력
-    public float defence;    //방어력
-    public float moveSpeed;    //움직임
-    public float atkSpeed;     //공격스피드
-
-    public int count = 1;
-
-    public EquipItem()
-    {
-    }
-
-
-    public EquipItem(EquipmentSO gameItem)
-    {
-        this.id = gameItem.id;
-        this.itemRarity = gameItem.itemRarity;
-        this.gearType = gameItem.gearType;
-        this.atack = gameItem.atack;
-        this.defence = gameItem.defence;
-        this.moveSpeed = gameItem.moveSpeed;
-        this.atkSpeed = gameItem.atkSpeed;
-        this.count = gameItem.count;
-
-    }
-
-    // EquipItem의 정보를 문자열로 반환
-    public override string ToString()
-    {
-        return $"[itemRarity: {itemRarity}, gearType :{gearType}, count: {count}]";
-    }
-
-
-
-}
 
 

@@ -40,20 +40,7 @@ public class CurrentStage : MonoBehaviour
     {
         if (_titleLabel != null)
         {
-            // LobbyScene에서는 PlayerPrefs에서 직접 값 읽기
-            // GameScene에서는 GameManager에서 값 가져오기
-            if (GameManager.instance != null)
-            {
-                nextStage = GameManager.instance.next_stage;
-            }
-            else
-            {
-                nextStage = DataManager.instance.playerInfo.next_stage; // GameManager가 없을 때 DataManager에서 가져오기);
-            }
-
-            // Debug.Log($"현재 스테이지: {nextStage}");
-
-            // 다음 스테이지 표시
+            nextStage = DataManager.instance.playerInfo.next_stage;
             _titleLabel.text = "STAGE " + nextStage;
         }
     }

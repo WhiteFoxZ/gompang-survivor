@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: Pants 4
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  id: 4
+  id: Pants4
   itemRarity: 1
   gearType: 7
-  level: 1
-  atack: 1
-  defence: 1
-  moveSpeed: 1
-  atkSpeed: 1
+  atack: 0
+  defence: 0.04
+  moveSpeed: 0
+  atkSpeed: 0
   image: {fileID: 21300000, guid: 9c6dd9d8578e17e4ea242463eec35455, type: 3}
-  weight: 80
+  weight: 200
+  desc: 0
+  count: 1

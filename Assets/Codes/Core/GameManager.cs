@@ -15,10 +15,6 @@ public class GameManager : MonoBehaviour
     public bool isLive = false; //게임 진행 중 여부
     public float gameTime;  //게임 시간
     public float maxGameTime;  //최대 게임 시간 (2분)
-    //현재스테이지
-    public int curr_stage = 1;
-
-    public int next_stage = 1; //다음 스테이지
 
     public int maxStage = 100; //최대 스테이지
 
@@ -57,11 +53,6 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60; //프레임 고정 (60fps)
 
-        //저장된 스테이지 정보 불러오기 (기본값 1)
-        if (DataManager.instance != null && DataManager.instance.playerInfo != null)
-        {
-            next_stage = DataManager.instance.playerInfo.next_stage;
-        }
 
         //싱글톤 인스턴스 설정
         if (instance == null) instance = this;
@@ -118,24 +109,20 @@ public class GameManager : MonoBehaviour
     {
         // 스테이지 선택 UI에서 선택한 스테이지 확인
         int selectedStage = PlayerPrefs.GetInt("SelectedStage", -1);
+
         if (selectedStage > 0)
         {
             //선택한 스테이지 사용
-            curr_stage = selectedStage;
+            DataManager.instance.playerInfo.curr_stage = selectedStage;
             //사용 후 선택한 스테이지 정보 삭제
             PlayerPrefs.DeleteKey("SelectedStage");
         }
         else
         {
             //기본값: 저장된 다음 스테이지 사용
-            curr_stage = next_stage;
+            DataManager.instance.playerInfo.curr_stage = DataManager.instance.playerInfo.next_stage;
         }
 
-        // DataManager에도 curr_stage 저장
-        if (DataManager.instance != null && DataManager.instance.playerInfo != null)
-        {
-            DataManager.instance.playerInfo.curr_stage = curr_stage;
-        }
 
         this.playerId = playerId;
 
@@ -183,7 +170,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("AudioManager 인스턴스를 찾을 수 없습니다.");
         }
 
-        Debug.Log($"스테이지 {curr_stage} 시작!");
+        Debug.Log($"스테이지 {DataManager.instance.playerInfo.curr_stage} 시작!");
     }
 
 
@@ -294,7 +281,9 @@ public class GameManager : MonoBehaviour
 
         // 실패 시 현재 스테이지 다시 시작
         yield return new WaitForSeconds(1.0f);
-        PlayerPrefs.SetInt("SelectedStage", curr_stage);
+
+
+        PlayerPrefs.SetInt("SelectedStage", DataManager.instance.playerInfo.curr_stage);
         PlayerPrefs.Save();
 
     }
@@ -319,16 +308,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // 승리 시 스테이지 번호 증가 및 저장
-        if (next_stage < maxStage)
+        if (DataManager.instance.playerInfo.next_stage < maxStage)
         {
-            next_stage++;
-            if (DataManager.instance != null && DataManager.instance.playerInfo != null)
-            {
-                DataManager.instance.playerInfo.next_stage = next_stage;
-                DataManager.instance.playerInfo.Gold += curr_stage * 100;
+            DataManager.instance.playerInfo.next_stage++;
 
-                DataManager.instance.Save();
-            }
+            DataManager.instance.playerInfo.Gold += DataManager.instance.playerInfo.curr_stage * 100;
+
+            DataManager.instance.Save();
         }
 
 
@@ -364,12 +350,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ResetData()
     {
-        next_stage = 1;
-        if (DataManager.instance != null && DataManager.instance.playerInfo != null)
-        {
-            DataManager.instance.playerInfo.curr_stage = 1;
-            DataManager.instance.playerInfo.next_stage = 1;
-        }
+        DataManager.instance.playerInfo.curr_stage = 1;
+        DataManager.instance.playerInfo.next_stage = 1;
     }
 
     /// <summary>

@@ -23,18 +23,32 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         // 드래그된 아이템이 유효한지 확인
         InventoryItem inventoryItem = eventData.pointerDrag?.GetComponent<InventoryItem>();
+
         if (inventoryItem == null)
         {
             return;
         }
 
+        this.Log($" 원래위치 : {inventoryItem.parentAfterDrag.gameObject.name}");
+
         // 휴지통 슬롯에 드롭되면 아이템 파괴
         if (slotType == SlotType.Trash)
         {
+
             Destroy(inventoryItem.gameObject);
 
-            InventoryManager.instance.EquipSlotsUpdate();
-            DataManager.instance.Save();
+            // if (inventoryItem.parentAfterDrag.gameObject.name.StartsWith("equipSlot"))  //장비덱에서 휴지통이동
+            // {
+            //     this.Log($" 휴지통 : EquipSlotsUpdate ");
+            //     InventoryManager.instance.EquipSlotsUpdate();
+            // }
+            // else
+            // {
+            //     this.Log($" 휴지통 : InventorySlotsUpdate ");
+            //     InventoryManager.instance.InventorySlotsUpdate();
+            // }
+
+            // DataManager.instance.Save();
 
             return;
         }
@@ -45,10 +59,20 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         // 같은 아이템이고 스택이 가능한지 확인 (최대 60개까지 스택 가능)
         if (existingItem != null &&
             existingItem.gameItem == inventoryItem.gameItem &&
-            inventoryItem.gameItem.count < InventoryManager.maxStackItems) // maxStackItems from InventoryManager
+            existingItem.count < InventoryManager.maxStackItems) // maxStackItems from InventoryManager
         {
+            this.Log("아이템 중복 시작");
+
+
             //개수 증가
-            existingItem.gameItem.count++;
+            int tmpCnt = existingItem.count + inventoryItem.count;
+
+            this.Log($" {tmpCnt} = {existingItem.count} + {inventoryItem.count}");
+
+            existingItem.count = tmpCnt;
+
+            this.Log($" existingItem.count = {existingItem.count}");
+
             //표시 갱신
             existingItem.reflushCount();
 
@@ -56,8 +80,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             Destroy(inventoryItem.gameObject);
 
             // 저장 및 업데이트
-            InventoryManager.instance.EquipSlotsUpdate();
-            DataManager.instance.Save();
+            // InventoryManager.instance.EquipSlotsUpdate();
+            // InventoryManager.instance.InventorySlotsUpdate();
+            // DataManager.instance.Save();
 
             return;
         }
@@ -65,7 +90,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         // 휴지통이 아닌 슬롯에만 빈 공간이 있으면 아이템을 이동
         if (slotType != SlotType.Trash && transform.childCount == 0)
         {
+            this.Log("휴지통이 아닌 슬롯에만 빈 공간이 있으면 아이템을 이동");
+
             inventoryItem.parentAfterDrag = transform;
+
+            // 저장 및 업데이트
+            // InventoryManager.instance.EquipSlotsUpdate();
+            // InventoryManager.instance.InventorySlotsUpdate();
+            // DataManager.instance.Save();
         }
 
     }

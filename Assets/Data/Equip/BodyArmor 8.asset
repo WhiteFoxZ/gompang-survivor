@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: BodyArmor 8
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  id: 8
+  id: BodyArmor8
   itemRarity: 2
   gearType: 4
-  level: 1
-  atack: 1
-  defence: 1
-  moveSpeed: 1
-  atkSpeed: 1
+  atack: 0
+  defence: 0.2
+  moveSpeed: 0
+  atkSpeed: 0
   image: {fileID: 21300000, guid: 9a7ab7ebee44b504e882c98d5d2110fd, type: 3}
-  weight: 30
+  weight: 20
+  desc: 0
+  count: 1

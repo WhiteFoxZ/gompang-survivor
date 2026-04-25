@@ -95,19 +95,19 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < _equipSlots.Length; i++)
         {
             InventorySlot slot = _equipSlots[i];
-            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
 
             //같은 아이템이고 스택 공간이 있으면
-            if (itemSlot != null
-            && itemSlot.gameItem == newItem
-            && itemSlot.gameItem.count < maxStackItems
+            if (inventoryItem != null
+            && inventoryItem.gameItem == newItem
+            && inventoryItem.count < maxStackItems
             )
             {
                 this.Log($" 갯수증가 : {newItem.gearType}");
                 //개수 증가
-                itemSlot.gameItem.count++;
+                inventoryItem.count++;
                 //표시 갱신
-                itemSlot.reflushCount();
+                inventoryItem.reflushCount();
                 return true;
             }
         }
@@ -117,10 +117,10 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < _equipSlots.Length; i++)
         {
             InventorySlot slot = _equipSlots[i];
-            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
 
             //빈 슬롯이면
-            if (itemSlot == null)
+            if (inventoryItem == null)
             {
                 //새 아이템 생성
                 SpawnNewItem(newItem, slot);
@@ -143,19 +143,40 @@ public class InventoryManager : MonoBehaviour
     /// <returns>추가 성공 여부</returns>
     public bool AddInventoryItem(EquipmentSO newItem)
     {
+        //먼저 기존 아이템과 스택 가능한지 확인
+        for (int i = 0; i < _inventorySlots.Length; i++)
+        {
+            InventorySlot slot = _inventorySlots[i];
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+
+            //같은 아이템이고 스택 공간이 있으면
+            if (inventoryItem != null
+            && inventoryItem.gameItem == newItem
+            && inventoryItem.count < maxStackItems
+            )
+            {
+                this.Log($" 갯수증가 : {newItem.gearType}");
+                //개수 증가
+                inventoryItem.count++;
+                //표시 갱신
+                inventoryItem.reflushCount();
+                return true;
+            }
+        }
+
+
         //빈 슬롯에 새로운 아이템 추가
         for (int i = 0; i < _inventorySlots.Length; i++)
         {
             InventorySlot slot = _inventorySlots[i];
-            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
+            InventoryItem inventoryItem = slot.GetComponentInChildren<InventoryItem>();
 
             //빈 슬롯이면
-            if (itemSlot == null)
+            if (inventoryItem == null)
             {
                 //새 아이템 생성
                 SpawnNewItem(newItem, slot);
-
-                this.Log($" Inventory 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
+                this.Log($"Equip 새 아이템 생성 : {newItem.gearType} 인벤토리 [ {currentEmptyCount}/{_inventorySlots.Length} ]");
                 return true;
             }
         }
@@ -484,21 +505,31 @@ public class InventoryManager : MonoBehaviour
     //장비덱 있는 아이템 저장
     public void EquipSlotsUpdate()
     {
-        InventoryItem itemSlot;
+        this.Log("EquipSlotsUpdate");
+
+        InventoryItem inventoryItem;
 
         EquipmentSO equipmentSO;
+
+        //장비덱인지, 인벤토리인지 체크해서 update
 
         DataManager.instance.playerInfo.equipItems.Clear();
 
         foreach (InventorySlot slot in _equipSlots)
         {
-            itemSlot = slot.GetComponentInChildren<InventoryItem>();
-            if (itemSlot != null)
+            this.Log("slot : " + slot);
+
+            inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+            if (inventoryItem != null)
             {
-                equipmentSO = itemSlot.gameItem;
+                this.Log(" inventoryItem " + inventoryItem);
+
+                equipmentSO = inventoryItem.gameItem;
                 if (equipmentSO != null)
                 {
-                    EquipItem item = new EquipItem(equipmentSO);
+                    this.Log(" EquipItem.count " + inventoryItem.count);
+
+                    EquipItem item = new EquipItem(equipmentSO, inventoryItem.count);
                     DataManager.instance.playerInfo.equipItems.Add(item);
                 }
                 else
@@ -506,14 +537,19 @@ public class InventoryManager : MonoBehaviour
                     this.Log("******EquipSlots is null ****");
                 }
             }
+            else
+            {
+                this.Log("Equip inventoryItem null ");
+            }
         }
     }
 
     //장바구니 버튼에 있는 아이템 저장
     public void InventorySlotsUpdate()
     {
+        this.Log("InventorySlotsUpdate");
 
-        InventoryItem itemSlot;
+        InventoryItem inventoryItem;
 
         EquipmentSO equipmentSO;
 
@@ -521,13 +557,20 @@ public class InventoryManager : MonoBehaviour
 
         foreach (InventorySlot slot in _inventorySlots)
         {
-            itemSlot = slot.GetComponentInChildren<InventoryItem>();
-            if (itemSlot != null)
+            this.Log(" slot " + slot);
+
+            inventoryItem = slot.GetComponentInChildren<InventoryItem>();
+            if (inventoryItem != null)
             {
-                equipmentSO = itemSlot.gameItem;
+                this.Log("inventoryItem " + inventoryItem);
+
+                equipmentSO = inventoryItem.gameItem;
                 if (equipmentSO != null)
                 {
-                    EquipItem item = new EquipItem(equipmentSO);
+
+                    this.Log(" inventoryItem.count " + inventoryItem.count);
+
+                    EquipItem item = new EquipItem(equipmentSO, inventoryItem.count);
                     DataManager.instance.playerInfo.inventoryItems.Add(item);
                 }
                 else
@@ -536,6 +579,10 @@ public class InventoryManager : MonoBehaviour
                 }
 
 
+            }
+            else
+            {
+                this.Log("inventoryItem null ");
             }
         }
 

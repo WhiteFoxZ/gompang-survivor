@@ -66,6 +66,11 @@ public class RandomSelect : MonoBehaviour
 
         selectNum = Mathf.RoundToInt(total * Random.Range(0.0f, 1.0f));
 
+        // this.Log("selectNum 은 무조건 1번 ");
+
+        // return 0;
+
+
         for (int i = 0; i < deck.Count; i++)
         {
             weight += deck[i].weight;

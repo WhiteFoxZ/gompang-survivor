@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8764fd772ccf274cac4f2f7bb607dbf, type: 3}
   m_Name: Necklaces8
   m_EditorClassIdentifier: Assembly-CSharp::GameItem
-  id: 8
+  id: Necklace8
   itemRarity: 2
   gearType: 5
-  level: 1
-  atack: 1
-  defence: 1
-  moveSpeed: 1
-  atkSpeed: 1
+  atack: 0.1
+  defence: 0.1
+  moveSpeed: 0
+  atkSpeed: 0
   image: {fileID: 21300000, guid: 3fe45cc5b469cae44bd818a9d149827b, type: 3}
-  weight: 30
+  weight: 20
+  desc: 0
+  count: 1

@@ -45,7 +45,7 @@ public class Spawner : MonoBehaviour
     /// </summary>
     void Update()
     {
-        int curr_stage = GameManager.instance.curr_stage;
+        int curr_stage = DataManager.instance.playerInfo.curr_stage;
 
         if (!GameManager.instance.isLive)
             return;
@@ -114,7 +114,7 @@ public class Spawner : MonoBehaviour
     void SpawnEnemy(int spawnDataIdx)
     {
 
-        int curr_stage = GameManager.instance.curr_stage;
+        int curr_stage = DataManager.instance.playerInfo.curr_stage;
 
         //풀매니저에서 적 오브젝트 가져오기 (프리팹 인덱스 0)
         GameObject enemy = GameManager.instance.poolManager.GetObject(0);

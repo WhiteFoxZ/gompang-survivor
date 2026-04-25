@@ -81,7 +81,7 @@ public class HUD : MonoBehaviour
 
             case InfoType.Stage:
                 //스테이지 텍스트 업데이트
-                infoText.text = GameManager.instance.curr_stage.ToString();
+                infoText.text = DataManager.instance.playerInfo.curr_stage.ToString();
                 break;
         }
     }

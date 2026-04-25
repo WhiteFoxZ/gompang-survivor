@@ -11,6 +11,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("UI")]
     public Image itemImage; //아이템 이미지
     public Text _countText; //개수 텍스트
+    public int count = 1;   //중복갯수
 
     [HideInInspector]
     public EquipmentSO gameItem; //게임 아이템 데이터
@@ -37,14 +38,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// </summary>
     public void reflushCount()
     {
-        this.Log($" reflushCount  gearType : {gameItem.gearType} , count : {gameItem.count}");
+        this.Log($" reflushCount  gearType : {gameItem.gearType} , count : {count}");
         //개수가 1보다 크면 텍스트 표시
-        bool textActive = gameItem.count > 1;
+        bool textActive = count > 1;
         _countText.gameObject.SetActive(textActive);
 
-        if (gameItem.count > 1)
+        if (count > 1)
         {
-            _countText.text = gameItem.count.ToString();
+            _countText.text = count.ToString();
         }
         else
         {
