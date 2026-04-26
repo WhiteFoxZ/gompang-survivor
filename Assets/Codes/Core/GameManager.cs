@@ -82,11 +82,9 @@ public class GameManager : MonoBehaviour
 
 
         // 아이템 데이터 다운로드 먼저 실행
-        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.ENEMY));
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Enemy));
 
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Exp));
-
-
 
         // 다운로드 완료 후 게임 시작
         GameStart(0);

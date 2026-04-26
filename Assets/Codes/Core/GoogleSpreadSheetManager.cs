@@ -9,8 +9,15 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public static GoogleSpreadSheetManager instance;  //싱글톤 인스턴스
 
+    static string ITEM = "N";
+    static string ENEMY = "N";
+    static string EXP = "N";
+    static string MAP = "N";
+    static string EQUIP = "N";
+
+
     //다운로드 유형 열거형
-    public enum DownType { Item, Exp, Map, Equip, ENEMY }
+    public enum DownType { Item, Exp, Map, Equip, Enemy, Sheet }
 
     const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
 
@@ -29,7 +36,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     const string ENEMY_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1674237518&range=A2:F";
 
 
+    const string SHEET_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=104575566&range=A2:E";
 
+
+    private string SpreadSheetLastDownloadDate = "SpreadSheetLastDownloadDate";
 
 
     [Header("게임 Item Data")]
@@ -43,34 +53,35 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         //싱글톤 인스턴스 설정
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
     }
-
-
-
 
     public IEnumerator DownloadItemData(DownType type)
     {
         String URL;
-        if (type == DownType.Item)
+        if (type == DownType.Item && ITEM.Equals("N"))
         {
             URL = ITEM_URL;
         }
-        else if (type == DownType.Exp)
+        else if (type == DownType.Exp && EXP.Equals("N"))
         {
             URL = EXP_URL;
         }
-        else if (type == DownType.Equip)
+        else if (type == DownType.Equip && EQUIP.Equals("N"))
         {
             URL = EQUIP_URL;
         }
-        else if (type == DownType.Map)
+        else if (type == DownType.Map && MAP.Equals("N"))
         {
             URL = MAP_URL;
         }
-        else if (type == DownType.ENEMY)
+        else if (type == DownType.Enemy && ENEMY.Equals("N"))
         {
-
             URL = ENEMY_URL; //적 데이터 URL로 변경 필요
+        }
+        else if (type == DownType.Sheet)
+        {
+            URL = SHEET_URL; //적 데이터 URL로 변경 필요
         }
         else
         {
@@ -109,13 +120,16 @@ public class GoogleSpreadSheetManager : MonoBehaviour
                     //맵 데이터 파싱 및 설정 로직 추가 필요
                     SetMap(data);
                 }
-                else if (type == DownType.ENEMY)
+                else if (type == DownType.Enemy)
                 {
                     //적 데이터 파싱 및 설정 로직 추가 필요
                     SetEnemy(data);
                 }
-
-
+                else if (type == DownType.Sheet)
+                {
+                    //적 데이터 파싱 및 설정 로직 추가 필요
+                    SetSheet(data);
+                }
             }
             else
             {
@@ -323,6 +337,55 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         // }
 
     }
+
+
+    void SetSheet(string tsv)
+    {
+        // ITEM ENEMY EXP MAP EQUIP
+
+        string[] row = tsv.Split('\n');
+        int rowSize = row.Length;
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] column = row[i].Split('\t');
+
+            ITEM = column[0];
+            ENEMY = column[1];
+            EXP = column[2];
+            MAP = column[3];
+            EQUIP = column[4];
+        }
+
+        this.Log($" ITEM:{ITEM}, ENEMY:{ENEMY} ,EXP:{EXP} ,MAP:{MAP} EQUIP:{EQUIP}");
+
+    }
+
+
+
+    bool CanDownloadToday()
+    {
+        // 1. 저장된 날짜 문자열 가져오기
+        string lastDateStr = PlayerPrefs.GetString(SpreadSheetLastDownloadDate, "");
+
+        // 2. 기록이 없다면 한 번도 안 한 것이므로 true
+        if (string.IsNullOrEmpty(lastDateStr)) return true;
+
+        // 3. 현재 날짜와 저장된 날짜 비교 (yyyy-MM-dd 형식)
+        string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
+
+        return !currentDateStr.Equals(lastDateStr);
+    }
+
+    void SaveCurrentDate()
+    {
+        // 현재 날짜를 "2024-05-20" 같은 형식으로 저장
+        string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
+        PlayerPrefs.SetString(SpreadSheetLastDownloadDate, currentDateStr);
+        PlayerPrefs.Save();
+    }
+
+
 
 
 }

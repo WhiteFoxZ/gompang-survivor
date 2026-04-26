@@ -57,6 +57,8 @@ public class DataManager : MonoBehaviour
     {
         if (CanDownloadToday())
         {
+            yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Sheet));
+
             this.Log("EquipmentSO 장비 데이터 다운로드 먼저 실행 시작");
             // 장비 데이터 다운로드 먼저 실행
             yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
