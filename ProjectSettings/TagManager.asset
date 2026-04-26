@@ -12,6 +12,7 @@ TagManager:
   - AreaEnemy
   - NoEnergyAlert
   - Wall
+  - CurrentStage
   layers:
   - Default
   - TransparentFX

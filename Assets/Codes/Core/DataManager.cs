@@ -30,32 +30,22 @@ public class DataManager : MonoBehaviour
 
     void Awake()
     {
-
         this.Log("********** Awake **********");
 
         if (instance == null)
         {
             instance = this;
-
         }
         else
         {
             Destroy(gameObject); // 이미 존재하면 새로 생긴 건 바로 삭제
         }
 
+        //씬이 바뀔때 사라지므로 다시 초기화
+        _currentStage = GameObject.FindWithTag("CurrentStage").GetComponent<CurrentStage>();
 
-        if (CanDownloadToday())
-        {
-            // 다운로드 실행 로직
-            Debug.Log("다운로드를 시작합니다.");
-
-            this.Log("LobbyManager 장비정보 다운로드 시작");
-            StartCoroutine(LoadDataAndStartGame());
-        }
-        else
-        {
-            Debug.Log("오늘은 이미 다운로드했습니다. 내일 다시 시도하세요.");
-        }
+        this.Log("LobbyManager 장비정보 다운로드 시작 _currentStage : " + _currentStage);
+        StartCoroutine(LoadDataAndStartGame());
 
         // 씬 전환 시 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
@@ -65,16 +55,18 @@ public class DataManager : MonoBehaviour
 
     IEnumerator LoadDataAndStartGame()
     {
-        this.Log("ㅇ EquipmentSO 장비 데이터 다운로드 먼저 실행 시작");
-        // 장비 데이터 다운로드 먼저 실행
-        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
+        if (CanDownloadToday())
+        {
+            this.Log("EquipmentSO 장비 데이터 다운로드 먼저 실행 시작");
+            // 장비 데이터 다운로드 먼저 실행
+            yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
 
-        this.Log("LobbyManager EquipmentSO 장비 데이터 다운로드 먼저 실행 완료");
+            this.Log("LobbyManager EquipmentSO 장비 데이터 다운로드 먼저 실행 완료");
 
+            // 다운로드 성공 후 현재 날짜 저장
+            SaveCurrentDate();
+        }
         isEquipmentDataReady = true; // Set flag when data is ready
-
-        // 다운로드 성공 후 현재 날짜 저장
-        SaveCurrentDate();
 
     }
 
@@ -84,13 +76,17 @@ public class DataManager : MonoBehaviour
 
     private void OnEnable()
     {
+        this.Log($" OnEnable {isEquipmentDataReady}");
+
         // 씬 로드 이벤트 연결
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
-        // 씬 로드 이벤트 해제
+        this.Log($" OnDisable {isEquipmentDataReady}");
+
+        // 씬 로드 이벤트 해제(게임씬시 시작될때 호출.)
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -99,13 +95,9 @@ public class DataManager : MonoBehaviour
     {
         if (scene.name == "LobbyScene")
         {
-            this.Log("씬이 로드될 때마다 호출");
+            this.Log($"씬이 로드될 때마다 호출 장비정보 다운로드 됐나? {isEquipmentDataReady}");
 
-            if (!isEquipmentDataReady)
-            {
-                StartCoroutine(WaitForEquipmentDataThenInitialize(scene));
-                return;
-            }
+            StartCoroutine(WaitForEquipmentDataThenInitialize(scene));
 
         }
 
@@ -124,6 +116,11 @@ public class DataManager : MonoBehaviour
         LoadData();
         UpdateEnergy();
         UpdateUI();
+
+        while (_currentStage == null)
+        {
+            yield return null; // Wait one frame
+        }
 
         _currentStage.UpdateStageDisplay();
     }
@@ -220,7 +217,7 @@ public class DataManager : MonoBehaviour
             // 2. 저장용 클래스로 역직렬화
             playerInfo = JsonConvert.DeserializeObject<PlayerData>(json);
 
-            Debug.Log("데이터 로드 및 에셋 연결 완료!");
+            Debug.Log("PlayerData 데이터 로드 및 에셋 연결 완료!");
 
             this.Log($" LoadData playerInfo : {playerInfo} ");
         }
@@ -287,7 +284,6 @@ public class DataManager : MonoBehaviour
         }
     }
 
-
     bool CanDownloadToday()
     {
         // 1. 저장된 날짜 문자열 가져오기
@@ -299,9 +295,7 @@ public class DataManager : MonoBehaviour
         // 3. 현재 날짜와 저장된 날짜 비교 (yyyy-MM-dd 형식)
         string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
 
-        // return !currentDateStr.Equals(lastDateStr);
-
-        return true;
+        return !currentDateStr.Equals(lastDateStr);
     }
 
     void SaveCurrentDate()
@@ -311,10 +305,6 @@ public class DataManager : MonoBehaviour
         PlayerPrefs.SetString(lastDownloadDateKey, currentDateStr);
         PlayerPrefs.Save();
     }
-
-
-
-
 
 }
 

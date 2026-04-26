@@ -10199,7 +10199,7 @@ MonoBehaviour:
     MaxStageReached: 0
     equipItems: []
     inventoryItems: []
-  _currentStage: {fileID: 9139633550683623751}
+  _currentStage: {fileID: 0}
 --- !u!4 &1157135575
 Transform:
   m_ObjectHideFlags: 0
@@ -16490,7 +16490,7 @@ GameObject:
   - component: {fileID: 9139633550683623751}
   m_Layer: 5
   m_Name: CurrentStage
-  m_TagString: Untagged
+  m_TagString: CurrentStage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
