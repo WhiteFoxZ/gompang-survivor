@@ -54,88 +54,103 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
+        DontDestroyOnLoad(gameObject);
+
     }
 
     public IEnumerator DownloadItemData(DownType type)
     {
-        String URL;
-        if (type == DownType.Item && ITEM.Equals("N"))
+
+        if (!CanDownloadToday(type) && type != DownType.Sheet)
         {
-            URL = ITEM_URL;
-        }
-        else if (type == DownType.Exp && EXP.Equals("N"))
-        {
-            URL = EXP_URL;
-        }
-        else if (type == DownType.Equip && EQUIP.Equals("N"))
-        {
-            URL = EQUIP_URL;
-        }
-        else if (type == DownType.Map && MAP.Equals("N"))
-        {
-            URL = MAP_URL;
-        }
-        else if (type == DownType.Enemy && ENEMY.Equals("N"))
-        {
-            URL = ENEMY_URL; //적 데이터 URL로 변경 필요
-        }
-        else if (type == DownType.Sheet)
-        {
-            URL = SHEET_URL; //적 데이터 URL로 변경 필요
+            this.Log($" objname : {type} 오늘은 이미 다운로드 했습니다.");
+            yield break;
         }
         else
         {
-            Debug.LogError("알 수 없는 아이템 유형입니다.");
-            yield break;
-        }
-
-
-
-        //구글 스프레드시트에서 아이템 데이터 다운로드 (테스트용)
-        using (UnityWebRequest www = UnityWebRequest.Get(URL))
-        {
-            yield return www.SendWebRequest();
-
-            if (string.IsNullOrEmpty(www.error))
+            String URL;
+            if (type == DownType.Item && ITEM.Equals("Y"))
             {
-                // Debug.Log("아이템 데이터 다운로드 성공!");
-                //다운로드한 데이터를 파싱하여 itemDatas 배열에 저장하는 로직 추가 필요
-                string data = www.downloadHandler.text;
-                // Debug.Log("다운로드한 데이터: " + data);
-
-                if (type == DownType.Item)
-                {
-                    SetItemSO(data); //데이터 파싱 및 아이템 데이터 설정
-                }
-                else if (type == DownType.Equip)
-                {
-                    SetEquipmentSO(data);
-                }
-                else if (type == DownType.Exp)
-                {
-                    SetExp(data);
-                }
-                else if (type == DownType.Map)
-                {
-                    //맵 데이터 파싱 및 설정 로직 추가 필요
-                    SetMap(data);
-                }
-                else if (type == DownType.Enemy)
-                {
-                    //적 데이터 파싱 및 설정 로직 추가 필요
-                    SetEnemy(data);
-                }
-                else if (type == DownType.Sheet)
-                {
-                    //적 데이터 파싱 및 설정 로직 추가 필요
-                    SetSheet(data);
-                }
+                URL = ITEM_URL;
+            }
+            else if (type == DownType.Exp && EXP.Equals("Y"))
+            {
+                URL = EXP_URL;
+            }
+            else if (type == DownType.Equip && EQUIP.Equals("Y"))
+            {
+                URL = EQUIP_URL;
+            }
+            else if (type == DownType.Map && MAP.Equals("Y"))
+            {
+                URL = MAP_URL;
+            }
+            else if (type == DownType.Enemy && ENEMY.Equals("Y"))
+            {
+                URL = ENEMY_URL; //적 데이터 URL로 변경 필요
+            }
+            else if (type == DownType.Sheet)
+            {
+                URL = SHEET_URL; //적 데이터 URL로 변경 필요
             }
             else
             {
-                Debug.LogError("아이템 데이터 다운로드 실패: " + www.error);
+                Debug.LogError($"알 수 없는 아이템 유형입니다.{type}");
+                yield break;
             }
+
+            this.Log($" {type} 다운로드 시작");
+
+            //구글 스프레드시트에서 아이템 데이터 다운로드 (테스트용)
+            using (UnityWebRequest www = UnityWebRequest.Get(URL))
+            {
+                yield return www.SendWebRequest();
+
+                if (string.IsNullOrEmpty(www.error))
+                {
+                    // Debug.Log("아이템 데이터 다운로드 성공!");
+                    //다운로드한 데이터를 파싱하여 itemDatas 배열에 저장하는 로직 추가 필요
+                    string data = www.downloadHandler.text;
+                    // Debug.Log("다운로드한 데이터: " + data);
+
+                    if (type == DownType.Item)
+                    {
+                        SetItemSO(data); //데이터 파싱 및 아이템 데이터 설정
+                    }
+                    else if (type == DownType.Equip)
+                    {
+                        SetEquipmentSO(data);
+                    }
+                    else if (type == DownType.Exp)
+                    {
+                        SetExp(data);
+                    }
+                    else if (type == DownType.Map)
+                    {
+                        //맵 데이터 파싱 및 설정 로직 추가 필요
+                        SetMap(data);
+                    }
+                    else if (type == DownType.Enemy)
+                    {
+                        //적 데이터 파싱 및 설정 로직 추가 필요
+                        SetEnemy(data);
+                    }
+                    else if (type == DownType.Sheet)
+                    {
+                        //적 데이터 파싱 및 설정 로직 추가 필요
+                        SetSheet(data);
+                    }
+
+                    SaveCurrentDate(type);
+                }
+                else
+                {
+                    Debug.LogError("아이템 데이터 다운로드 실패: " + www.error);
+                }
+            }
+
         }
+
     }
 
     void SetItemSO(string tsv)
@@ -192,8 +207,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
 
-        // this.Log(" 장비 다운갯수 : " + rowSize);
-        // this.Log(" equipmentDatas : " + equipmentDatas.Length);
+        this.Log($" 다운갯수 : {rowSize} , {equipmentDatas.Length} ");
 
 
         if (equipmentDatas.Length != rowSize)
@@ -363,10 +377,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
 
 
-    bool CanDownloadToday()
+    bool CanDownloadToday(DownType type)
     {
         // 1. 저장된 날짜 문자열 가져오기
-        string lastDateStr = PlayerPrefs.GetString(SpreadSheetLastDownloadDate, "");
+        string lastDateStr = PlayerPrefs.GetString(SpreadSheetLastDownloadDate + "_" + type, "");
 
         // 2. 기록이 없다면 한 번도 안 한 것이므로 true
         if (string.IsNullOrEmpty(lastDateStr)) return true;
@@ -377,11 +391,11 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         return !currentDateStr.Equals(lastDateStr);
     }
 
-    void SaveCurrentDate()
+    void SaveCurrentDate(DownType type)
     {
         // 현재 날짜를 "2024-05-20" 같은 형식으로 저장
         string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
-        PlayerPrefs.SetString(SpreadSheetLastDownloadDate, currentDateStr);
+        PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, currentDateStr + "_" + type);
         PlayerPrefs.Save();
     }
 

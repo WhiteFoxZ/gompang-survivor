@@ -26,8 +26,6 @@ public class DataManager : MonoBehaviour
 
     public CurrentStage _currentStage;
 
-    private string lastDownloadDateKey = "LastDownloadDate";
-
     void Awake()
     {
         this.Log("********** Awake **********");
@@ -41,10 +39,7 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject); // 이미 존재하면 새로 생긴 건 바로 삭제
         }
 
-        //씬이 바뀔때 사라지므로 다시 초기화
-        _currentStage = GameObject.FindWithTag("CurrentStage").GetComponent<CurrentStage>();
 
-        this.Log("LobbyManager 장비정보 다운로드 시작 _currentStage : " + _currentStage);
         StartCoroutine(LoadDataAndStartGame());
 
         // 씬 전환 시 파괴되지 않도록 설정
@@ -55,19 +50,12 @@ public class DataManager : MonoBehaviour
 
     IEnumerator LoadDataAndStartGame()
     {
-        if (CanDownloadToday())
-        {
-            yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Sheet));
 
-            this.Log("EquipmentSO 장비 데이터 다운로드 먼저 실행 시작");
-            // 장비 데이터 다운로드 먼저 실행
-            yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Sheet));
 
-            this.Log("LobbyManager EquipmentSO 장비 데이터 다운로드 먼저 실행 완료");
+        // 장비 데이터 다운로드 먼저 실행
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
 
-            // 다운로드 성공 후 현재 날짜 저장
-            SaveCurrentDate();
-        }
         isEquipmentDataReady = true; // Set flag when data is ready
 
     }
@@ -78,7 +66,7 @@ public class DataManager : MonoBehaviour
 
     private void OnEnable()
     {
-        this.Log($" OnEnable {isEquipmentDataReady}");
+        this.Log($" OnEnable isEquipmentDataReady : {isEquipmentDataReady}");
 
         // 씬 로드 이벤트 연결
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -86,7 +74,7 @@ public class DataManager : MonoBehaviour
 
     private void OnDisable()
     {
-        this.Log($" OnDisable {isEquipmentDataReady}");
+        this.Log($" OnDisable isEquipmentDataReady : {isEquipmentDataReady}");
 
         // 씬 로드 이벤트 해제(게임씬시 시작될때 호출.)
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -97,7 +85,7 @@ public class DataManager : MonoBehaviour
     {
         if (scene.name == "LobbyScene")
         {
-            this.Log($"씬이 로드될 때마다 호출 장비정보 다운로드 됐나? {isEquipmentDataReady}");
+            this.Log($"씬이 로드될 때마다 호출 장비정보 다운로드 됐나? isEquipmentDataReady : {isEquipmentDataReady}");
 
             StartCoroutine(WaitForEquipmentDataThenInitialize(scene));
 
@@ -119,15 +107,14 @@ public class DataManager : MonoBehaviour
         UpdateEnergy();
         UpdateUI();
 
-        while (_currentStage == null)
-        {
-            yield return null; // Wait one frame
-        }
+        //씬이 바뀔때 사라지므로 다시 초기화
+        _currentStage = GameObject.FindWithTag("CurrentStage").GetComponent<CurrentStage>();
+
+        this.Log($" _currentStage : {_currentStage}");
+
 
         _currentStage.UpdateStageDisplay();
     }
-
-
 
 
     private const int EnergyRechargeInterval = 1200; // 20 minutes in seconds
@@ -183,8 +170,6 @@ public class DataManager : MonoBehaviour
     }
 
 
-
-
     public void Save(String msg)
     {
         string filePath = Path.Combine(Application.persistentDataPath, filename);
@@ -232,8 +217,6 @@ public class DataManager : MonoBehaviour
     **/
     public void UpdateUI()
     {
-        this.Log("************ UpdateUI *******");
-
         // Load all EquipmentSO and create a lookup dictionary
         EquipmentSO[] allEquipment = Resources.FindObjectsOfTypeAll<EquipmentSO>();
         Dictionary<string, EquipmentSO> equipmentDict = new Dictionary<string, EquipmentSO>();
@@ -284,28 +267,6 @@ public class DataManager : MonoBehaviour
                 Debug.LogWarning($"EquipmentSO with id {item.id} not found!");
             }
         }
-    }
-
-    bool CanDownloadToday()
-    {
-        // 1. 저장된 날짜 문자열 가져오기
-        string lastDateStr = PlayerPrefs.GetString(lastDownloadDateKey, "");
-
-        // 2. 기록이 없다면 한 번도 안 한 것이므로 true
-        if (string.IsNullOrEmpty(lastDateStr)) return true;
-
-        // 3. 현재 날짜와 저장된 날짜 비교 (yyyy-MM-dd 형식)
-        string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
-
-        return !currentDateStr.Equals(lastDateStr);
-    }
-
-    void SaveCurrentDate()
-    {
-        // 현재 날짜를 "2024-05-20" 같은 형식으로 저장
-        string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
-        PlayerPrefs.SetString(lastDownloadDateKey, currentDateStr);
-        PlayerPrefs.Save();
     }
 
 }

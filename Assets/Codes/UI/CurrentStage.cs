@@ -35,9 +35,8 @@ public class CurrentStage : MonoBehaviour
         {
             nextStage = DataManager.instance.playerInfo.next_stage;
             _titleLabel.text = "STAGE " + nextStage;
-            this.Log("***********************DataManager.instance.playerInfo.next_stage " + DataManager.instance.playerInfo.next_stage);
 
-
+            this.Log($" nextStage : {nextStage}");
         }
         else
         {

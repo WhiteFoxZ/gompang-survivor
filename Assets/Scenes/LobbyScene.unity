@@ -6235,7 +6235,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961bd0c7d63080a48ae44771fe702de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoogleSpreadSheetManager
-  itemDatas: []
+  itemDatas:
+  - {fileID: 11400000, guid: c87e08101a8e93a4c869f19d815f7a28, type: 2}
+  - {fileID: 11400000, guid: beb19452ed188444b8f140dbb56e5e8e, type: 2}
+  - {fileID: 11400000, guid: 23b2e1f6b08a87647bd5a27704d9ad69, type: 2}
+  - {fileID: 11400000, guid: 3fb30c4503be1c244a36efd3a0773499, type: 2}
+  - {fileID: 11400000, guid: 7661440dd1f72474ba9566bb3c883b1e, type: 2}
+  - {fileID: 11400000, guid: bafd8fce9f66ccc4e9e244f6be3eda8b, type: 2}
+  - {fileID: 11400000, guid: 3808ce2a8d0b0e347ace021c46c6a183, type: 2}
+  - {fileID: 11400000, guid: 856fed349fca1f1429b2efed25a90569, type: 2}
   equipmentDatas:
   - {fileID: 11400000, guid: 683b9fbc0aad68945b79937ba31dece8, type: 2}
   - {fileID: 11400000, guid: 4f0f8d1fcde5d7d4b935c1bc9b07581a, type: 2}
