@@ -55,12 +55,12 @@ public class Spawner : MonoBehaviour
         //게임시간에 따라 Enemy 종류변경,레벨 계산
         enemyLevel = Mathf.FloorToInt(GameManager.instance.gameTime / levelTime);
 
-        this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
+        // this.Log($" enemyLevel : {enemyLevel}  =  {GameManager.instance.gameTime}  / {levelTime} ");
 
 
         //레벨이 최대치를 넘지 않도록 제한 Mathf.Min(0,2) ->0 , Mathf.Min(1,2) -> 1, Mathf.Min(2,2) -> 
 
-        this.Log($" Mathf.Min( {enemyLevel} ,{_spawnDatas.Length} -1 ) --> {Mathf.Min(enemyLevel, _spawnDatas.Length - 1)} ");
+        // this.Log($" Mathf.Min( {enemyLevel} ,{_spawnDatas.Length} -1 ) --> {Mathf.Min(enemyLevel, _spawnDatas.Length - 1)} ");
 
         enemyLevel = Mathf.Min(enemyLevel, _spawnDatas.Length - 1);
 
@@ -92,16 +92,17 @@ public class Spawner : MonoBehaviour
 
         spawnTime = spawnTime * Mathf.Pow((1 - spawnTimeRate), curr_stage); //게임 레벨에 따른 추가 스폰 시간 감소
 
-        this.Log($" {spawnTime} = {spawnTimeTmp} * Mathf.Pow((1 - {spawnTimeRate}), {curr_stage}) ");
+        // this.Log($" {spawnTime} = {spawnTimeTmp} * Mathf.Pow((1 - {spawnTimeRate}), {curr_stage}) ");
 
         //최소 스폰시간 제한
 
-        this.Log($" 최소 스폰시간 제한 {Mathf.Max(spawnTime, 0.3f)} = Mathf.Max({spawnTime}, 0.3f) ");
+        // this.Log($" 최소 스폰시간 제한 {Mathf.Max(spawnTime, 0.3f)} = Mathf.Max({spawnTime}, 0.3f) ");
 
-        this.Log($" {timer} > {spawnTime} ? {timer > spawnTime} ");
+        // this.Log($" {timer} > {spawnTime} ? {timer > spawnTime} ");
 
 
         spawnTime = Mathf.Max(spawnTime, 0.3f); //최소 스폰 시간 제한;
+
 
         if (timer > spawnTime)
         {
@@ -173,6 +174,8 @@ public class Spawner : MonoBehaviour
 
         //활성화
         enemy.SetActive(true);
+
+        this.Log($" objname :{enemy.activeInHierarchy}  {enemy.activeSelf}");
 
     }
 

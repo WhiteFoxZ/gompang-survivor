@@ -48,6 +48,8 @@ public class CurrentStage : MonoBehaviour
     // 선택 버튼 클릭 시 호출
     void OnSelectButtonClicked()
     {
+        // 승리 화면에서 Next 선택 시 timeScale이 0일 수 있으므로 복구
+        Time.timeScale = 1f;
 
         if (DataManager.instance.playerInfo.Energy <= 0)
         {

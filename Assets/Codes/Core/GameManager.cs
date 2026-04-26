@@ -340,19 +340,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GameRetry()
     {
-        Time.timeScale = 1;
         // 현재 씬 재시작
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("GameScene");
     }
 
-    /// <summary>
-    /// 데이터 초기화 (테스트용)
-    /// </summary>
-    public void ResetData()
-    {
-        DataManager.instance.playerInfo.curr_stage = 1;
-        DataManager.instance.playerInfo.next_stage = 1;
-    }
 
     /// <summary>
     /// 로비로 이동
