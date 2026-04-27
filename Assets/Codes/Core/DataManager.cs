@@ -56,6 +56,9 @@ public class DataManager : MonoBehaviour
         // 장비 데이터 다운로드 먼저 실행
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Equip));
 
+        yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(GoogleSpreadSheetManager.DownType.Map));
+
+
         isEquipmentDataReady = true; // Set flag when data is ready
 
     }

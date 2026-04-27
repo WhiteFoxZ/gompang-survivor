@@ -24,29 +24,25 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     //게임시간,MAX_STAGE
     const string EXP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:J";
 
-
     const string MAP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=809858262&range=A2:E";
-
 
     const string EQUIP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1723476130&range=A2:H";
 
-
-
     //적 데이터 URL (예시)
-    const string ENEMY_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1674237518&range=A2:F";
-
+    const string ENEMY_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1674237518&range=A2:G";
 
     const string SHEET_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=104575566&range=A2:E";
 
-
     private string SpreadSheetLastDownloadDate = "SpreadSheetLastDownloadDate";
-
 
     [Header("게임 Item Data")]
     public ItemData[] itemDatas; //아이템 데이터 참조 
 
     [Header("장비 Item Data")]
     public EquipmentSO[] equipmentDatas; //장비 데이터 참조
+
+    [Header("Stage Data")]
+    public Stage[] stages;
 
     void Awake()
     {
@@ -300,16 +296,36 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     void SetMap(string tsv)
     {
-        //맵 데이터 파싱 및 설정 로직 추가 필요
+        string[] row = tsv.Split('\n');
+        int rowSize = row.Length;
+
+        stages = new Stage[rowSize];
+
+        this.Log(" stages 다운갯수 : " + rowSize);
+
+        for (int i = 0; i < rowSize; i++)
+        {
+            string[] column = row[i].Split('\t');
+
+            stages[i] = new Stage(
+                int.Parse(column[0]),
+                column[1],
+                column[2],
+                Array.ConvertAll(column[3].Split(','), int.Parse),
+                int.Parse(column[4])
+            );
+        }
+
     }
 
 
     void SetEnemy(string tsv)
     {
-        //no	spawnTime	spriteType	health	speed	attack
+        //id    boss	spawnTime	spriteType	health	speed	attack
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
 
+        int id = 0;
         int boss = 0;
         float spawnTime = 0f;
         int spriteType = 0;
@@ -325,15 +341,17 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         {
             string[] column = row[i].Split('\t');
 
-            boss = int.Parse(column[0]);
-            spawnTime = float.Parse(column[1]);
-            spriteType = int.Parse(column[2]);
-            health = int.Parse(column[3]);
-            speed = float.Parse(column[4]);
-            attack = float.Parse(column[5]);
+            id = int.Parse(column[0]);
+            boss = int.Parse(column[1]);
+            spawnTime = float.Parse(column[2]);
+            spriteType = int.Parse(column[3]);
+            health = int.Parse(column[4]);
+            speed = float.Parse(column[5]);
+            attack = float.Parse(column[6]);
 
             Spawner._spawnDatas[i] = new SpawnData
             {
+                id = id,
                 boss = boss,
                 spawnTime = spawnTime,
                 spriteType = spriteType,

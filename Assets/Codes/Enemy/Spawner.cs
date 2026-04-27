@@ -29,7 +29,10 @@ public class Spawner : MonoBehaviour
     public static float spawnTimeRate = 0f; //스폰 시간 감소율
 
 
-    bool isBossSpawned = false; //보스 스폰 여부 - 한 게임당 한 번만 보스가 나오도록 설정
+    int bossCount = 0; //보스 스폰될때마다 증가, stage 보스 count 같을때까지 증가.
+
+    int curr_stage;
+    Stage stage;
 
     /// <summary>
     /// 시작 시 호출 - 초기화
@@ -37,6 +40,18 @@ public class Spawner : MonoBehaviour
     void Awake()
     {
         spawnPoint = GetComponentsInChildren<Transform>();
+    }
+
+    void Start()
+    {
+        curr_stage = DataManager.instance.playerInfo.curr_stage;
+
+        curr_stage = Mathf.Min(curr_stage, GoogleSpreadSheetManager.instance.stages.Length);
+
+        stage = GoogleSpreadSheetManager.instance.stages[curr_stage - 1];
+
+        this.Log($" stage : {stage}");
+
     }
 
 
@@ -62,13 +77,13 @@ public class Spawner : MonoBehaviour
 
         // this.Log($" Mathf.Min( {enemyLevel} ,{_spawnDatas.Length} -1 ) --> {Mathf.Min(enemyLevel, _spawnDatas.Length - 1)} ");
 
-        enemyLevel = Mathf.Min(enemyLevel, _spawnDatas.Length - 1);
+        enemyLevel = Mathf.Min(enemyLevel, stage.enemyId.Length - 1);
 
         int spawnDataIdx = 0;
 
-        // this.Log($" isBossSpawned : {isBossSpawned}");
+        // this.Log($" bossCount : {bossCount}");
 
-        if (isBossSpawned)
+        if (bossCount > stage.bossCount)
         {
             spawnDataIdx = Random.Range(0, enemyLevel); //보스가 스폰된 후에는 보스 제외한 일반 적만 나오도록 설정
             // return; //보스가 스폰된 후에는 일반 적도 스폰되지 않도록 설정 (게임 승리 조건 강화)
@@ -112,9 +127,6 @@ public class Spawner : MonoBehaviour
     /// </summary>
     void SpawnEnemy(int spawnDataIdx)
     {
-
-        int curr_stage = DataManager.instance.playerInfo.curr_stage;
-
         //풀매니저에서 적 오브젝트 가져오기 (프리팹 인덱스 0)
         GameObject enemy = GameManager.instance.poolManager.GetObject(0);
 
@@ -123,14 +135,12 @@ public class Spawner : MonoBehaviour
         //스폰 데이터 설정 - 
         SpawnData spawnData = new SpawnData
         {
+            id = spawnDataIdx,
             boss = _spawnDatas[spawnDataIdx].boss,
-
             attack = _spawnDatas[spawnDataIdx].attack,
-
             spriteType = _spawnDatas[spawnDataIdx].spriteType,
 
             //스테이지별 체력,스피드 증가 
-
             health = Mathf.RoundToInt(_spawnDatas[spawnDataIdx].health * (1 + (curr_stage * healthRate))),
 
             speed = _spawnDatas[spawnDataIdx].speed * (1 + (curr_stage * speedRate))
@@ -146,9 +156,9 @@ public class Spawner : MonoBehaviour
         enemy.GetComponent<Enemy>().Init(spawnData);
 
         //보스인경우 스케일을 키운다.보스는 한게임당 한마리만 나오도록 설정되어있음
-        if (spawnData.boss == 1 && !isBossSpawned)
+        if (spawnData.boss == 1 && bossCount < stage.bossCount)
         {
-            isBossSpawned = true;
+            bossCount++;
             enemy.transform.localScale = Vector3.one * 3f; //보스는 1.5배 크기로 설정
 
             GameManager.instance._wallSpawner.SpawnFixedWalls(); //보스가 스폰될 때 벽 생성
@@ -182,7 +192,7 @@ public class Spawner : MonoBehaviour
 [System.Serializable]
 public class SpawnData
 {
-
+    public int id;
     public int boss; //보스 여부 (0: 일반, 1: 보스)
     public float spawnTime; //스폰 간격
     public int spriteType;  //적의 애니메이션 유형
