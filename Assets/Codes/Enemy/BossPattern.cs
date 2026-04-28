@@ -10,10 +10,10 @@ public class BossPattern : MonoBehaviour
     Transform _player;
 
     // 보스 패턴 타이밍 변수
-    public float waitTime = 5f;  // 돌진 전 준비 시간 (기 모으기)
+    public float waitTime = 3f;  // 돌진 전 준비 시간 (기 모으기)
     public float dashSpeed = 10f;  // 돌진 속도
     public float dashDuration = 0.2f; // 돌진 지속 시간
-    public float waitEndTime = 3f;  // 돌진 전 준비 시간 (기 모으기)
+    public float waitEndTime = 2f;  // 돌진 전 준비 시간 (기 모으기)
 
 
     // 물리 컴포넌트 참조

@@ -66,7 +66,8 @@ public enum GearType
     BodyArmor, //갑옷
     Necklace,//목거리
     Shoes,//신발
-    Pants
+    Pants,
+    Total
 }
 
 //아이템등급

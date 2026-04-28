@@ -41,8 +41,9 @@ public class Bullet : MonoBehaviour
         this.knockbackRate = knockbackRate;
 
         //장비적용
-        EquipItem equipItemTotal = DataManager.instance.playerInfo.GetTotalSlotStats();
-        this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
+        EquipItem equipItemTotal = DataManager.instance.playerInfo.equipTotal;
+        this.Log($"총알 damage : {this.damage} -> 적용후 {this.damage * (1 + equipItemTotal.atack)}");
+        this.damage = this.damage * (1 + equipItemTotal.atack);
 
         if (per >= 0)   //원거리무기인경우
         {

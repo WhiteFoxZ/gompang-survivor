@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -159,6 +160,9 @@ public class InventoryManager : MonoBehaviour
 
                         List<EquipmentSO> items = _randomSelect.GetComponent<RandomSelect>().gameItemCommon;
 
+                        this.Log($" objname : {items.Count}");
+
+                        //강제로 일반box 로 초기화
                         if (nowShopItemType != ShopItemType.ItemBoxCommon)
                             InitScrollViewContent(items);
 

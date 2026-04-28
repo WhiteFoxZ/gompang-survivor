@@ -37,7 +37,7 @@ public class EquipItem
     // EquipItem의 정보를 문자열로 반환
     public override string ToString()
     {
-        return $"[itemRarity: {itemRarity}, gearType :{gearType}, count: {count}]";
+        return $"[id :{id}, itemRarity: {itemRarity}, gearType :{gearType}, atack :{atack}, moveSpeed:{moveSpeed},atkSpeed:{atkSpeed}, count: {count}]";
     }
 
 }

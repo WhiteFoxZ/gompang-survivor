@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +32,11 @@ public class AutoHorizontalStop : MonoBehaviour
     public void OnClickConfirm(int totalImages, ShopItemType shopItemType)
     {
         RandomSelect random = _randomSelect.GetComponent<RandomSelect>();
+        if (_randomSelect == null)
+            Debug.LogError("**********************NULL ***********");
+
+        this.Log($" totalImages : {totalImages}   shopItemType :  {shopItemType}");
+
         int itemIndex = 0;
         EquipmentSO gameItem = null;
 

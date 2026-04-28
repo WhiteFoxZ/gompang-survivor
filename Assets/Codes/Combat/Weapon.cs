@@ -146,7 +146,7 @@ public class Weapon : MonoBehaviour
         Hand hand = null; //손 참조
 
         //장비 적용
-        EquipItem equipItem = DataManager.instance.playerInfo.GetTotalSlotStats();
+        EquipItem equipItem = DataManager.instance.playerInfo.equipTotal;
 
         //무기 유형에 따른 초기화
         switch (itemData.itemID)
@@ -154,10 +154,12 @@ public class Weapon : MonoBehaviour
             case 0: //삽 (근접 무기) 숫자가 커야 속도가 빨라짐
                 speed = 150 * Character.WeaponSpeed;
 
+                this.Log($"숫자가 커야 속도가 빨라짐 삽 장비적용전  근접 회전속도 : {speed:F4}");
+
                 //장비적용
                 speed = speed * (1 + equipItem.atkSpeed);
 
-                this.Log($"장비적용  근접 회전속도 : {speed:F4}");
+                this.Log($"숫자가 커야 속도가 빨라짐 삽 장비적용후  근접 회전속도 : {speed:F4} {equipItem.atkSpeed} 적용");
 
                 Place(); //무기 배치
 
@@ -166,11 +168,13 @@ public class Weapon : MonoBehaviour
             case 1: //원거리 무기 작아야 발사속도가 빨라짐
                 speed = 0.3f * Character.WeaponRate;    //1초에 3번발사
 
+                this.Log($"원거리 장비적용전 원거리 무기 작아야 발사속도가 빨라짐 : {speed:F4}");
+
                 // 공식: 실제 장전 시간 = 기본 장전 시간 / (1 + 장전 속도 증가율)
                 //장비적용
                 speed = speed / (1 + equipItem.atkSpeed);
 
-                this.Log($"장비적용 총 발사속도 : {speed:F4}");
+                this.Log($"원거리 장비적용후 원거리 무기 작아야 발사속도가 빨라짐 : {speed:F4} {equipItem.atkSpeed} 적용");
 
                 hand = player.hands[1]; //원거리 무기는 오른손
                 break;
@@ -178,10 +182,13 @@ public class Weapon : MonoBehaviour
             case 6: //missle 무기
                 speed = 2.0f; // 미사일 발사 간격 (2초당 1회)
 
+                this.Log($"장비적용전 작아야 발사속도가 빨라짐 missle 발사속도 : {speed:F4}");
+
                 // 공식: 실제 장전 시간 = 기본 장전 시간 / (1 + 장전 속도 증가율)
                 //장비적용
                 speed = speed / (1 + equipItem.atkSpeed);
-                this.Log($"장비적용 missle 발사속도 : {speed:F4}");
+
+                this.Log($"장비적용후 작아야 발사속도가 빨라짐 missle 발사속도 : {speed:F4} {equipItem.atkSpeed} 적용");
 
                 hand = player.hands[2]; //미사일은 등
                 break;

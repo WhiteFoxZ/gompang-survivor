@@ -53,10 +53,13 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60; //프레임 고정 (60fps)
 
-
         //싱글톤 인스턴스 설정
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
+        this.Log($"게임씬 적용시 장비적용 playerInfo.GetTotalSlotStats() 호출");
+        DataManager.instance.playerInfo.GetTotalSlotStats();
+
 
     }
 
@@ -125,7 +128,7 @@ public class GameManager : MonoBehaviour
         this.playerId = playerId;
 
         //장비 적용
-        EquipItem equipItem = DataManager.instance.playerInfo.GetTotalSlotStats();
+        EquipItem equipItem = DataManager.instance.playerInfo.equipTotal;
 
         if (equipItem != null)
         {

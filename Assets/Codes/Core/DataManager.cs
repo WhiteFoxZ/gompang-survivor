@@ -302,36 +302,42 @@ public class PlayerData
     public List<EquipItem> equipItems = new List<EquipItem>();
     public List<EquipItem> inventoryItems = new List<EquipItem>();
 
+    public EquipItem equipTotal;
+
 
     //합산된 장비정보 - 게임씬에서 사용
 
     public EquipItem GetTotalSlotStats()
     {
-        EquipItem total = new EquipItem();
-        total.id = "TotalCombinedStats";
+        equipTotal = new EquipItem();
+        equipTotal.id = "Total";
+        equipTotal.gearType = GearType.Total;
 
         // 1. 모든 장착 아이템의 능력치를 각 아이템 레벨 보정(1%당)을 적용해 합산
         foreach (var item in equipItems)
         {
-            total.atack += item.atack * item.count;
-            total.defence += item.defence * item.count;
-            total.moveSpeed += item.moveSpeed * item.count;
-            total.atkSpeed += item.atkSpeed * item.count;
+            this.Log($" 장비 : {item}");
 
-            this.Log($"item id : {item.id} ,itemRarity : {item.itemRarity}, total.atack : {total.atack} = {item.atack} * {item.count} ");
-
+            equipTotal.atack += item.atack * item.count;
+            equipTotal.defence += item.defence * item.count;
+            equipTotal.moveSpeed += item.moveSpeed * item.count;
+            equipTotal.atkSpeed += item.atkSpeed * item.count;
         }
+
+        this.Log($" 장비 적용후합계 : {equipTotal} ");
 
         // 2. 최종 결과에 플레이어 레벨 보정(1%당)을 추가 적용
         // (예: 플레이어 50레벨 = 장비 총합의 1.5배)
-        float playerLevelModifier = 1f + (this.Level * 0.01f);
+        float playerLevelModifier = (this.Level * 0.01f);
 
-        total.atack *= playerLevelModifier;
-        total.defence *= playerLevelModifier;
-        total.moveSpeed *= playerLevelModifier;
-        total.atkSpeed *= playerLevelModifier;
+        equipTotal.atack += playerLevelModifier;
+        equipTotal.defence += playerLevelModifier;
+        equipTotal.moveSpeed += playerLevelModifier;
+        equipTotal.atkSpeed += playerLevelModifier;
 
-        return total;
+        this.Log($"최종 결과에 플레이어 레벨 보정(1%당)을 추가 적용 : {equipTotal} ");
+
+        return equipTotal;
     }
 
 

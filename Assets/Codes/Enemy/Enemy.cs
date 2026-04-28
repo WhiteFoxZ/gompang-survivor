@@ -311,7 +311,7 @@ public class Enemy : MonoBehaviour
     /// <param name="collision">충돌한 콜라이더</param>
     void OnCollisionEnter2D(Collision2D collision)   // Collider2D → Collision2D로 수정
     {
-        this.Log("*****************Enemy OnCollisionEnter2D ****************");
+        // this.Log("*****************Enemy OnCollisionEnter2D ****************");
 
         //총알과 충돌 시
         if (collision.gameObject.CompareTag("Player"))

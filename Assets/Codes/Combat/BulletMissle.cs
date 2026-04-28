@@ -50,8 +50,9 @@ public class BulletMissle : MonoBehaviour
 
 
         //장비적용
-        EquipItem equipItemTotal = DataManager.instance.playerInfo.GetTotalSlotStats();
-        this.damage = this.damage * (1 + equipItemTotal.atack * 0.01f);
+        EquipItem equipItemTotal = DataManager.instance.playerInfo.equipTotal;
+        this.Log($"미사일 damage : {this.damage} -> 적용후 {this.damage * (1 + equipItemTotal.atack)}");
+        this.damage = this.damage * (1 + equipItemTotal.atack);
 
 
     }
