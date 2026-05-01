@@ -4,7 +4,7 @@ using UnityEngine;
 /// 게임내에서 플레이어에 경험치 증가에 따른 무기아이템 - ScriptableObject로 아이템 속성을 정의합니다.
 /// </summary>
 [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData", order = 1)]
-public class ItemData : ScriptableObject
+public class ItemDataSO : ScriptableObject
 {
     //아이템 유형 열거형
     public enum ItemType { Melee, Range, Glove, Shoe, Heal, StamPack, Missile, MissilePack }

@@ -99,7 +99,7 @@ public class Weapon : MonoBehaviour
     /// 무기 초기화 - 아이템 데이터에서 무기 설정
     /// </summary>
     /// <param name="itemData">아이템 데이터</param>
-    public void Init(ItemData itemData)
+    public void Init(ItemDataSO itemData)
     {
         // 플레이어와 플레이어 데이터가 없으면 게임 매니저에서 다시 가져오려 시도
         if (player == null || DataManager.instance.playerInfo == null)

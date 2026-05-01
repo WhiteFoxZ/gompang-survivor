@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// </summary>
 public class Item : MonoBehaviour
 {
-    public ItemData data; //아이템 데이터
+    public ItemDataSO data; //아이템 데이터
     public int level; //현재 레벨
     public Weapon weapon; //무기 컴포넌트
     public Gear gear; //장비 컴포넌트
@@ -50,21 +50,21 @@ public class Item : MonoBehaviour
         //아이템 유형에 따라 설명 업데이트
         switch (data.itemType)
         {
-            case ItemData.ItemType.Melee:
-            case ItemData.ItemType.Range:
+            case ItemDataSO.ItemType.Melee:
+            case ItemDataSO.ItemType.Range:
                 //무기: 데미지와 개수 표시
                 itemDesc.text = string.Format(data.itemDesc, data.damages[level] * 100, data.counts[level]);
                 break;
 
-            case ItemData.ItemType.Glove:
-            case ItemData.ItemType.Shoe:
-            case ItemData.ItemType.MissilePack:
+            case ItemDataSO.ItemType.Glove:
+            case ItemDataSO.ItemType.Shoe:
+            case ItemDataSO.ItemType.MissilePack:
 
                 //장비: 효과 수치만 표시
                 itemDesc.text = string.Format(data.itemDesc, data.damages[level] * 100);
                 break;
 
-            case ItemData.ItemType.StamPack:
+            case ItemDataSO.ItemType.StamPack:
                 //장비: 효과 수치만 표시
                 itemDesc.text = string.Format(data.itemDesc, data.baseDamage);
                 break;
@@ -85,9 +85,9 @@ public class Item : MonoBehaviour
         //아이템 유형에 따라 처리
         switch (data.itemType)
         {
-            case ItemData.ItemType.Melee:
-            case ItemData.ItemType.Range:
-            case ItemData.ItemType.Missile:
+            case ItemDataSO.ItemType.Melee:
+            case ItemDataSO.ItemType.Range:
+            case ItemDataSO.ItemType.Missile:
 
                 //무기 아이템 처리
                 if (level == 0)
@@ -116,9 +116,9 @@ public class Item : MonoBehaviour
                 break;
 
 
-            case ItemData.ItemType.Glove:
-            case ItemData.ItemType.Shoe:
-            case ItemData.ItemType.MissilePack:
+            case ItemDataSO.ItemType.Glove:
+            case ItemDataSO.ItemType.Shoe:
+            case ItemDataSO.ItemType.MissilePack:
 
                 //장비 아이템 처리
                 if (level == 0)
@@ -143,13 +143,13 @@ public class Item : MonoBehaviour
 
                 break;
 
-            case ItemData.ItemType.Heal:
+            case ItemDataSO.ItemType.Heal:
                 //체력 회복: 최대 체력으로 복원
                 GameManager.instance.health = GameManager.instance.maxHealth;
 
                 break;
 
-            case ItemData.ItemType.StamPack:
+            case ItemDataSO.ItemType.StamPack:
                 //스팀팩 사용 시 체력 30% 감소
                 GameManager.instance.health -= GameManager.instance.health * 0.3f;
 

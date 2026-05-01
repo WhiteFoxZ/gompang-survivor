@@ -6,15 +6,15 @@ using UnityEngine;
 public class Gear : MonoBehaviour
 {
 
-    private ItemData data;
-    public ItemData.ItemType type; //장비 유형
+    private ItemDataSO data;
+    public ItemDataSO.ItemType type; //장비 유형
     public float rate; //장비 효과 수치
 
     /// <summary>
     /// 장비 초기화 - 아이템 데이터에서 장비를 설정합니다.
     /// </summary>
     /// <param name="data">아이템 데이터</param>
-    public void Init(ItemData data)
+    public void Init(ItemDataSO data)
     {
         name = "Gear_" + data.itemID.ToString();
         transform.parent = GameManager.instance.player.transform; //플레이어 자식으로 설정
@@ -45,13 +45,13 @@ public class Gear : MonoBehaviour
     {
         switch (type)
         {
-            case ItemData.ItemType.Glove:
-            case ItemData.ItemType.MissilePack:
+            case ItemDataSO.ItemType.Glove:
+            case ItemDataSO.ItemType.MissilePack:
 
                 //장갑 효과: 공격 속도 증가
                 RateUp();
                 break;
-            case ItemData.ItemType.Shoe:
+            case ItemDataSO.ItemType.Shoe:
                 //신발 효과: 이동 속도 증가
                 SpeedUp();
                 break;
@@ -79,7 +79,7 @@ public class Gear : MonoBehaviour
 
                 case 1: //원거리 무기
 
-                    if (type == ItemData.ItemType.Glove)
+                    if (type == ItemDataSO.ItemType.Glove)
                     {
                         speed = 0.5f * Character.WeaponRate;
                         weapon.speed = speed * (1f - rate);
@@ -88,7 +88,7 @@ public class Gear : MonoBehaviour
                     break;
 
                 case 6: //미사일 무기
-                    if (type == ItemData.ItemType.MissilePack)
+                    if (type == ItemDataSO.ItemType.MissilePack)
                     {
                         speed = 2.0f; // 기본 발사 간격
                         weapon.speed = speed * (1f - rate);

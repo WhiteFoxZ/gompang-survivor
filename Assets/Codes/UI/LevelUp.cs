@@ -71,7 +71,7 @@ public class LevelUp : MonoBehaviour
         {
             Item item = items[i];
             // 스탬팩이 활성화 중이면 스탬팩 아이템 제외
-            if (item.data.itemType == ItemData.ItemType.StamPack && player != null && player.IsStampPackActive)
+            if (item.data.itemType == ItemDataSO.ItemType.StamPack && player != null && player.IsStampPackActive)
             {
                 continue;
             }

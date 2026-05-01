@@ -36,7 +36,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     private string SpreadSheetLastDownloadDate = "SpreadSheetLastDownloadDate";
 
     [Header("게임 Item Data")]
-    public ItemData[] itemDatas; //아이템 데이터 참조 
+    public ItemDataSO[] itemDatas; //아이템 데이터 참조 
 
     [Header("장비 Item Data")]
     public EquipmentSO[] equipmentDatas; //장비 데이터 참조
@@ -171,7 +171,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         for (int i = 0; i < rowSize; i++)
         {
             string[] column = row[i].Split('\t');
-            itemDatas[i].itemType = (ItemData.ItemType)System.Enum.Parse(typeof(ItemData.ItemType), column[0]);
+            itemDatas[i].itemType = (ItemDataSO.ItemType)System.Enum.Parse(typeof(ItemDataSO.ItemType), column[0]);
             itemDatas[i].itemID = int.Parse(column[1]);
             itemDatas[i].itemName = column[2];
             itemDatas[i].itemDesc = column[3].Replace("\\n", "\n");

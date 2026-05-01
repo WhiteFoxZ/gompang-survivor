@@ -259,11 +259,11 @@ public class Enemy : MonoBehaviour
                 float knockbackRate = bullet.knockbackRate;
                 float appliedKnockback = (Random.value <= knockbackRate) ? knockback : 0f;
 
-                if (bullet.itemType == ItemData.ItemType.Melee)
+                if (bullet.itemType == ItemDataSO.ItemType.Melee)
                 {
                     // this.Log($"삽 Damage: {damage}, Knockback: {appliedKnockback}  ");
                 }
-                else if (bullet.itemType == ItemData.ItemType.Range)
+                else if (bullet.itemType == ItemDataSO.ItemType.Range)
                 {
                     // this.Log($"총알 Damage: {damage}, Knockback: {appliedKnockback} ");
                 }
