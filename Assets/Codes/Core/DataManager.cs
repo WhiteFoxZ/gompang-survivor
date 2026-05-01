@@ -45,6 +45,8 @@ public class DataManager : MonoBehaviour
         // 씬 전환 시 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
 
+
+
     }
 
 
@@ -89,6 +91,8 @@ public class DataManager : MonoBehaviour
         if (scene.name == "LobbyScene")
         {
             this.Log($"씬이 로드될 때마다 호출 장비정보 다운로드 됐나? isEquipmentDataReady : {isEquipmentDataReady}");
+
+            Time.timeScale = 1; //시간 정상 흐름
 
             StartCoroutine(WaitForEquipmentDataThenInitialize(scene));
 

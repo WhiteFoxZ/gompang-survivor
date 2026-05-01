@@ -166,7 +166,7 @@ namespace PolyAndCode.UI
         */
 
         // IBeginDragHandler, IDragHandler, IEndDragHandler 구현 (NestedScrollManager 연동)
-        public void OnBeginDrag(PointerEventData eventData)
+        public override void OnBeginDrag(PointerEventData eventData)
         {
             // 드래그 방향 판단: 수평 이동이 수직 이동보다 크면 부모 스크롤이 드래그
             _forParent = Mathf.Abs(eventData.delta.x) > Mathf.Abs(eventData.delta.y);
@@ -183,7 +183,7 @@ namespace PolyAndCode.UI
             }
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public override void OnDrag(PointerEventData eventData)
         {
             if (_forParent && _nestedManager != null)
             {
@@ -197,7 +197,7 @@ namespace PolyAndCode.UI
             }
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public override void OnEndDrag(PointerEventData eventData)
         {
             if (_forParent && _nestedManager != null)
             {

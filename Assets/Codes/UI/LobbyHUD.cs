@@ -28,6 +28,12 @@ public class LobbyHUD : MonoBehaviour
     /// </summary>
     void LateUpdate()
     {
+        if (DataManager.instance == null)
+        {
+            Debug.LogWarning("PlayerData가 아직 로드되지 않았습니다.");
+            return;
+        }
+
         if (DataManager.instance.playerInfo == null)
         {
             Debug.LogWarning("PlayerData가 아직 로드되지 않았습니다.");

@@ -9,11 +9,11 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public static GoogleSpreadSheetManager instance;  //싱글톤 인스턴스
 
-    static string ITEM = "N";
-    static string ENEMY = "N";
-    static string EXP = "N";
-    static string MAP = "N";
-    static string EQUIP = "N";
+    static string ITEM = null;
+    static string ENEMY = null;
+    static string EXP = null;
+    static string MAP = null;
+    static string EQUIP = null;
 
 
     //다운로드 유형 열거형
@@ -56,6 +56,8 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public IEnumerator DownloadItemData(DownType type)
     {
+        //가장먼저 전체 데이터 다운로드 여부 체크 (DownType.Sheet) - 오늘 이미 다운로드 했는지 체크
+
 
         if (!CanDownloadToday(type) && type != DownType.Sheet)
         {
@@ -135,9 +137,10 @@ public class GoogleSpreadSheetManager : MonoBehaviour
                     {
                         //적 데이터 파싱 및 설정 로직 추가 필요
                         SetSheet(data);
+
+                        SaveCurrentDate(type);
                     }
 
-                    SaveCurrentDate(type);
                 }
                 else
                 {
@@ -413,7 +416,24 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     {
         // 현재 날짜를 "2024-05-20" 같은 형식으로 저장
         string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
+
+        string saveStr = null;
+
+        // DownType { Item, Exp, Map, Equip, Enemy, Sheet }
+        //DownType.Sheet은 모든 데이터 다운로드 여부를 저장하는 용도로 사용
+        if (type == DownType.Sheet)
+        {
+            saveStr = $"{currentDateStr}_Sheet";
+            PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, saveStr);
+        }
+        else
+        {
+            saveStr = $"{currentDateStr}_{type}";
+            PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, saveStr);
+        }
+
         PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, currentDateStr + "_" + type);
+
         PlayerPrefs.Save();
     }
 

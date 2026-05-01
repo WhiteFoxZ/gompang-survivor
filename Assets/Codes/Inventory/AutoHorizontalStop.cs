@@ -1,4 +1,3 @@
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,52 +23,49 @@ public class AutoHorizontalStop : MonoBehaviour
 
     public GameObject _randomSelect;    //박스종류별 장비 이미지를 가져온다.
 
-    private float timer = 0f;
-    private bool isFinished = true;
+    public float timer = 0f;
+    public bool isFinished = true;
 
 
     // 버튼클릭시
     public void OnClickConfirm(int totalImages, ShopItemType shopItemType)
     {
+        this.totalImages = totalImages;
+
         RandomSelect random = _randomSelect.GetComponent<RandomSelect>();
-        if (_randomSelect == null)
-            Debug.LogError("**********************NULL ***********");
 
-        this.Log($" totalImages : {totalImages}   shopItemType :  {shopItemType}");
+        // this.Log($" totalImages : {totalImages}   shopItemType :  {shopItemType}");
 
-        int itemIndex = 0;
         EquipmentSO gameItem = null;
 
         if (shopItemType == ShopItemType.ItemBoxCommon)
         {
-            itemIndex = random.GetGameItemCommon();
-            gameItem = random.gameItemCommon[itemIndex];
-            Debug.Log($"ItemBoxCommon 시작! itemIndex : {itemIndex}");
+            targetIndex = random.GetGameItemCommon();
+            gameItem = random.gameItemCommon[targetIndex];
+            Debug.Log($"ItemBoxCommon 시작! targetIndex : {targetIndex}");
         }
         else if (shopItemType == ShopItemType.ItemBoxRare)
         {
-            itemIndex = random.GetGameItemRare();
-            gameItem = random.gameItemRare[itemIndex];
-            Debug.Log($"ItemBoxRare 시작! itemIndex : {itemIndex}");
+            targetIndex = random.GetGameItemRare();
+            gameItem = random.gameItemRare[targetIndex];
+            Debug.Log($"ItemBoxRare 시작! targetIndex : {targetIndex}");
         }
         else if (shopItemType == ShopItemType.ItemBoxEpic)
         {
-            itemIndex = random.GetGameItemEpic();
-            gameItem = random.gameItemEpic[itemIndex];
-            Debug.Log($"ItemBoxEpic 시작! itemIndex : {itemIndex}");
+            targetIndex = random.GetGameItemEpic();
+            gameItem = random.gameItemEpic[targetIndex];
+            Debug.Log($"ItemBoxEpic 시작! targetIndex : {targetIndex}");
         }
         else if (shopItemType == ShopItemType.ItemBoxLegendary)
         {
-            itemIndex = random.GetGameItemLegendary();
-            gameItem = random.gameItemLegendary[itemIndex];
-            Debug.Log($"ItemBoxLegendary 시작! itemIndex : {itemIndex}");
+            targetIndex = random.GetGameItemLegendary();
+            gameItem = random.gameItemLegendary[targetIndex];
+            Debug.Log($"ItemBoxLegendary 시작! targetIndex : {targetIndex}");
         }
 
-        targetIndex = itemIndex;
-        this.totalImages = totalImages;
+
         timer = 0f;
         isFinished = false;
-
         _itemImge.SetActive(false);
         _itemBoxBtn.GetComponent<Button>().interactable = false;
 
@@ -86,15 +82,17 @@ public class AutoHorizontalStop : MonoBehaviour
 
     }
 
+    void Onable()
+    {
+        this.Log("Onable");
+    }
+
 
     void OnDisable()
     {
         timer = 0f;
         isFinished = true;
-
         _itemImge.SetActive(true);
-
-
         _itemBoxBtn.GetComponent<Button>().interactable = true;
 
         Debug.Log("OnDisable");
@@ -103,23 +101,38 @@ public class AutoHorizontalStop : MonoBehaviour
 
     void Update()
     {
+        //this.Log($" isFinished : {isFinished} scrollRect :{scrollRect} totalImages:{totalImages}");
+
         if (isFinished || scrollRect == null || totalImages <= 1) return;
+
+        this.Log("Update");
+
 
         timer += Time.deltaTime;
         float t = timer / duration;
 
+        this.Log($" t : {t} = {timer} / {duration}");
+
         // 1. Ease-Out 큐빅 베지어 (초반엔 빠르고 끝에 아주 천천히 멈춤)
         float curve = 1f - Mathf.Pow(1f - t, 3f);
+
+
 
         // 2. 최종 목표 normalized 위치 (0.0 ~ 1.0)
         // 0번째 이미지는 0, 마지막 이미지는 1에 위치함
         float finalTargetPos = (float)targetIndex / (totalImages - 1);
+
+        this.Log($" finalTargetPos : {finalTargetPos} = {targetIndex} / {(totalImages - 1)}");
+
 
         // 3. 총 이동해야 할 '양' (루프 횟수 + 최종 위치)
         float totalDistance = loopCount + finalTargetPos;
 
         // 4. 현재 위치 계산 (0~1 사이로 반복되다가 마지막에 finalTargetPos에 도달)
         float currentPos = (curve * totalDistance);
+
+        this.Log($" currentPos : {currentPos} = {curve} * {totalDistance}");
+
 
         // ScrollRect의 위치를 업데이트 (1.0을 넘어가면 나머지 값으로 순환 효과)
         scrollRect.horizontalNormalizedPosition = currentPos % 1.0001f;
