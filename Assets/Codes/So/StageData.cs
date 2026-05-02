@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 [System.Serializable]
-public class Stage
+public class StageData
 {
 
     // 스테이지ID 스테이지이름  스테이지설명 스테이지_적ID
@@ -17,7 +17,7 @@ public class Stage
 
 
 
-    public Stage(int id, string stageName, string stageDesc, int[] enemyId, int bossCount)
+    public StageData(int id, string stageName, string stageDesc, int[] enemyId, int bossCount)
     {
         this.id = id;
         this.stageName = stageName;

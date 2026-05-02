@@ -42,7 +42,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     public EquipmentSO[] equipmentDatas; //장비 데이터 참조
 
     [Header("Stage Data")]
-    public Stage[] stages;
+    public StageData[] stages;
 
     void Awake()
     {
@@ -159,8 +159,8 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
 
-        // this.Log(" item 다운갯수 : " + rowSize);
-        // this.Log(" itemDatas : " + itemDatas.Length);
+        this.Log(" item 다운갯수 : " + rowSize);
+        this.Log(" itemDatas : " + itemDatas.Length);
 
         if (itemDatas.Length != rowSize)
         {
@@ -302,7 +302,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         string[] row = tsv.Split('\n');
         int rowSize = row.Length;
 
-        stages = new Stage[rowSize];
+        stages = new StageData[rowSize];
 
         this.Log(" stages 다운갯수 : " + rowSize);
 
@@ -310,7 +310,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         {
             string[] column = row[i].Split('\t');
 
-            stages[i] = new Stage(
+            stages[i] = new StageData(
                 int.Parse(column[0]),
                 column[1],
                 column[2],

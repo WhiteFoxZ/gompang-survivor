@@ -32,7 +32,7 @@ public class Spawner : MonoBehaviour
     int bossCount = 0; //보스 스폰될때마다 증가, stage 보스 count 같을때까지 증가.
 
     int curr_stage;
-    Stage stage;
+    StageData stage;
 
     /// <summary>
     /// 시작 시 호출 - 초기화
