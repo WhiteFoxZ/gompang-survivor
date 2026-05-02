@@ -3,6 +3,12 @@ using UnityEngine.Networking;
 using System.Collections;
 using System;
 
+/**
+1. 기본 로직 설계 (Flow)버전 체크: 게임 시작 시 서버의 최신 데이터 버전(또는 타임스탬프)을 확인합니다
+  .분기점:로컬 버전 < 서버 버전: 서버에서 새 JSON 데이터를 다운로드 → 로컬 파일 갱신 → SO에 데이터 주입
+  .로컬 버전 == 서버 버전: 저장된 로컬 파일을 로드 → SO에 데이터 주입
+  .데이터 바인딩: 로드된 데이터를 SO의 변수들에 할당하여 게임 내에서 사용
+**/
 
 public class GoogleSpreadSheetManager : MonoBehaviour
 {
@@ -192,6 +198,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         // {
         //     Debug.Log($" 유형: {item.itemType},아이템: {item.itemName},설명: {item.itemDesc}, 데미지: {item.baseDamage}, 개수: {item.baseCount}, 레벨업 데미지: {string.Join(",", item.damages)}, 레벨업 개수: {string.Join(",", item.counts)}, 넉백: {item.knockBack}, 넉백확률: {item.knockBackRate}");
         // }
+
 
     }
 

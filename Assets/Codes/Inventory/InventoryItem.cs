@@ -100,7 +100,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // 저장 및 업데이트
         InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
         InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
-        DataManager.instance.Save("OnEndDrag");
+        DataManager.instance.SavePlayInfo("OnEndDrag");
 
 
     }

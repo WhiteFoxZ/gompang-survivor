@@ -177,7 +177,7 @@ public class DataManager : MonoBehaviour
     }
 
 
-    public void Save(String msg)
+    public void SavePlayInfo(String msg)
     {
         string filePath = Path.Combine(Application.persistentDataPath, filename);
 

@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
             DataManager.instance.playerInfo.Energy -= 1;
             if (DataManager.instance.playerInfo.Energy < 0)
                 DataManager.instance.playerInfo.Energy = 0;
-            DataManager.instance.Save("에너지저장");
+            DataManager.instance.SavePlayInfo("에너지저장");
         }
 
         Resume();
@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour
 
             DataManager.instance.playerInfo.Gold += DataManager.instance.playerInfo.curr_stage * 100;
 
-            DataManager.instance.Save("플레이어정보");
+            DataManager.instance.SavePlayInfo("플레이어정보");
         }
 
 

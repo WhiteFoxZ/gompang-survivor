@@ -78,7 +78,7 @@ public class AutoHorizontalStop : MonoBehaviour
         InventoryManager.instance.InventorySlotsUpdatePlayerInfo();
         InventoryManager.instance.EquipSlotsUpdatePlayerInfo();
 
-        DataManager.instance.Save("아이템획득");
+        DataManager.instance.SavePlayInfo("아이템획득");
 
     }
 

@@ -135,21 +135,21 @@ public class InventoryManager : MonoBehaviour
                         DataManager.instance.playerInfo.Energy += shopItem.itemCnt;
                         this.Log($" 비용 : {shopItem.price} Energy 구매갯수 itemCnt : {shopItem.itemCnt}");
                         this.Log($" Energy : {DataManager.instance.playerInfo.Energy} / {DataManager.instance.playerInfo.MaxEnergy}");
-                        DataManager.instance.Save("비용저장");
+                        DataManager.instance.SavePlayInfo("비용저장");
                         break;
 
                     case ShopItemType.Coin:
                         DataManager.instance.playerInfo.Gold += shopItem.itemCnt;
                         this.Log($" 비용 : {shopItem.price} coin 구매갯수 itemCnt : {shopItem.itemCnt}");
                         this.Log($" Gold : {DataManager.instance.playerInfo.Gold} ");
-                        DataManager.instance.Save("비용저장");
+                        DataManager.instance.SavePlayInfo("비용저장");
                         break;
 
                     case ShopItemType.Diamond:
                         DataManager.instance.playerInfo.Diamond += shopItem.itemCnt;
                         this.Log($"현질 비용 : {shopItem.price} Diamond 구매갯수 itemCnt : {shopItem.itemCnt}");
                         this.Log($" Diamond : {DataManager.instance.playerInfo.Diamond} ");
-                        DataManager.instance.Save("비용저장");
+                        DataManager.instance.SavePlayInfo("비용저장");
                         break;
 
                     case ShopItemType.ItemBoxCommon:
