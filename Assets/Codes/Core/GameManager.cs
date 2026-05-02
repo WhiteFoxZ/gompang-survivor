@@ -80,13 +80,8 @@ public class GameManager : MonoBehaviour
 
         this.Log("AudioManager 인스턴스를 찾았습니다. 데이터 로드 시작.");
 
-        // 아이템 데이터 다운로드 먼저 실행
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Item));
-
-
-        // 아이템 데이터 다운로드 먼저 실행
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Enemy));
-
         yield return StartCoroutine(GoogleSpreadSheetManager.instance.DownloadItemData(DownType.Exp));
 
         // 다운로드 완료 후 게임 시작

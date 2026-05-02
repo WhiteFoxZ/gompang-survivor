@@ -2,6 +2,133 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using System;
+using System.IO;
+
+[Serializable]
+public class ItemDataWrapper
+{
+    public string itemType;
+    public int itemID;
+    public string itemName;
+    public string itemDesc;
+    public float baseDamage;
+    public int baseCount;
+    public float[] damages;
+    public int[] counts;
+    public float knockBack;
+    public float knockBackRate;
+    public string itemIconName;
+    public string itemPrefabName;
+
+    public ItemDataWrapper(ItemDataSO data)
+    {
+        itemType = data.itemType.ToString();
+        itemID = data.itemID;
+        itemName = data.itemName;
+        itemDesc = data.itemDesc;
+        baseDamage = data.baseDamage;
+        baseCount = data.baseCount;
+        damages = data.damages;
+        counts = data.counts;
+        knockBack = data.knockBack;
+        knockBackRate = data.knockBackRate;
+        itemIconName = data.itemIcon != null ? data.itemIcon.name : "";
+        itemPrefabName = data.itemPrefab != null ? data.itemPrefab.name : "";
+    }
+}
+
+[Serializable]
+public class EquipmentDataWrapper
+{
+    public string gearType;
+    public string id;
+    public float atack;
+    public float defence;
+    public float moveSpeed;
+    public float atkSpeed;
+    public string itemRarity;
+    public int weight;
+    public int desc;
+
+    public EquipmentDataWrapper(EquipmentSO data)
+    {
+        gearType = data.gearType.ToString();
+        id = data.id;
+        atack = data.atack;
+        defence = data.defence;
+        moveSpeed = data.moveSpeed;
+        atkSpeed = data.atkSpeed;
+        itemRarity = data.itemRarity.ToString();
+        weight = data.weight;
+        desc = data.desc;
+    }
+}
+
+[Serializable]
+public class StageDataWrapper
+{
+    public int id;
+    public string stageName;
+    public string stageDesc;
+    public int[] enemyId;
+    public int bossCount;
+
+    public StageDataWrapper(StageData data)
+    {
+        id = data.id;
+        stageName = data.stageName;
+        stageDesc = data.stageDesc;
+        enemyId = data.enemyId;
+        bossCount = data.bossCount;
+    }
+}
+
+[Serializable]
+public class SpawnDataWrapper
+{
+    public int id;
+    public int boss;
+    public float spawnTime;
+    public int spriteType;
+    public int health;
+    public float speed;
+    public float attack;
+
+    public SpawnDataWrapper(SpawnData data)
+    {
+        id = data.id;
+        boss = data.boss;
+        spawnTime = data.spawnTime;
+        spriteType = data.spriteType;
+        health = data.health;
+        speed = data.speed;
+        attack = data.attack;
+    }
+}
+
+[Serializable]
+public class ItemDataList
+{
+    public ItemDataWrapper[] items;
+}
+
+[Serializable]
+public class EquipmentDataList
+{
+    public EquipmentDataWrapper[] equipments;
+}
+
+[Serializable]
+public class StageDataList
+{
+    public StageDataWrapper[] stages;
+}
+
+[Serializable]
+public class SpawnDataList
+{
+    public SpawnDataWrapper[] spawnDatas;
+}
 
 /**
 1. 기본 로직 설계 (Flow)버전 체크: 게임 시작 시 서버의 최신 데이터 버전(또는 타임스탬프)을 확인합니다
@@ -91,15 +218,37 @@ public class GoogleSpreadSheetManager : MonoBehaviour
             }
             else if (type == DownType.Enemy && ENEMY.Equals("Y"))
             {
-                URL = ENEMY_URL; //적 데이터 URL로 변경 필요
+                URL = ENEMY_URL;
             }
             else if (type == DownType.Sheet)
             {
-                URL = SHEET_URL; //적 데이터 URL로 변경 필요
+                URL = SHEET_URL;
             }
             else
             {
-                Debug.LogError($"알 수 없는 아이템 유형입니다.{type}");
+                this.Log($" {type} 다운로드 불필요 또는 URL이 설정되지 않았습니다.");
+
+                switch (type)
+                {
+                    case DownType.Item:
+
+                        break;
+                    case DownType.Equip:
+
+                        break;
+                    case DownType.Exp:
+
+                        break;
+                    case DownType.Map:
+
+                        break;
+                    case DownType.Enemy:
+
+                        break;
+
+                }
+
+
                 yield break;
             }
 
@@ -117,45 +266,37 @@ public class GoogleSpreadSheetManager : MonoBehaviour
                     string data = www.downloadHandler.text;
                     // Debug.Log("다운로드한 데이터: " + data);
 
-                    if (type == DownType.Item)
+                    switch (type)
                     {
-                        SetItemSO(data); //데이터 파싱 및 아이템 데이터 설정
+                        case DownType.Item:
+                            SetItemSO(data);
+                            SaveItemDatas();
+                            break;
+                        case DownType.Equip:
+                            SetEquipmentSO(data);
+                            SaveEquipmentDatas();
+                            break;
+                        case DownType.Exp:
+                            SetExp(data);
+                            break;
+                        case DownType.Map:
+                            SetMap(data);
+                            break;
+                        case DownType.Enemy:
+                            SetEnemy(data);
+                            break;
+                        case DownType.Sheet:
+                            SetSheet(data);
+                            SaveCurrentDate(type);
+                            break;
                     }
-                    else if (type == DownType.Equip)
-                    {
-                        SetEquipmentSO(data);
-                    }
-                    else if (type == DownType.Exp)
-                    {
-                        SetExp(data);
-                    }
-                    else if (type == DownType.Map)
-                    {
-                        //맵 데이터 파싱 및 설정 로직 추가 필요
-                        SetMap(data);
-                    }
-                    else if (type == DownType.Enemy)
-                    {
-                        //적 데이터 파싱 및 설정 로직 추가 필요
-                        SetEnemy(data);
-                    }
-                    else if (type == DownType.Sheet)
-                    {
-                        //적 데이터 파싱 및 설정 로직 추가 필요
-                        SetSheet(data);
-
-                        SaveCurrentDate(type);
-                    }
-
                 }
                 else
                 {
                     Debug.LogError("아이템 데이터 다운로드 실패: " + www.error);
                 }
             }
-
         }
-
     }
 
     void SetItemSO(string tsv)
@@ -300,9 +441,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
         // this.Log($" levelTime  : {Spawner.levelTime}  maxGameTime : {GameManager.instance.maxGameTime}  spawnDatasLength : {Spawner._spawnDatas.Length} ");
         // this.Log($" maxHealth  : {GameManager.instance.maxHealth}   ");
-
     }
-
 
     void SetMap(string tsv)
     {
@@ -326,6 +465,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
             );
         }
 
+        SaveStages();
     }
 
 
@@ -421,30 +561,69 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     void SaveCurrentDate(DownType type)
     {
-        // 현재 날짜를 "2024-05-20" 같은 형식으로 저장
         string currentDateStr = DateTime.Now.ToString("yyyy-MM-dd");
 
-        string saveStr = null;
-
-        // DownType { Item, Exp, Map, Equip, Enemy, Sheet }
-        //DownType.Sheet은 모든 데이터 다운로드 여부를 저장하는 용도로 사용
         if (type == DownType.Sheet)
         {
-            saveStr = $"{currentDateStr}_Sheet";
-            PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, saveStr);
+            PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, $"{currentDateStr}_Sheet");
         }
         else
         {
-            saveStr = $"{currentDateStr}_{type}";
-            PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, saveStr);
+            PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, $"{currentDateStr}_{type}");
         }
-
-        PlayerPrefs.SetString(SpreadSheetLastDownloadDate + "_" + type, currentDateStr + "_" + type);
 
         PlayerPrefs.Save();
     }
 
+    public void SaveItemDatas()
+    {
+        if (itemDatas == null || itemDatas.Length == 0) return;
 
+        var wrapper = new ItemDataWrapper[itemDatas.Length];
+        for (int i = 0; i < itemDatas.Length; i++)
+        {
+            wrapper[i] = new ItemDataWrapper(itemDatas[i]);
+        }
 
+        var list = new ItemDataList { items = wrapper };
+        string json = JsonUtility.ToJson(list, true);
+        string path = Path.Combine(Application.persistentDataPath, "itemDatas.json");
+        File.WriteAllText(path, json);
+        this.Log($"ItemDatas saved to {path}");
+    }
+
+    public void SaveEquipmentDatas()
+    {
+        if (equipmentDatas == null || equipmentDatas.Length == 0) return;
+
+        var wrapper = new EquipmentDataWrapper[equipmentDatas.Length];
+        for (int i = 0; i < equipmentDatas.Length; i++)
+        {
+            wrapper[i] = new EquipmentDataWrapper(equipmentDatas[i]);
+        }
+
+        var list = new EquipmentDataList { equipments = wrapper };
+        string json = JsonUtility.ToJson(list, true);
+        string path = Path.Combine(Application.persistentDataPath, "equipmentDatas.json");
+        File.WriteAllText(path, json);
+        this.Log($"EquipmentDatas saved to {path}");
+    }
+
+    public void SaveStages()
+    {
+        if (stages == null || stages.Length == 0) return;
+
+        var wrapper = new StageDataWrapper[stages.Length];
+        for (int i = 0; i < stages.Length; i++)
+        {
+            wrapper[i] = new StageDataWrapper(stages[i]);
+        }
+
+        var list = new StageDataList { stages = wrapper };
+        string json = JsonUtility.ToJson(list, true);
+        string path = Path.Combine(Application.persistentDataPath, "stages.json");
+        File.WriteAllText(path, json);
+        this.Log($"Stages saved to {path}");
+    }
 
 }

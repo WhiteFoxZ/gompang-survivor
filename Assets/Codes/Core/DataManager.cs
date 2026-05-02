@@ -18,9 +18,7 @@ public class DataManager : MonoBehaviour
 
     public PlayerData playerInfo = new PlayerData();
 
-    string path;
-
-    string filename = "playerinfo";
+    string filename = "playerinfo.json";
 
     private bool isEquipmentDataReady = false;
 
@@ -205,8 +203,8 @@ public class DataManager : MonoBehaviour
             // 1. JSON 파일 읽기
             string json = File.ReadAllText(filePath);
 
-            // print("*********** LoadData *********");
-            // print(json);
+            print("*********** LoadData *********");
+            print(json);
 
             // 2. 저장용 클래스로 역직렬화
             playerInfo = JsonConvert.DeserializeObject<PlayerData>(json);
