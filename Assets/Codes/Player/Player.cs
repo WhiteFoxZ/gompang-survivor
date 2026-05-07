@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     public float speed; //이동 속도
     public bool isFloat = true; //부드러운 움직임 여부
 
+    public GameObject PlayerHit;
+
     private Rigidbody2D rig2d;    //물리엔진 컴포넌트
 
     private SpriteRenderer spriteRenderer;  //스프라이트렌더러 컴포넌트
@@ -180,6 +182,10 @@ public class Player : MonoBehaviour
             // 정보를 가져오는 예시
             enemyAttack = enemy.attack;
             // this.Log($" 충돌한 오브젝트가 Enemy 컴포넌트를 가지고 있다면 공격력 정보를 가져옴   enemy.attack : {enemy.attack}");
+
+            PlayerHit.SetActive(true); //피격 이펙트 활성화
+
+
         }
 
 
@@ -214,6 +220,15 @@ public class Player : MonoBehaviour
         }
 
 
+    }
+
+    //OnCollisionExit2D는 두 객체가 물리적으로 떨어지는 순간 1회 호출됩니다. 따라서 플레이어가 적과 충돌을 멈추는 순간에 피격 이펙트를 비활성화하는 로직을 추가할 수 있습니다.
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            PlayerHit.SetActive(false); //피격 이펙트 비활성화
+        }
     }
 
     /// <summary>
