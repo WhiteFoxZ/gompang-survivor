@@ -2641,6 +2641,8 @@ MonoBehaviour:
   _itemBoxBtn: {fileID: 1807321752}
   _itemImge: {fileID: 1880738444}
   _randomSelect: {fileID: 1217294395}
+  timer: 0
+  isFinished: 1
 --- !u!1 &323631216
 GameObject:
   m_ObjectHideFlags: 0
@@ -6305,6 +6307,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2e1b624e1bd954d47aefcae84a21da42, type: 2}
   - {fileID: 11400000, guid: 93855891f0e6c264d9bb106303fa8d8c, type: 2}
   - {fileID: 11400000, guid: 9ce1a86a30ffdb84abb6197ba666de65, type: 2}
+  stages: []
 --- !u!4 &755320247
 Transform:
   m_ObjectHideFlags: 0
@@ -10207,6 +10210,15 @@ MonoBehaviour:
     MaxStageReached: 0
     equipItems: []
     inventoryItems: []
+    equipTotal:
+      id: 
+      itemRarity: 0
+      gearType: 0
+      atack: 0
+      defence: 0
+      moveSpeed: 0
+      atkSpeed: 0
+      count: 1
   _currentStage: {fileID: 0}
 --- !u!4 &1157135575
 Transform:
