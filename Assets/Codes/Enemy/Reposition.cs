@@ -8,6 +8,8 @@ public class Reposition : MonoBehaviour
 
     Collider2D col; //영역 콜라이더
 
+    GameObject wallGroup; //벽 그룹 참조 (WallSpawner에서 생성된 벽 그룹), 타일맵 재배치 시 벽이 활성화되어 있으면 타일맵 재배치 방지
+
 
     /// <summary>
     /// 시작 시 호출 - 컴포넌트 가져오기
@@ -15,6 +17,13 @@ public class Reposition : MonoBehaviour
     void Awake()
     {
         col = GetComponent<Collider2D>();
+
+        //해당오브젝트가 Ground 태그를 가지고 있다면 WallGroup을 찾아 참조
+        if (transform.tag == "Ground")
+        {
+            wallGroup = GameObject.FindWithTag("WallGroup"); //씬에서 WallGroup 오브젝트를 찾아 참조
+        }
+
     }
 
 
@@ -39,34 +48,39 @@ public class Reposition : MonoBehaviour
         //타일맵(현재 오브젝트)의 위치
         Vector3 areaPos = transform.position;
 
-
-        if (transform.tag == "Ground" && collision.CompareTag("Area"))
+        //WallGroup(벽)이 없을때만 작동, 타일맵이 영역을 벗어날 때, 플레이어와의 상대적 위치 계산, 이동 방향 결정, 타일맵 이동
+        if (wallGroup != null && wallGroup.activeSelf == false)  //타일맵 컴포넌트에서만 체크, 벽이 활성화되어 있지 않을 때만 타일맵 재배치
         {
-            //플레이어와 리스폰 지역의 상대적 위치 계산
-            float diffX = (playerPos.x - areaPos.x);
-            float diffY = (playerPos.y - areaPos.y);
-
-            //플레이어의 이동 방향 계산
-            float dirX = diffX < 0 ? -1 : 1;
-            float dirY = diffY < 0 ? -1 : 1;
-
-            diffX = Mathf.Abs(diffX);
-            diffY = Mathf.Abs(diffY);
-
-
-            //거리가 더 큰 방향으로 타일맵 이동
-            if (diffX > diffY)
+            if (transform.tag == "Ground" && collision.CompareTag("Area"))
             {
-                transform.Translate(Vector3.right * dirX * 60); // 플레이어가 좌우로 이동 중일 때 리스폰 지역을 수평 방향으로 이동
-            }
-            else if (diffX < diffY)
-            {
-                transform.Translate(Vector3.up * dirY * 60); // 60*60 타일의 전체 크기
+                //플레이어와 리스폰 지역의 상대적 위치 계산
+                float diffX = (playerPos.x - areaPos.x);
+                float diffY = (playerPos.y - areaPos.y);
+
+                //플레이어의 이동 방향 계산
+                float dirX = diffX < 0 ? -1 : 1;
+                float dirY = diffY < 0 ? -1 : 1;
+
+                diffX = Mathf.Abs(diffX);
+                diffY = Mathf.Abs(diffY);
+
+
+                //거리가 더 큰 방향으로 타일맵 이동
+                if (diffX > diffY)
+                {
+                    transform.Translate(Vector3.right * dirX * 60); // 플레이어가 좌우로 이동 중일 때 리스폰 지역을 수평 방향으로 이동
+                }
+                else if (diffX < diffY)
+                {
+                    transform.Translate(Vector3.up * dirY * 60); // 60*60 타일의 전체 크기
+                }
+
             }
 
         }
 
 
+        //적이 영역을 벗어날 때, 보스가 아닌 경우에만 재배치 , 플레이어에서 멀어지는 방향으로 이동, 랜덤 오프셋 추가, 0.2초 뒤에 다시 보이게
         if (transform.tag == "Enemy" && collision.CompareTag("AreaEnemy") && transform.GetComponent<Enemy>().boss == 0)
         {
             if (col.enabled)

@@ -4,157 +4,6 @@ using System.Collections;
 using System;
 using System.IO;
 
-[Serializable]
-public class ItemDataWrapper
-{
-    public string itemType;
-    public int itemID;
-    public string itemName;
-    public string itemDesc;
-    public float baseDamage;
-    public int baseCount;
-    public float[] damages;
-    public int[] counts;
-    public float knockBack;
-    public float knockBackRate;
-    public string itemIconName;
-    public string itemPrefabName;
-
-    public ItemDataWrapper(ItemDataSO data)
-    {
-        itemType = data.itemType.ToString();
-        itemID = data.itemID;
-        itemName = data.itemName;
-        itemDesc = data.itemDesc;
-        baseDamage = data.baseDamage;
-        baseCount = data.baseCount;
-        damages = data.damages;
-        counts = data.counts;
-        knockBack = data.knockBack;
-        knockBackRate = data.knockBackRate;
-        itemIconName = data.itemIcon != null ? data.itemIcon.name : "";
-        itemPrefabName = data.itemPrefab != null ? data.itemPrefab.name : "";
-    }
-}
-
-[Serializable]
-public class EquipmentDataWrapper
-{
-    public string gearType;
-    public string id;
-    public float atack;
-    public float defence;
-    public float moveSpeed;
-    public float atkSpeed;
-    public string itemRarity;
-    public int weight;
-    public int desc;
-
-    public EquipmentDataWrapper(EquipmentSO data)
-    {
-        gearType = data.gearType.ToString();
-        id = data.id;
-        atack = data.atack;
-        defence = data.defence;
-        moveSpeed = data.moveSpeed;
-        atkSpeed = data.atkSpeed;
-        itemRarity = data.itemRarity.ToString();
-        weight = data.weight;
-        desc = data.desc;
-    }
-}
-
-[Serializable]
-public class StageDataWrapper
-{
-    public int id;
-    public string stageName;
-    public string stageDesc;
-    public int[] enemyId;
-    public int bossCount;
-
-    public StageDataWrapper(StageData data)
-    {
-        id = data.id;
-        stageName = data.stageName;
-        stageDesc = data.stageDesc;
-        enemyId = data.enemyId;
-        bossCount = data.bossCount;
-    }
-}
-
-[Serializable]
-public class SpawnDataWrapper
-{
-    public int id;
-    public int boss;
-    public float spawnTime;
-    public int spriteType;
-    public int health;
-    public float speed;
-    public float attack;
-
-    public SpawnDataWrapper(SpawnData data)
-    {
-        id = data.id;
-        boss = data.boss;
-        spawnTime = data.spawnTime;
-        spriteType = data.spriteType;
-        health = data.health;
-        speed = data.speed;
-        attack = data.attack;
-    }
-}
-
-[Serializable]
-public class ItemDataList
-{
-    public ItemDataWrapper[] items;
-}
-
-[Serializable]
-public class EquipmentDataList
-{
-    public EquipmentDataWrapper[] equipments;
-}
-
-[Serializable]
-public class StageDataList
-{
-    public StageDataWrapper[] stages;
-}
-
-[Serializable]
-public class SpawnDataList
-{
-    public SpawnDataWrapper[] spawnDatas;
-}
-
-
-public class ExpDataWrapper
-{
-    public float maxGameTime;
-    public int maxGameStage;
-    public int[] nextExp;
-    public float maxHealth;
-    public float ENEMY_speedRate;
-    public float ENENy_healthRate;
-    public float ENENY_attackRate;
-    public float ENENY_spawnTimeRate;
-
-    public ExpDataWrapper(float maxGameTime, int maxGameStage, int[] nextExp, float maxHealth, float enemySpeedRate, float enemyHealthRate, float enemyAttackRate, float enemySpawnTimeRate)
-    {
-        this.maxGameTime = maxGameTime;
-        this.maxGameStage = maxGameStage;
-        this.nextExp = nextExp;
-        this.maxHealth = maxHealth;
-        this.ENEMY_speedRate = enemySpeedRate;
-        this.ENENy_healthRate = enemyHealthRate;
-        this.ENENY_attackRate = enemyAttackRate;
-        this.ENENY_spawnTimeRate = enemySpawnTimeRate;
-    }
-}
-
 /**
 1. 기본 로직 설계 (Flow)버전 체크: 게임 시작 시 서버의 최신 데이터 버전(또는 타임스탬프)을 확인합니다
   .분기점:로컬 버전 < 서버 버전: 서버에서 새 JSON 데이터를 다운로드 → 로컬 파일 갱신 → SO에 데이터 주입
@@ -177,19 +26,19 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     //다운로드 유형 열거형
     public enum DownType { Item, Exp, Map, Equip, Enemy, Sheet }
 
-    const string ITEM_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&range=A2:J";
+    const string ITEM_URL = null;
 
     //게임시간,MAX_STAGE
-    const string EXP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1514884558&range=A2:J";
+    const string EXP_URL = null;
 
-    const string MAP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=809858262&range=A2:E";
+    const string MAP_URL = null;
 
-    const string EQUIP_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1723476130&range=A2:H";
+    const string EQUIP_URL = null;
 
     //적 데이터 URL (예시)
-    const string ENEMY_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=1674237518&range=A2:G";
+    const string ENEMY_URL = null;
 
-    const string SHEET_URL = "https://docs.google.com/spreadsheets/d/1xHjfvfPxcGE9-rDfiwzXv-iw9ZQTfBDDMpSJ1rGrRQY/export?format=tsv&gid=104575566&range=A2:E";
+    const string SHEET_URL = null;
 
     private string SpreadSheetLastDownloadDate = "SpreadSheetLastDownloadDate";
 
@@ -316,6 +165,28 @@ public class GoogleSpreadSheetManager : MonoBehaviour
                             SetSheet(data);
                             SaveCurrentDate(type);
                             break;
+                    }
+
+                    // Reset download flags after successful download
+                    if (type == DownType.Item)
+                    {
+                        ITEM = "N";
+                    }
+                    else if (type == DownType.Exp)
+                    {
+                        EXP = "N";
+                    }
+                    else if (type == DownType.Equip)
+                    {
+                        EQUIP = "N";
+                    }
+                    else if (type == DownType.Map)
+                    {
+                        MAP = "N";
+                    }
+                    else if (type == DownType.Enemy)
+                    {
+                        ENEMY = "N";
                     }
                 }
                 else
@@ -679,11 +550,20 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public void LoadItemDatas()
     {
+        StartCoroutine(LoadItemDatasCoroutine());
+    }
+
+    IEnumerator LoadItemDatasCoroutine()
+    {
         string path = Path.Combine(Application.persistentDataPath, "itemDatas.json");
         if (!File.Exists(path))
         {
             this.Log($"Item data file not found: {path}");
-            return;
+
+            ITEM = "Y";
+            yield return StartCoroutine(DownloadItemData(DownType.Item));
+            ITEM = "N";
+
         }
 
         string json = File.ReadAllText(path);
@@ -691,7 +571,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         if (list == null || list.items == null || list.items.Length == 0)
         {
             this.Log($"Item data JSON is empty or invalid.");
-            return;
+            yield break;
         }
 
         for (int i = 0; i < list.items.Length; i++)
@@ -715,13 +595,28 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         this.Log($"ItemDatas loaded from {path}, count: {itemDatas.Length}");
     }
 
+
     public void LoadEquipmentDatas()
+    {
+        StartCoroutine(LoadEquipmentDatasCoroutine());
+    }
+
+    IEnumerator LoadEquipmentDatasCoroutine()
     {
         string path = Path.Combine(Application.persistentDataPath, "equipmentDatas.json");
         if (!File.Exists(path))
         {
             this.Log($"Equipment data file not found: {path}");
-            return;
+
+            EQUIP = "Y";
+            yield return StartCoroutine(DownloadItemData(DownType.Equip));
+            EQUIP = "N";
+
+            if (!File.Exists(path))
+            {
+                this.Log($"Equipment data file still not found after download: {path}");
+                yield break;
+            }
         }
 
         string json = File.ReadAllText(path);
@@ -729,7 +624,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         if (list == null || list.equipments == null || list.equipments.Length == 0)
         {
             this.Log($"Equipment data JSON is empty or invalid.");
-            return;
+            yield break;
         }
 
         for (int i = 0; i < list.equipments.Length; i++)
@@ -762,11 +657,19 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public void LoadStages()
     {
+        StartCoroutine(LoadStagesCoroutine());
+    }
+
+    IEnumerator LoadStagesCoroutine()
+    {
         string path = Path.Combine(Application.persistentDataPath, "stages.json");
         if (!File.Exists(path))
         {
             this.Log($"Stage data file not found: {path}");
-            return;
+
+            MAP = "Y";
+            yield return StartCoroutine(DownloadItemData(DownType.Map));
+            MAP = "N";
         }
 
         string json = File.ReadAllText(path);
@@ -774,7 +677,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         if (list == null || list.stages == null || list.stages.Length == 0)
         {
             this.Log($"Stage data JSON is empty or invalid.");
-            return;
+            yield break;
         }
 
         stages = new StageData[list.stages.Length];
@@ -796,11 +699,18 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public void LoadEnemy()
     {
+        StartCoroutine(LoadEnemyCoroutine());
+    }
+
+    IEnumerator LoadEnemyCoroutine()
+    {
         string path = Path.Combine(Application.persistentDataPath, "spawnDatas.json");
         if (!File.Exists(path))
         {
             this.Log($"Enemy data file not found: {path}");
-            return;
+            ENEMY = "Y";
+            yield return StartCoroutine(DownloadItemData(DownType.Enemy));
+            ENEMY = "N";
         }
 
         string json = File.ReadAllText(path);
@@ -808,7 +718,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         if (list == null || list.spawnDatas == null || list.spawnDatas.Length == 0)
         {
             this.Log($"Enemy data JSON is empty or invalid.");
-            return;
+            yield break;
         }
 
         Spawner._spawnDatas = new SpawnData[list.spawnDatas.Length];
@@ -833,11 +743,18 @@ public class GoogleSpreadSheetManager : MonoBehaviour
 
     public void LoadExp()
     {
+        StartCoroutine(LoadExpCoroutine());
+    }
+
+    IEnumerator LoadExpCoroutine()
+    {
         string path = Path.Combine(Application.persistentDataPath, "exp.json");
         if (!File.Exists(path))
         {
             this.Log($"Exp data file not found: {path}");
-            return;
+            EXP = "Y";
+            yield return StartCoroutine(DownloadItemData(DownType.Exp));
+            EXP = "N";
         }
 
         string json = File.ReadAllText(path);
@@ -845,7 +762,7 @@ public class GoogleSpreadSheetManager : MonoBehaviour
         if (expData == null)
         {
             this.Log($"Exp data JSON is empty or invalid.");
-            return;
+            yield break;
         }
 
         GameManager.instance.maxGameTime = expData.maxGameTime;
@@ -865,3 +782,157 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     }
 
 }
+
+
+
+[Serializable]
+public class ItemDataWrapper
+{
+    public string itemType;
+    public int itemID;
+    public string itemName;
+    public string itemDesc;
+    public float baseDamage;
+    public int baseCount;
+    public float[] damages;
+    public int[] counts;
+    public float knockBack;
+    public float knockBackRate;
+    public string itemIconName;
+    public string itemPrefabName;
+
+    public ItemDataWrapper(ItemDataSO data)
+    {
+        itemType = data.itemType.ToString();
+        itemID = data.itemID;
+        itemName = data.itemName;
+        itemDesc = data.itemDesc;
+        baseDamage = data.baseDamage;
+        baseCount = data.baseCount;
+        damages = data.damages;
+        counts = data.counts;
+        knockBack = data.knockBack;
+        knockBackRate = data.knockBackRate;
+        itemIconName = data.itemIcon != null ? data.itemIcon.name : "";
+        itemPrefabName = data.itemPrefab != null ? data.itemPrefab.name : "";
+    }
+}
+
+[Serializable]
+public class EquipmentDataWrapper
+{
+    public string gearType;
+    public string id;
+    public float atack;
+    public float defence;
+    public float moveSpeed;
+    public float atkSpeed;
+    public string itemRarity;
+    public int weight;
+    public int desc;
+
+    public EquipmentDataWrapper(EquipmentSO data)
+    {
+        gearType = data.gearType.ToString();
+        id = data.id;
+        atack = data.atack;
+        defence = data.defence;
+        moveSpeed = data.moveSpeed;
+        atkSpeed = data.atkSpeed;
+        itemRarity = data.itemRarity.ToString();
+        weight = data.weight;
+        desc = data.desc;
+    }
+}
+
+[Serializable]
+public class StageDataWrapper
+{
+    public int id;
+    public string stageName;
+    public string stageDesc;
+    public int[] enemyId;
+    public int bossCount;
+
+    public StageDataWrapper(StageData data)
+    {
+        id = data.id;
+        stageName = data.stageName;
+        stageDesc = data.stageDesc;
+        enemyId = data.enemyId;
+        bossCount = data.bossCount;
+    }
+}
+
+[Serializable]
+public class SpawnDataWrapper
+{
+    public int id;
+    public int boss;
+    public float spawnTime;
+    public int spriteType;
+    public int health;
+    public float speed;
+    public float attack;
+
+    public SpawnDataWrapper(SpawnData data)
+    {
+        id = data.id;
+        boss = data.boss;
+        spawnTime = data.spawnTime;
+        spriteType = data.spriteType;
+        health = data.health;
+        speed = data.speed;
+        attack = data.attack;
+    }
+}
+
+[Serializable]
+public class ItemDataList
+{
+    public ItemDataWrapper[] items;
+}
+
+[Serializable]
+public class EquipmentDataList
+{
+    public EquipmentDataWrapper[] equipments;
+}
+
+[Serializable]
+public class StageDataList
+{
+    public StageDataWrapper[] stages;
+}
+
+[Serializable]
+public class SpawnDataList
+{
+    public SpawnDataWrapper[] spawnDatas;
+}
+
+
+public class ExpDataWrapper
+{
+    public float maxGameTime;
+    public int maxGameStage;
+    public int[] nextExp;
+    public float maxHealth;
+    public float ENEMY_speedRate;
+    public float ENENy_healthRate;
+    public float ENENY_attackRate;
+    public float ENENY_spawnTimeRate;
+
+    public ExpDataWrapper(float maxGameTime, int maxGameStage, int[] nextExp, float maxHealth, float enemySpeedRate, float enemyHealthRate, float enemyAttackRate, float enemySpawnTimeRate)
+    {
+        this.maxGameTime = maxGameTime;
+        this.maxGameStage = maxGameStage;
+        this.nextExp = nextExp;
+        this.maxHealth = maxHealth;
+        this.ENEMY_speedRate = enemySpeedRate;
+        this.ENENy_healthRate = enemyHealthRate;
+        this.ENENY_attackRate = enemyAttackRate;
+        this.ENENY_spawnTimeRate = enemySpawnTimeRate;
+    }
+}
+
