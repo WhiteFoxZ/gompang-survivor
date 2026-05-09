@@ -13,8 +13,8 @@ using System.IO;
 
 public class GoogleSpreadSheetManager : MonoBehaviour
 {
-
     public static GoogleSpreadSheetManager instance;  //싱글톤 인스턴스
+    static bool isConfigLoaded = false;
 
     static string ITEM = null;
     static string ENEMY = null;
@@ -22,23 +22,15 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     static string MAP = null;
     static string EQUIP = null;
 
+    static string ITEM_URL;
+    static string EXP_URL;
+    static string MAP_URL;
+    static string EQUIP_URL;
+    static string ENEMY_URL;
+    static string SHEET_URL;
 
     //다운로드 유형 열거형
     public enum DownType { Item, Exp, Map, Equip, Enemy, Sheet }
-
-    const string ITEM_URL = null;
-
-    //게임시간,MAX_STAGE
-    const string EXP_URL = null;
-
-    const string MAP_URL = null;
-
-    const string EQUIP_URL = null;
-
-    //적 데이터 URL (예시)
-    const string ENEMY_URL = null;
-
-    const string SHEET_URL = null;
 
     private string SpreadSheetLastDownloadDate = "SpreadSheetLastDownloadDate";
 
@@ -54,15 +46,88 @@ public class GoogleSpreadSheetManager : MonoBehaviour
     void Awake()
     {
         //싱글톤 인스턴스 설정
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            StartCoroutine(LoadConfigCoroutine());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
-        DontDestroyOnLoad(gameObject);
+    IEnumerator LoadConfigCoroutine()
+    {
+        string configFileName = "";
 
+#if UNITY_EDITOR
+        configFileName = "config_dev.json";
+#else
+                if (Application.platform == RuntimePlatform.Android)
+                {
+                    configFileName = "config_prod.json";
+                }
+                else
+                {
+                    // For other platforms (iOS, Windows standalone, etc.) fallback to dev config
+                    configFileName = "config_dev.json";
+                }
+#endif
+
+        this.Log($" configFileName : {configFileName}");
+
+        string path = Path.Combine(Application.streamingAssetsPath, configFileName);
+        UnityWebRequest request = UnityWebRequest.Get(path);
+        yield return request.SendWebRequest();
+
+        if (string.IsNullOrEmpty(request.error))
+        {
+            string json = request.downloadHandler.text;
+            ConfigData config = JsonUtility.FromJson<ConfigData>(json);
+            if (config != null)
+            {
+                ITEM_URL = config.ITEM_URL;
+                EXP_URL = config.EXP_URL;
+                MAP_URL = config.MAP_URL;
+                EQUIP_URL = config.EQUIP_URL;
+                ENEMY_URL = config.ENEMY_URL;
+                SHEET_URL = config.SHEET_URL;
+                isConfigLoaded = true;
+                this.Log($"Loaded config from {configFileName}");
+            }
+            else
+            {
+                this.Log($"Failed to parse config from {configFileName}");
+            }
+        }
+        else
+        {
+            this.Log($"Error loading config from {path}: {request.error}");
+            // Fallback: maybe try the other config?
+        }
+    }
+
+    [Serializable]
+    private class ConfigData
+    {
+        public string ITEM_URL;
+        public string EXP_URL;
+        public string MAP_URL;
+        public string EQUIP_URL;
+        public string ENEMY_URL;
+        public string SHEET_URL;
     }
 
     public IEnumerator DownloadItemData(DownType type)
     {
+        // Wait for config to be loaded
+        while (!isConfigLoaded)
+        {
+            yield return null;
+        }
+
         //가장먼저 전체 데이터 다운로드 여부 체크 (DownType.Sheet) - 오늘 이미 다운로드 했는지 체크
 
 
