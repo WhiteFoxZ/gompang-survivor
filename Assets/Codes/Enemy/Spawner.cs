@@ -29,7 +29,10 @@ public class Spawner : MonoBehaviour
     public static float spawnTimeRate = 0f; //스폰 시간 감소율
 
 
-    int bossCount = 0; //보스 스폰될때마다 증가, stage 보스 count 같을때까지 증가.
+    public static int bossCount = 0; //보스 스폰될때마다 증가, stage 보스 count 같을때까지 증가.
+
+    public static int deadBossCount = 0; //보스가 죽을때 마다 증가
+
 
     int curr_stage;
     StageData stage;

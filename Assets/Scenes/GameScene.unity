@@ -5299,7 +5299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca283f6004fd8e2449237935ef5de6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reposition
-  _WallGroup: {fileID: 0}
 --- !u!66 &671027272
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -22117,7 +22116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca283f6004fd8e2449237935ef5de6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reposition
-  _WallGroup: {fileID: 0}
 --- !u!66 &1547940077
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -33959,7 +33957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca283f6004fd8e2449237935ef5de6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reposition
-  _WallGroup: {fileID: 0}
 --- !u!66 &1848446418
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -54678,7 +54675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca283f6004fd8e2449237935ef5de6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reposition
-  _WallGroup: {fileID: 0}
 --- !u!222 &6482686481593885467
 CanvasRenderer:
   m_ObjectHideFlags: 0

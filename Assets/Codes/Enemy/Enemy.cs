@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /// <summary>
@@ -6,8 +7,6 @@ using UnityEngine;
 /// </summary>
 public class Enemy : MonoBehaviour
 {
-    // 보스가 활성 상태인지 추적하는 정적 변수 (한 번에 하나의 보스만 존재하도록 함)
-    private static bool isBossActive = false;
 
     public int boss; //보스 여부 (0: 일반 적, 1: 보스)
     public float attack; //공격력
@@ -177,19 +176,6 @@ public class Enemy : MonoBehaviour
         if (GameManager.instance.player != null)
             target = GameManager.instance.player.GetComponent<Rigidbody2D>();
 
-        // 보스가 활성화되면 일반 적은 생성되지 않도록 함
-        if (boss == 1)
-        {
-            isBossActive = true;
-            // 일반 적들의 생성을 중지 (이미 생성된 적은 유지)
-            // 실제 구현에서는 스폰 매니저에게 알리는 방식이 더 좋음
-        }
-        else if (isBossActive)
-        {
-            // 보스가 활성 상태이면 일반 적은 즉시 비활성화
-            gameObject.SetActive(false);
-            return;
-        }
 
         health = maxHealth;
 
@@ -216,11 +202,6 @@ public class Enemy : MonoBehaviour
 
         health = maxHealth;
 
-        // 일반 적 생성 시 보스가 이미 활성 상태이면 즉시 비활성화
-        if (boss == 0 && isBossActive)
-        {
-            gameObject.SetActive(false);
-        }
 
         //보스면 Rigidbody2D의 질량을 높여서 넉백에 덜 밀리도록 설정
         if (boss == 1)
@@ -449,13 +430,14 @@ public class Enemy : MonoBehaviour
 
         if (boss == 1) //보스가 죽었을 때 벽 제거 및 게임 승리
         {
-            GameManager.instance._wallSpawner.RemoveWalls();
-            // 보스가 죽었으므로 일반 적들의 생성을 다시 허용
-            isBossActive = false;
+            Spawner.deadBossCount++;
+
+            if (Spawner.deadBossCount == Spawner.bossCount)
+            {
+                this.Log("모든 보스 처치 완료! 벽 제거 및 게임 승리 처리");
+                GameManager.instance._wallSpawner.RemoveWalls();
+            }
         }
     }
-
-
-
 
 }
